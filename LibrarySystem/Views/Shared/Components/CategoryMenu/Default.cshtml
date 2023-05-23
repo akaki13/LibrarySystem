@@ -1,0 +1,36 @@
+﻿@model List<LibrarySystem.Models.Json.Menu>
+
+<div class="btn-group navbar-nav">
+    @foreach (var item in Model.Where(i => i.ParentId == null))
+    {
+        <a class="btn " type="button"  data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
+        Template(item.Id);
+        
+    }
+
+</div>
+
+@{
+    void Template(int? parentId)
+    {
+        var children = Model.Where(i => i.ParentId == parentId);
+        if (children.Any())
+        {
+            <ul class="dropdown-menu dropend" aria-labelledby="dropdownMenuClickableInside">
+                @foreach (var child in children)
+                {
+                    <li class="btn-group ">
+                        <a class="btn dropright  " type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                            @child.Title
+                        </a>
+                        @{
+                            Template(child.Id);
+                        }
+                        
+                    </li>
+                      
+                }
+            </ul>
+        }
+    }
+}

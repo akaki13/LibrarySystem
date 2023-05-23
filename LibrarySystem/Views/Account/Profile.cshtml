@@ -1,0 +1,112 @@
+﻿@model LibrarySystem.Models.View.ProfileView
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+@*<div style="width:30%">
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            <h6 class="text-dark">Name: @Model.Person.Firstname  @Model.Person.Lastname</h6>
+        </li>
+        <li class="nav-item">
+            <h6 class="text-dark">Role: @Model.Role </h6> 
+        </li>
+        <li class="nav-item d-flex justify-content-around">
+            <a class="nav-link text-dark">Edit Profile</a> <a class="nav-link text-dark">Change Role</a>
+        </li>
+    </ul>
+</div>*@
+
+<div class="container mt-5">
+
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card p-3 py-4" style=" background-color: #ebf2fa">
+
+                <div class="text-center mb-4">
+                    <img src="https://www.pngkey.com/png/full/73-730477_first-name-profile-image-placeholder-png.png" width="100" class="rounded-circle">
+                </div>
+
+                <div class="text-center mt-4 ">
+                    <span class="bg-secondary p-1 px-4 rounded text-white mb-4">@Model.Role</span>
+                   
+                    <div class=" ">
+                        <div class=" mb-4 d-flex ">
+                            <div class="card-body">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="mb-0">@Model.Person.Firstname  @Model.Person.Lastname</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="mb-0">@Model.Person.Email</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class=" mb-0">@Model.Person.Phone</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Data of Birth</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class=" mb-0">@Model.Person.DateOfBirth.Value.ToShortDateString()</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Address</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class=" mb-0">@Model.Person.Address</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            
+                        </div>
+                        
+                    @*<h5 class="mt-2 mb-4">@Model.Person.Firstname  @Model.Person.Lastname</h5>*@
+                    @*<span>UI/UX Designer</span>*@
+
+                   
+
+                    <div class="buttons ">
+
+                            <a class="btn btn-outline-primary px-4" asp-controller="Account" asp-action="EditProfile">Edit Profile</a>
+                    </div>
+
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+      </div>
+
+   </div>
+</div>
