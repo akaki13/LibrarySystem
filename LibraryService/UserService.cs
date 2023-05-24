@@ -55,6 +55,11 @@ namespace LibraryService
         {
             return _userRepository.FindByPersonId(id).Result;
         }
+
+        public List<User> GetAll()
+        {
+            return _userRepository.TakeAll().Result;
+        }
     }
 
     public interface IUserService { 
@@ -66,5 +71,6 @@ namespace LibraryService
         User GetByLoginInfo(string userName, string password);
         User GetByPersonId(int id);
         List<User> GetAllWithPerson();
+        List<User> GetAll();
     }
 }

@@ -11,33 +11,45 @@ namespace LibraryService
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository _personRepository;
+
         public PersonService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
         }
+
         public Person GetById(int? id)
         {
             return _personRepository.FindById(id).Result;
         }
+
         public void Update(Person person)
         { 
             _personRepository.UpdateData(person);
         }
+
         public void Add(Person person)
         {
             _personRepository.AddData(person);
         }
+
         public void Save()
         {
             _personRepository.SaveData();
         }
+
         public Person GetByEmail(string email)
         {
             return _personRepository.FindByEmail(email).Result; 
         }
+
         public Person GetByPhone(string phone)
         {
             return _personRepository.FindByPhone(phone).Result;
+        }
+
+        public List<Person> GetAll()
+        {
+            return _personRepository.TakeAll().Result;
         }
     }
     public interface IPersonService
@@ -48,6 +60,7 @@ namespace LibraryService
         void Save();
         Person GetByEmail(string email);
         Person GetByPhone(string phone);
+        List<Person> GetAll();
 
     }
 }

@@ -15,7 +15,6 @@ namespace LibrarySystem.Util
                 string json = r.ReadToEnd();
                 return JsonConvert.DeserializeObject<List<Menu>>(json);
             }
-
         }
     }
 }

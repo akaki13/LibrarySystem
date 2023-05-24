@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using LibrarySystemModels;
+﻿using LibrarySystemModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LibrarySystemData
 {
@@ -25,13 +22,12 @@ namespace LibrarySystemData
         public virtual DbSet<BookStorage> BookStorages { get; set; }
         public virtual DbSet<Borrow> Borrows { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
-        public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PersonPosition> PersonPositions { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Publisher> Publishers { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<RoleUser> RoleUsers { get; set; }
-        public virtual DbSet<Salary> Salaries { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
         public virtual DbSet<TableLog> TableLogs { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -40,7 +36,7 @@ namespace LibrarySystemData
         {
             if (!optionsBuilder.IsConfigured)
             {
-               // optionsBuilder.UseSqlServer("Data Source=DESKTOP-47MVG9S;Database=library;Integrated Security=True;");
+               // optionsBuilder.UseSqlServer("Server=DESKTOP-47MVG9S;Database=library1;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -383,25 +379,6 @@ namespace LibrarySystemData
                     .WithMany(p => p.RoleUsers)
                     .HasForeignKey(d => d.UsersId)
                     .HasConstraintName("FK__Role_User__Users__693CA210");
-            });
-
-            modelBuilder.Entity<Salary>(entity =>
-            {
-                entity.ToTable("Salary");
-
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
-
-                entity.Property(e => e.PersonId).HasColumnName("Person_id");
-
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Salaries)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Salary__Logs_id__75A278F5");
-
-                entity.HasOne(d => d.Person)
-                    .WithMany(p => p.Salaries)
-                    .HasForeignKey(d => d.PersonId)
-                    .HasConstraintName("FK__Salary__Person_i__76969D2E");
             });
 
             modelBuilder.Entity<Storage>(entity =>

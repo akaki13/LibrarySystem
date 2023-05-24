@@ -26,7 +26,7 @@ namespace LibrarySystemData.Repositories
 
         public virtual async Task<List<User>> TakeAllWithPerson()
         {
-            return await _dbSet.Include(r => r.Person ).Include(r => r.RoleUsers)
+            return await _dbSet.Include(r => r.Person ).Include(a => a.RoleUsers).ThenInclude(a => a.Role)
                 .ToListAsync();
         }
 

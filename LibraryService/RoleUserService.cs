@@ -26,6 +26,10 @@ namespace LibraryService
         {
             return _roleUserRepository.FindByUserId(id).Result;
         }
+        public List<RoleUser> GetAll()
+        {
+            return _roleUserRepository.TakeAll().Result;
+        }
     }
 
     public interface IRoleUserService
@@ -33,5 +37,6 @@ namespace LibraryService
         void Add(RoleUser user);
         void Save();
         RoleUser GetByUserId(int id);
+        List<RoleUser> GetAll();
     }
 }
