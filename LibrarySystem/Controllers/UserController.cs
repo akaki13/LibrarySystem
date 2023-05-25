@@ -24,15 +24,15 @@ namespace LibrarySystem.Controllers
         }
         public IActionResult Index()
         {
-            var allUser = _userService.GetAllWithPerson();
+           
             var allRole = _roleService.GetRoles();
-            return View(new UsersView { Users = allUser, Roles = allRole });
+            return View(new UsersView {  Roles = allRole });
         }
 
         [HttpGet]
         public ActionResult<List<User>> Users()
         {
-            var allUser = _userService.GetAllWithPerson();
+            var allUser = _userService.GetAll();
             return allUser;
         }
 
