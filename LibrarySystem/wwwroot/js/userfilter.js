@@ -1,73 +1,36 @@
-/*const checkboxes = $("[id='rolecheck']");
-const userbody = $("#userbody");
-const usarname = $("#usarname");
-const email = $("#email")
-const arr = [];
-const personlink = "https://localhost:7291/user/person";
-const userlink = "https://localhost:7291/user/users";
-const rolelink = "https://localhost:7291/user/roles";
-const roleuserlink = "https://localhost:7291/user/rolesuser";
-$("#target").on("click", function () {
-    arr.length = 0;
-    console.log(checkboxes.length);
-    for (let i = 0; i < checkboxes.length; i++) {
-        
-        if (checkboxes[i].checked == true) {
-            arr.push(checkboxes[i].value)
-        }
-    }
-    $.get(roleuserlink, function (roledata, status) {
-        $.get(userlink, function (userdata, status) {
-            $.get(personlink, function (persondata, status) {
-                $.get(rolelink, function (rolesndata, status) {
-                    for (i = 0; i < roledata.$values.length; i++) {
-                        for (a = 0; a < arr.length; a++) {
-                            for (p = 0; p < persondata.$values.length; p++) {
-                                for (u = 0; u < userdata.$values.length; u++) {
-                                    if (roledata.$values[i].roleId == arr[a]) {
-                                        if (roledata.$values[i].usersId == userdata.$values[u].id) {
-                                            if (userdata.$values[u].personId == persondata.$values[p].id) {
-                                                for (r = 0; r < rolesndata.$values.length; r++) {
-                                                    if (rolesndata.$values[r].id == arr[a]) {
-                                                        var role = rolesndata.$values[r].title;
-                                                    }
-                                                }
-                                                if (usarname.val() == "") {
-                                                    console.log("asdasdasd")
-                                                }
-                                                console.log(usarname.val())
-                                                var trElement = $('<tr></tr>');
-                                                var tdProduct = $('<td></td>').addClass('product').html('<strong>' + userdata.$values[u].login + '</strong><br>' + persondata.$values[p].firstname + '  ' + persondata.$values[p].lastname);
-                                                var tdRate = $('<td></td>').addClass('rate text-center').text(persondata.$values[p].email);
-                                                var tdPrice = $('<td></td>').addClass('price text-end').text(role);
-
-                                                // Append the <td> elements to the <tr> element
-                                                trElement.append(tdProduct, tdRate, tdPrice)
-                                                userbody.append(trElement);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-            })
-        })
-    });
-});
-*/
 const checkboxes = $("[id='rolecheck']");
 const userbody = $("#userbody");
 const usarname = $("#usarname");
-const email = $("#email")
+const email = $("#email");
+const previous = $("#previous");
+const next = $("#next");
 const arr = [];
 const personlink = "https://localhost:7291/user/person";
 const userlink = "https://localhost:7291/user/users";
 const rolelink = "https://localhost:7291/user/roles";
 const roleuserlink = "https://localhost:7291/user/rolesuser";
+var usersonpage = 2;
+var page = 1;
+var usernumber = 0;
+var alluser = 0;
+
 $("#target").on("click", async function () {
+    page = 1;
     displayUsers();
+});
+$(document).on("click", "#next", async function () {
+    if (usernumber != alluser) {
+        page++;
+        displayUsers();
+    }
+   
+});
+
+$(document).on("click", "#previous", async function () {
+    if (page > 1) {
+        page--;
+        displayUsers();
+    }
 });
 displayUsers();
 
@@ -84,7 +47,12 @@ function getData(url) {
 }
 
 async function displayUsers() {
+    usernumber = 0;
+    alluser = 0;
     $("#userbody").empty();
+    previous.removeClass("disabled");
+    previous.attr("aria-disabled", "false");
+    
     arr.length = 0;
     for (let i = 0; i < checkboxes.length; i++) {
 
@@ -101,23 +69,47 @@ async function displayUsers() {
         ]);
 
         for (const user of userdata.$values) {
+            
             const roleItam = roleuserdata.$values.find(a => a.usersId === user.id)
             const roleId = roleItam ? roleItam.roleId : "";
             if ($.inArray(roleId.toString(), arr) > -1 || arr.length == 0) {
                 const person = persondata.$values.find(p => p.id === user.personId);
                 {
-
                     const roleItems = roledata.$values.find(r => r.id === roleId);
                     const roleTitle = roleItems ? roleItems.title : "";
-                    if (user.login.includes(usarname.val()) || usarname.val() == "") {
+                    if (user.login.toLowerCase().includes(usarname.val().toLowerCase()) || usarname.val() == "") {
                         if (person.email.includes(email.val()) || email.val() == "") {
-                            const trElement = $('<tr></tr>');
-                            const tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>${person.firstname} ${person.lastname}`);
-                            const tdRate = $('<td></td>').addClass('rate text-center').text(person.email);
-                            const tdPrice = $('<td></td>').addClass('price text-end').text(roleTitle);
+                            alluser++;
+                            var sum = usersonpage * page;
+                            var min = sum - usersonpage;
+                           
+                            if (usernumber < sum && usernumber >= min) {
+                                const trElement = $('<tr></tr>');
+                                const tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>${person.firstname} ${person.lastname}`);
+                                const tdRate = $('<td></td>').addClass('rate text-center').text(person.email);
+                                const tdPrice = $('<td></td>').addClass('price text-end').text(roleTitle);
+                                trElement.append(tdProduct, tdRate, tdPrice);
+                                userbody.append(trElement);
+                                usernumber++;
+                            }
+                            if (usernumber != alluser) {
+                                next.removeClass("disabled");
+                                next.attr("aria-disabled", "false");
+                            }
+                            else
+                            {
 
-                            trElement.append(tdProduct, tdRate, tdPrice);
-                            userbody.append(trElement);
+                                next.addClass("disabled");
+                                next.attr("aria-disabled", "true");
+                            }
+                            if (page === 1)
+                            {
+                                previous.addClass("disabled");
+                                previous.attr("aria-disabled", "true");
+                            }
+                            if (usernumber < min) {
+                                usernumber++;
+                            }
                         }
                     }
                 }
