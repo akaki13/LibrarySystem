@@ -20,16 +20,19 @@ $("#target").on("click", async function () {
     page = 1;
     displayUsers();
 });
+
 $("#sort").on("click", async function () {
     sortBy = $(this).val();
     displayUsers();
 });
+
 $("#order").on("click", async function () {
     orderBy = $(this).data("value");
 
     console.log(orderBy)
     displayUsers();
 });
+
 $(document).on("click", "#next", async function () {
     if (usernumber != alluser) {
         page++;
