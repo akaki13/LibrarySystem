@@ -9,11 +9,11 @@ const personlink = "https://localhost:7291/user/person";
 const userlink = "https://localhost:7291/user/users";
 const rolelink = "https://localhost:7291/user/roles";
 const roleuserlink = "https://localhost:7291/user/rolesuser";
-var usersonpage = 2;
+var usersonpage = 3;
 var page = 1;
 var usernumber = 0;
 var alluser = 0;
-var orderBy = "name";
+var sortBy = "name";
 var orderBy = "ascending";
 
 $("#target").on("click", async function () {
@@ -21,14 +21,15 @@ $("#target").on("click", async function () {
     displayUsers();
 });
 
-$("#sort").on("click", async function () {
-    sortBy = $(this).val();
+$(".sort-option").on("click", async function () {
+    page = 1;
+    sortBy = $(this).data("value")
     displayUsers();
 });
 
-$("#order").on("click", async function () {
+$(".order-option").on("click", async function () {
+    page = 1;
     orderBy = $(this).data("value");
-
     console.log(orderBy)
     displayUsers();
 });
@@ -81,6 +82,40 @@ async function displayUsers() {
             getData(personlink),
             getData(rolelink)
         ]);
+        if (sortBy === "name")
+        {
+            if (orderBy === "ascending") {
+                userdata.$values.sort((a, b) => a.login.localeCompare(b.login));
+            }
+            else if (orderBy === "descending")
+            {
+                userdata.$values.sort((a, b) => b.login.localeCompare(a.login));
+            }
+        }
+        else if (sortBy === "email")
+        {
+            if (orderBy === "ascending") {
+                userdata.$values.sort((a, b) => {
+                    var personA = persondata.$values.find(p => p.id === a.personId);
+                    var personB = persondata.$values.find(p => p.id === b.personId);
+                    if (personA && personB) {
+                        return personA.email.localeCompare(personB.email);
+                    }
+                    return 0;
+                });
+            }
+            else if (orderBy === "descending") {
+                userdata.$values.sort((a, b) => {
+                    var personA = persondata.$values.find(p => p.id === a.personId);
+                    var personB = persondata.$values.find(p => p.id === b.personId);
+                    if (personA && personB) {
+                        return personB.email.localeCompare(personA.email);
+                    }
+                    return 0;
+                });
+            }
+        }
+        console.log(orderBy)
         /*if (sor === 0)
         {
             userdata.$values.sort((a, b) => a.login.localeCompare(b.login));
