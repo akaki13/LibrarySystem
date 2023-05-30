@@ -13,9 +13,21 @@ var usersonpage = 2;
 var page = 1;
 var usernumber = 0;
 var alluser = 0;
+var orderBy = "name";
+var orderBy = "ascending";
 
 $("#target").on("click", async function () {
     page = 1;
+    displayUsers();
+});
+$("#sort").on("click", async function () {
+    sortBy = $(this).val();
+    displayUsers();
+});
+$("#order").on("click", async function () {
+    orderBy = $(this).data("value");
+
+    console.log(orderBy)
     displayUsers();
 });
 $(document).on("click", "#next", async function () {
@@ -23,7 +35,6 @@ $(document).on("click", "#next", async function () {
         page++;
         displayUsers();
     }
-   
 });
 
 $(document).on("click", "#previous", async function () {
@@ -67,12 +78,28 @@ async function displayUsers() {
             getData(personlink),
             getData(rolelink)
         ]);
+        /*if (sor === 0)
+        {
+            userdata.$values.sort((a, b) => a.login.localeCompare(b.login));
+        }*/
+
+        /*userdata.$values.sort((a, b) => {
+            const personA = persondata.$values.find(p => p.id === a.personId);
+            const personB = persondata.$values.find(p => p.id === b.personId);
+            if (personA && personB) {
+                return personA.email.localeCompare(personB.email);
+            }
+            return 0;
+        });*/
+    //    userdata.$values.sort((a, b) => a.login.localeCompare(b.login));
+    //userdata.$values.sort((a, b) => b.login.localeCompare(a.login));
+
 
         for (const user of userdata.$values) {
             
             const roleItam = roleuserdata.$values.find(a => a.usersId === user.id)
             const roleId = roleItam ? roleItam.roleId : "";
-            if ($.inArray(roleId.toString(), arr) > -1 || arr.length == 0) {
+            if ($.inArray(roleId.toString(), arr) > -1 || arr.length === 0) {
                 const person = persondata.$values.find(p => p.id === user.personId);
                 {
                     const roleItems = roledata.$values.find(r => r.id === roleId);
@@ -84,28 +111,14 @@ async function displayUsers() {
                             var min = sum - usersonpage;
                            
                             if (usernumber < sum && usernumber >= min) {
+                                var formattedDate = moment(person.dateOfBirth).format("YYYY-MM-DD");
                                 const trElement = $('<tr></tr>');
-                                const tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>${person.firstname} ${person.lastname}`);
+                                const tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>Date of birth: ${formattedDate}`);
                                 const tdRate = $('<td></td>').addClass('rate text-center').text(person.email);
                                 const tdPrice = $('<td></td>').addClass('price text-end').text(roleTitle);
                                 trElement.append(tdProduct, tdRate, tdPrice);
                                 userbody.append(trElement);
                                 usernumber++;
-                            }
-                            if (usernumber != alluser) {
-                                next.removeClass("disabled");
-                                next.attr("aria-disabled", "false");
-                            }
-                            else
-                            {
-
-                                next.addClass("disabled");
-                                next.attr("aria-disabled", "true");
-                            }
-                            if (page === 1)
-                            {
-                                previous.addClass("disabled");
-                                previous.attr("aria-disabled", "true");
                             }
                             if (usernumber < min) {
                                 usernumber++;
@@ -115,7 +128,18 @@ async function displayUsers() {
                 }
             }
         }
-
+        if (usernumber != alluser) {
+            next.removeClass("disabled");
+            next.attr("aria-disabled", "false");
+        }
+        else {
+            next.addClass("disabled");
+            next.attr("aria-disabled", "true");
+        }
+        if (page === 1) {
+            previous.addClass("disabled");
+            previous.attr("aria-disabled", "true");
+        }
     } catch (error) {
         console.error(error);
     }

@@ -20,7 +20,7 @@ namespace LibrarySystemModels
         public string Address { get; set; }
         public string Email { get; set; }
         public bool? EmailIsConfiormed { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public int LogsId { get; set; }
 
         public virtual TableLog Logs { get; set; }

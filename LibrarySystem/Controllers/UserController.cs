@@ -1,10 +1,8 @@
 ﻿using LibraryService;
 using LibrarySystem.Models.View;
 using LibrarySystemModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.ContentModel;
-using System.Data.Entity;
-using System.Data.Entity.Core.Metadata.Edm;
 
 namespace LibrarySystem.Controllers
 {
@@ -22,6 +20,8 @@ namespace LibrarySystem.Controllers
             _personService = personService;
             _roleUserService = roleUserService;
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
            
@@ -29,6 +29,7 @@ namespace LibrarySystem.Controllers
             return View(new UsersView {  Roles = allRole });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<List<User>> Users()
         {
@@ -36,6 +37,7 @@ namespace LibrarySystem.Controllers
             return allUser;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<List<Role>> Roles()
         {
@@ -43,12 +45,16 @@ namespace LibrarySystem.Controllers
             return allRole;
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
         public ActionResult<List<RoleUser>> RolesUser()
         {
             var allRole = _roleUserService.GetAll();
             return allRole;
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
         public ActionResult<List<Person>> Person()
         {
             var allperson = _personService.GetAll();

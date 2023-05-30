@@ -25,7 +25,7 @@
              <!-- END FILTER BY Role -->
              <div class="padding mb-1"></div>
             <!-- BEGIN FILTER BY Username -->
-            <h4>By usarname:</h4>
+            <h4>By user name:</h4>
              <input type="text" class="form-control" id="usarname">   
                <!-- END FILTER BY Username -->
               <div class="padding mb-1"></div>
@@ -42,6 +42,26 @@
           <!-- END FILTERS -->
           <!-- BEGIN RESULT -->
           <div class="col-md-9">
+                            <div class="btn-group ">
+                            <div class="dropdown">
+                                <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort By
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" id="sort" value="name">User name</a></li>
+                                        <li><a class="dropdown-item" id="sort" value="email">Email</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Order By
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" id="order" value="ascending">Ascending</a></li>
+                                        <li><a class="dropdown-item" id="order" value="descending">Descending </a></li>
+                                </ul>
+                            </div>
+                            </div>
             <h2><i class="fa fa-file-o"></i> Result</h2>
             <hr>  
             <div class="padding"></div>
@@ -74,8 +94,12 @@
 
 @section Scripts
  {
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <script src="~/js/userfilter.js" asp-append-version="true"></script>
    }

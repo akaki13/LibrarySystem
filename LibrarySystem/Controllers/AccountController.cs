@@ -1,4 +1,5 @@
-﻿using LibraryService;
+﻿using AutoMapper;
+using LibraryService;
 using LibrarySystem.Data;
 using LibrarySystem.Models.View;
 using LibrarySystem.Util;
@@ -19,8 +20,10 @@ namespace LibrarySystem.Controllers
         private readonly IRoleService _roleService;
         private readonly IRoleUserService _roleUserService;
         private readonly IEmailSender _emailSender;
+        private readonly IMapper _mapper;
+
         public AccountController(IConfiguration configuration, IUserService userService,IRoleUserService roleUserService,
-            IPersonService personService,ITableLogService tableLogService, IRoleService roleService, IEmailSender emailSender)
+            IPersonService personService,ITableLogService tableLogService, IRoleService roleService, IEmailSender emailSender,IMapper mapper)
         {
             _configuration = configuration;
             _userService = userService;
@@ -29,6 +32,7 @@ namespace LibrarySystem.Controllers
             _roleService = roleService;
             _roleUserService = roleUserService;
             _emailSender = emailSender;
+            _mapper = mapper;
         }  
 
         [AllowAnonymous]
@@ -114,15 +118,7 @@ namespace LibrarySystem.Controllers
             var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var user =  _userService.GetById(userID);
             var person =  _personService.GetById(user.PersonId);
-            var edit = new EditProfileView
-            {
-                FirstName = person.Firstname,
-                LastName = person.Lastname,
-                Address = person.Address,
-                Email = person.Email,
-                Phone = person.Phone,
-                DateOfBirth = (DateTime)person.DateOfBirth,
-            };
+            var edit = _mapper.Map<EditProfileView>(person);
             return View(edit);
         }
 
@@ -132,13 +128,8 @@ namespace LibrarySystem.Controllers
             {
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var user = _userService.GetById(userID);
-                var person =  _personService.GetById(user.PersonId);
-                person.Firstname = edit.FirstName;
-                person.Lastname = edit.LastName;
-                person.Address = edit.Address;
-                person.Email = edit.Email;
-                person.Phone = edit.Phone;
-                person.DateOfBirth = edit.DateOfBirth;
+                var person = _personService.GetById(user.PersonId);
+                _mapper.Map(edit, person);
                 _personService.Update(person);
                 _personService.Save();
                 _tableLogService.Update(person.LogsId);
@@ -157,14 +148,14 @@ namespace LibrarySystem.Controllers
             if (ModelState.IsValid)
             {
                 var loginCheck = _userService.GetByUserName(registerDetails.Login);
-                var emailChack = _personService.GetByEmail(registerDetails.Email);
+                var emailCheck = _personService.GetByEmail(registerDetails.Email);
                 var phoneCheck = _personService.GetByPhone(registerDetails.Phone);
                 if (loginCheck != null)
                 {
                     ViewBag.ErrorMessage = DataUtil.UserNameExist;
                     return View("Register", registerDetails);
                 }
-                if (emailChack != null)
+                if (emailCheck != null)
                 {
                     ViewBag.ErrorMessage = DataUtil.EmailExist;
                     return View("Register", registerDetails);
@@ -174,12 +165,17 @@ namespace LibrarySystem.Controllers
                 {
                     ViewBag.ErrorMessage = DataUtil.EmailExist;
                     return View("Register", registerDetails);
-
+                }
+                if (registerDetails.ConfirmPassword == registerDetails.Password)
+                {
+                    ViewBag.ErrorMessage = DataUtil.PasswordsMatch;
+                    return View("Register", registerDetails);
                 }
                 var personLog = _tableLogService.Add(DataUtil.PersonTableName);
                 _tableLogService.Save();
-
-                Person person = new Person
+                 var person = _mapper.Map<Person>(registerDetails);
+                person.LogsId = personLog.Id;
+                /*Person person = new Person
                 {
                     Firstname = registerDetails.FirstName,
                     Lastname = registerDetails.LastName,
@@ -188,7 +184,7 @@ namespace LibrarySystem.Controllers
                     DateOfBirth = registerDetails.DateOfBirth,
                     Email = registerDetails.Email,
                     LogsId = personLog.Id,
-                }; 
+                };*/
                 _personService.Add(person);
                 _personService.Save();
                 var userLog = _tableLogService.Add(DataUtil.UserTableName);
@@ -294,5 +290,7 @@ namespace LibrarySystem.Controllers
             }
             return View();
         }
+        
+
     }
 }
