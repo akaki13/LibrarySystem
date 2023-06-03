@@ -1,10 +1,5 @@
 ﻿using LibrarySystemData.Repositories;
 using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibraryService
 {
@@ -21,10 +16,19 @@ namespace LibraryService
         {
             return _tableLogRepository.AddData(tableName).Result;
         }
+        public TableLog AddWithId(string tableName,int id)
+        {
+            return _tableLogRepository.AddDataWithId(tableName,id).Result;
+        }
 
         public void Update(int id)
         {
              _tableLogRepository.UpdateData(id);
+        }
+
+        public void Delete(int id)
+        {
+            _tableLogRepository.DeleteData(id);
         }
 
         public void Save()
@@ -39,6 +43,8 @@ namespace LibraryService
         TableLog Add(string tableName);
         void Update(int id);
         void Save();
+        void Delete(int id);
+        TableLog AddWithId(string tableName, int id);
 
     }
 }

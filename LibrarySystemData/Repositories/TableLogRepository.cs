@@ -18,21 +18,41 @@ namespace LibrarySystemData.Repositories
             await _dbSet.AddAsync(tableLog);
             return tableLog;
         }
-        public async Task UpdateData(int id)
+        public async Task<TableLog> AddDataWithId(string tableName, int id)
         {
-            var tableLog = await _dbSet.FindAsync(id);
-            if (tableLog != null)
+            var tableLog = new TableLog
             {
-                tableLog.ChangeDate = DateTime.Now;
-            }
-            _dbSet.Update(tableLog);
+                TableName = tableName,
+                CreateDate = DateTime.Now,
+                UserId = id,
+            };
+            await _dbSet.AddAsync(tableLog);
+            return tableLog;
+        }
+        public void UpdateData(int id)
+        {
+            var tableLog = FindById(id).Result;
+            
+            tableLog.ChangeDate = DateTime.Now;
+            
+            UpdateData(tableLog);
+        }
+        public void DeleteData(int id)
+        {
+            var tableLog = FindById(id).Result;
+
+            tableLog.DeleteDate = DateTime.Now;
+
+            UpdateData(tableLog);
         }
 
     }
     public interface ITableLogRepository : IRepositoryBase<TableLog>
     {
-        Task UpdateData(int id);
+        void UpdateData(int id);
         Task<TableLog> AddData(string tableName);
+        void DeleteData(int id);
+        Task<TableLog> AddDataWithId(string tableName, int id);
 
     }
 }

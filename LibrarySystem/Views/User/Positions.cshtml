@@ -1,0 +1,31 @@
+﻿@model LibrarySystem.Models.View.PositionsViews
+@{
+    ViewData["Title"] = "User";
+}
+<button id="add-row-btn">Add New Row</button>
+<table class="table table-striped table-borderless">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Positions)
+        {
+            <tr data-value="@item.Id">
+                <td class="text-center">@item.Title</td>
+                <td class="text-center">@item.Description</td>
+                <td class="text-center ">@item.Salary</td>
+                <td class="text-center"><button class="edit-btn ">Edit</button> <button class="delete-btn">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/js/Position.js" asp-append-version="true"></script>
+}

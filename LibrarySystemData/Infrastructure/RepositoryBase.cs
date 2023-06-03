@@ -19,6 +19,11 @@ namespace LibrarySystemData.Infrastructure
             await _dbSet.AddAsync(data);
                  
         }
+        public virtual void  DeleteData(T data)
+        {
+            _context.Remove(data);
+
+        }
 
         public virtual async Task<List<T>> TakeAll()
         {
@@ -31,9 +36,13 @@ namespace LibrarySystemData.Infrastructure
             _dbSet.Update(data);
         }
 
-        public virtual  void SaveData()
+        public virtual void  SaveData()
         {
-             _context.SaveChanges();
+            
+            _context.SaveChanges();
+            
+            
+
         }
 
         public virtual async Task<T> FindById(int? id)

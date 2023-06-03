@@ -46,9 +46,9 @@ namespace LibraryService
             return _userRepository.FindByLoginInfo(userName,password).Result;
         }
 
-        public List<User> GetAllWithPerson()
+        public User GetWithPerson(int id)
         {
-            return _userRepository.TakeAllWithPerson().Result;
+            return _userRepository.TakeWithPerson(id).Result;
         }
 
         public User GetByPersonId(int id)
@@ -70,7 +70,7 @@ namespace LibraryService
         void Save();
         User GetByLoginInfo(string userName, string password);
         User GetByPersonId(int id);
-        List<User> GetAllWithPerson();
+        User GetWithPerson(int id);
         List<User> GetAll();
     }
 }

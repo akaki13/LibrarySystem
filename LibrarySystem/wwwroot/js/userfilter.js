@@ -3,10 +3,11 @@ const userbody = $("#userbody");
 const usarname = $("#usarname");
 const email = $("#email");
 const arr = [];
-const personlink = "https://localhost:7291/user/person";
-const userlink = "https://localhost:7291/user/users";
-const rolelink = "https://localhost:7291/user/roles";
-const roleuserlink = "https://localhost:7291/user/rolesuser";
+const personlink = "/user/person";
+const userlink = "/user/users";
+const rolelink = "/user/roles";
+const roleuserlink = "/user/rolesuser";
+const userProfile = "/user/userprofile/";
 var usersonpage = 3;
 var pages = 1;
 var usernumber = 0;
@@ -15,6 +16,8 @@ var sortBy = "name";
 var orderBy = "ascending";
 var totalPage = 0; 
 var pagination = null;
+var domainName = window.location.origin;
+
 
 $("#target").on("click", async function () {
     pages = 1;
@@ -27,6 +30,10 @@ $(".sort-option").on("click", async function () {
     sortBy = $(this).data("value");
     pagination = null;
     displayUsers();
+});
+
+$(document).on("click", ".clickable-row", async function () {
+    window.location = userProfile + $(this).data("value");
 });
 
 $(".order-option").on("click", async function () {
@@ -66,10 +73,10 @@ async function displayUsers() {
     }
     try {
         const [roleuserdata, userdata, persondata, roledata] = await Promise.all([
-            getData(roleuserlink),
-            getData(userlink),
-            getData(personlink),
-            getData(rolelink)
+            getData(domainName + roleuserlink),
+            getData(domainName + userlink),
+            getData(domainName + personlink),
+            getData(domainName + rolelink)
         ]);
         if (sortBy === "name") {
             if (orderBy === "ascending") {
@@ -118,10 +125,10 @@ async function displayUsers() {
 
                             if (usernumber < sum && usernumber >= min) {
                                 var formattedDate = moment(person.dateOfBirth).format("YYYY-MM-DD");
-                                const trElement = $('<tr></tr>');
-                                const tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>Date of birth: ${formattedDate}`);
-                                const tdRate = $('<td></td>').addClass('rate text-center').text(person.email);
-                                const tdPrice = $('<td></td>').addClass('price text-end').text(roleTitle);
+                                var trElement = $('<tr></tr>').addClass('clickable-row').attr('data-value', user.id);
+                                var tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>Date of birth: ${formattedDate}`);
+                                var tdRate = $('<td></td>').addClass('rate text-center').text(person.email);
+                                var tdPrice = $('<td></td>').addClass('price text-end').text(roleTitle);
                                 trElement.append(tdProduct, tdRate, tdPrice);
                                 userbody.append(trElement);
                                 usernumber++;
@@ -151,7 +158,6 @@ async function displayUsers() {
         prev: 'Prev',
         startPage: 1,
         onPageClick: function (event, page) {
-            //fetch content and render here
             pages = page;
             displayUsers();
         }
