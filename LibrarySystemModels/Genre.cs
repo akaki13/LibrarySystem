@@ -11,7 +11,7 @@ namespace LibrarySystemModels
         }
 
         public int Id { get; set; }
-        public string Genre1 { get; set; }
+        public string Name { get; set; }
         public int LogsId { get; set; }
 
         public virtual TableLog Logs { get; set; }

@@ -21,7 +21,6 @@ namespace LibrarySystemModels
             Publishers = new HashSet<Publisher>();
             RoleUsers = new HashSet<RoleUser>();
             Roles = new HashSet<Role>();
-            Salaries = new HashSet<Salary>();
             Storages = new HashSet<Storage>();
             Users = new HashSet<User>();
         }
@@ -48,7 +47,6 @@ namespace LibrarySystemModels
         public virtual ICollection<Publisher> Publishers { get; set; }
         public virtual ICollection<RoleUser> RoleUsers { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
-        public virtual ICollection<Salary> Salaries { get; set; }
         public virtual ICollection<Storage> Storages { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }

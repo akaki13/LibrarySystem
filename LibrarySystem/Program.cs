@@ -3,6 +3,7 @@ using LibrarySystem.Mapping;
 using LibrarySystemData;
 using LibrarySystemData.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -35,6 +36,11 @@ builder.Services.AddScoped<IRoleUserService, RoleUserService>();
 builder.Services.AddScoped<IRoleUserRepository, RoleUserRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
 builder.Services.AddScoped<IPositionService, PositionService>();
+builder.Services.AddScoped<IGenresRepository, GenresRepository>();
+builder.Services.AddScoped<IGenresService, GenresService>();
+builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+builder.Services.AddScoped<IPublisherService, PublisherService>();
+
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

@@ -1,0 +1,29 @@
+﻿@model LibrarySystem.Models.View.PublisherView
+@{
+    ViewData["Title"] = "Publishers";
+}
+<button id="add-row-btn">Add New Row</button>
+<table class="table table-striped table-borderless">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Adress</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Publishers)
+        {
+            <tr data-value="@item.Id">
+                <td class="text-center">@item.Name</td>
+                <td class="text-center">@item.Address</td>
+                <td class="text-center"><button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/js/Publisher.js" asp-append-version="true"></script>
+}

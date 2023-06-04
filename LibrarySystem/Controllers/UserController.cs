@@ -151,10 +151,10 @@ namespace LibrarySystem.Controllers
             var position = _positionService.GetById(id);
             if(position != null)
             {
-                _positionService.Delete(position);
-                _positionService.Save();
                 _tableLogService.Delete(position.LogsId);
                 _tableLogService.Save();
+                _positionService.Delete(position);
+                _positionService.Save();
 
                 return new ContentResult
                 {

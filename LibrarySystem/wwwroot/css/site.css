@@ -17,6 +17,14 @@ body {
   margin-bottom: 60px;
 }
 
+button {
+    color: #fff;
+    font-weight: normal;
+    background: #630fe8;
+    border-radius: 10px;
+    border: none;
+    transition: .5s ease;
+}
 .navbar a:hover,
 .navbar .active,
 .navbar .active:focus,

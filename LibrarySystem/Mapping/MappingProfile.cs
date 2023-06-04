@@ -12,6 +12,14 @@ namespace LibrarySystem.Mapping
             CreateMap<Person, EditProfileView>();
             CreateMap<RegisterView, Person>();
             CreateMap<PositionApi, Position>();
+            CreateMap<AddPublisherApi, Publisher>();
+            CreateMap<AddGenreApi, Genre>();
+            CreateMap<UpdatePublisherApi, Publisher>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+            CreateMap<UpdateGenreApi, Genre>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.LogsId, opt => opt.Ignore());
             CreateMap<UpdatePositionApi, Position>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.LogsId, opt => opt.Ignore());
