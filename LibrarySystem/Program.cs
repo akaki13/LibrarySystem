@@ -23,7 +23,6 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<LibraryContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryConnect")));
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPersonService, PersonService>();
@@ -42,7 +41,6 @@ builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
 builder.Services.AddScoped<IPublisherService, PublisherService>();
 
 
-builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt => {

@@ -1,7 +1,8 @@
-const addPositionlink = "/book/addgenre";
 var domainName = window.location.origin;
+const addPositionlink = "/book/addgenre";
 const deletepositionlink = "/book/deletegenre/";
 const updatepositionlink = "/book/updategenre";
+
 $('#add-row-btn').click(function () {
     // Create a new row
     var newRow = $('<tr>');

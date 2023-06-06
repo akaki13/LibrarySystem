@@ -20,9 +20,7 @@ namespace LibrarySystem.Data
         public const string GenreTableName = "Genre";
         public const string UserRoleTableName = "Role_Users";
         public const string JsonPath = @"Data\Books.json";
-        public const string Email = "testireba000@gmail.com";
-        public const string Password = "4551";
-        public const string Model= "plese enter data";
+        public const string Model = "plese enter data";
        
     }
 }

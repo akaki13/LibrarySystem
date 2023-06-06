@@ -1,6 +1,8 @@
 const checkboxes = $("[id='rolecheck']");
 const userbody = $("#userbody");
 const usarname = $("#usarname");
+const unconfirmed = $("#unconfirmed");
+const confirmed = $("#confirmed");
 const email = $("#email");
 const arr = [];
 const personlink = "/user/person";
@@ -17,7 +19,7 @@ var orderBy = "ascending";
 var totalPage = 0; 
 var pagination = null;
 var domainName = window.location.origin;
-
+var emailConfirmed = null;
 
 $("#target").on("click", async function () {
     pages = 1;
@@ -71,6 +73,24 @@ async function displayUsers() {
             arr.push(checkboxes[i].value)
         }
     }
+
+    if (unconfirmed.prop("checked")) {
+        console.log("sdasdasd");
+        emailConfirmed = false;
+    }
+
+    if (confirmed.prop("checked")) {
+        emailConfirmed = true;
+    }
+
+    if (!unconfirmed.prop("checked") && !confirmed.prop("checked"))
+    {
+        emailConfirmed = null;
+    }
+    if (unconfirmed.prop("checked") && confirmed.prop("checked")) {
+        emailConfirmed = null;
+    }
+    console.log(emailConfirmed);
     try {
         const [roleuserdata, userdata, persondata, roledata] = await Promise.all([
             getData(domainName + roleuserlink),
@@ -115,26 +135,28 @@ async function displayUsers() {
             if ($.inArray(roleId.toString(), arr) > -1 || arr.length === 0) {
                 const person = persondata.$values.find(p => p.id === user.personId);
                 {
-                    const roleItems = roledata.$values.find(r => r.id === roleId);
-                    const roleTitle = roleItems ? roleItems.title : "";
+                    const roleItems = roledata.$values.filter(r => r.id === roleId);
+                    const roleTitles = roleItems.map(item => item.title);
+                    var concatenatedTitles = roleTitles.join(', ');
                     if (user.login.toLowerCase().includes(usarname.val().toLowerCase()) || usarname.val() == "") {
                         if (person.email.includes(email.val()) || email.val() == "") {
-                            alluser++;
-                            var sum = usersonpage * pages;
-                            var min = sum - usersonpage;
-
-                            if (usernumber < sum && usernumber >= min) {
-                                var formattedDate = moment(person.dateOfBirth).format("YYYY-MM-DD");
-                                var trElement = $('<tr></tr>').addClass('clickable-row').attr('data-value', user.id);
-                                var tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>Date of birth: ${formattedDate}`);
-                                var tdRate = $('<td></td>').addClass('rate text-center').text(person.email);
-                                var tdPrice = $('<td></td>').addClass('price text-end').text(roleTitle);
-                                trElement.append(tdProduct, tdRate, tdPrice);
-                                userbody.append(trElement);
-                                usernumber++;
-                            }
-                            if (usernumber < min) {
-                                usernumber++;
+                            if (person.emailIsConfiormed == emailConfirmed || emailConfirmed == null) {
+                                alluser++;
+                                var sum = usersonpage * pages;
+                                var min = sum - usersonpage;
+                                if (usernumber < sum && usernumber >= min) {
+                                    var formattedDate = moment(person.dateOfBirth).format("YYYY-MM-DD");
+                                    var trElement = $('<tr></tr>').addClass('clickable-row').attr('data-value', user.id);
+                                    var tdProduct = $('<td></td>').addClass('product').html(`<strong>${user.login}</strong><br>Date of birth: ${formattedDate}`);
+                                    var tdRate = $('<td></td>').addClass('rate text-center').text(person.email);
+                                    var tdPrice = $('<td></td>').addClass('price text-end').text(concatenatedTitles);
+                                    trElement.append(tdProduct, tdRate, tdPrice);
+                                    userbody.append(trElement);
+                                    usernumber++;
+                                }
+                                if (usernumber < min) {
+                                    usernumber++;
+                                }
                             }
                         }
                     }

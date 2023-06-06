@@ -19,11 +19,10 @@ namespace LibrarySystem.Controllers
         private readonly ITableLogService _tableLogService;
         private readonly IRoleService _roleService;
         private readonly IRoleUserService _roleUserService;
-        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
         public AccountController(IConfiguration configuration, IUserService userService,IRoleUserService roleUserService,
-            IPersonService personService,ITableLogService tableLogService, IRoleService roleService, IEmailSender emailSender,IMapper mapper)
+            IPersonService personService,ITableLogService tableLogService, IRoleService roleService,IMapper mapper)
         {
             _configuration = configuration;
             _userService = userService;
@@ -31,14 +30,12 @@ namespace LibrarySystem.Controllers
             _tableLogService = tableLogService;
             _roleService = roleService;
             _roleUserService = roleUserService;
-            _emailSender = emailSender;
             _mapper = mapper;
         }  
 
         [AllowAnonymous]
         public ActionResult Register()
         {
-
             return View();
         }
 
@@ -143,7 +140,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveRegisterDetails(RegisterView registerDetails)
+        public async Task<ActionResult> SaveRegisterDetails(RegisterView registerDetails)
         { 
             if (ModelState.IsValid)
             {
@@ -173,18 +170,9 @@ namespace LibrarySystem.Controllers
                 }
                 var personLog = _tableLogService.Add(DataUtil.PersonTableName);
                 _tableLogService.Save();
-                 var person = _mapper.Map<Person>(registerDetails);
+                var person = _mapper.Map<Person>(registerDetails);
                 person.LogsId = personLog.Id;
-                /*Person person = new Person
-                {
-                    Firstname = registerDetails.FirstName,
-                    Lastname = registerDetails.LastName,
-                    Phone = registerDetails.Phone,
-                    Address = registerDetails.Address,
-                    DateOfBirth = registerDetails.DateOfBirth,
-                    Email = registerDetails.Email,
-                    LogsId = personLog.Id,
-                };*/
+                person.EmailIsConfiormed = false;
                 _personService.Add(person);
                 _personService.Save();
                 var userLog = _tableLogService.Add(DataUtil.UserTableName);
@@ -210,9 +198,9 @@ namespace LibrarySystem.Controllers
                 _roleUserService.Add(roleUser);
                 _roleUserService.Save();
                 var tokenEmail = TokenUtil.CreateToken(person.Id.ToString(), _configuration);
-                var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, "https");
+                var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, Request.Scheme);
                 var body = $"Confirm your email address by clicking here: {link}";
-                _emailSender.SendEmailAsync(person.Email, "Email confirmed", body);
+                await EmailUtil.EmailConfirmedLink(person.Email,link, _configuration);
                 return View();
             }
             else
@@ -283,9 +271,8 @@ namespace LibrarySystem.Controllers
                 if (user != null)
                 {
                     var token = TokenUtil.CreateToken(user.Id.ToString(), _configuration);
-                    var link =  Url.Action("ResetPassword", "Account", new { token = token }, "https");
-                    var body = $"Please reset your password by clicking here: {link}";
-                    await _emailSender.SendEmailAsync(forgot.Email, "Reset Password", body);
+                    var link =  Url.Action("ResetPassword", "Account", new { token = token }, Request.Scheme);
+                    await EmailUtil.PassworResetLink(forgot.Email, link , _configuration);
                 }
             }
             return View();

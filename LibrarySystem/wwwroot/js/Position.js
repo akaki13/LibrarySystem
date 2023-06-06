@@ -107,9 +107,6 @@ $(document).on('click', '.delete-btn', function () {
 });
 $(document).on('click', '.edit-btn', function () {
     var row = $(this).closest('tr');
-
-
-
     row.data('original-values', row.find('td:not(:last-child)').map(function () {
         return $(this).text();
     }).get());

@@ -14,7 +14,7 @@
             <h2 class="grid-title"><i class="fa fa-filter"></i> Filters</h2>
             <hr>
             <!-- BEGIN FILTER BY Role -->
-            <h4>By role:</h4>
+            <h4>role:</h4>
             @foreach(var itam in Model.Roles)
             {
                  <div class="checkbox">
@@ -25,14 +25,20 @@
              <!-- END FILTER BY Role -->
              <div class="padding mb-1"></div>
             <!-- BEGIN FILTER BY Username -->
-            <h4>By Username:</h4>
+            <h4>Username:</h4>
              <input type="text" class="form-control" id="usarname">   
                <!-- END FILTER BY Username -->
               <div class="padding mb-1"></div>
             <!-- BEGIN FILTER BY mail -->
-            <h4>By email:</h4>
+            <h4>email:</h4>
            <input type="text" class="form-control" id="email">   
              <div class="padding mb-1"></div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="unconfirmed" class="icheck"> Unconfirmed Email</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="confirmed" class="icheck"> Confirmed Email</label>
+                            </div>
             <!-- Submit -->
             <span class="input-group-btn">
                 <button class="btn btn-primary" id="target" type="button">Submit</button>
