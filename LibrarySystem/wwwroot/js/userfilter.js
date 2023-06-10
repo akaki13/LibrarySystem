@@ -5,32 +5,32 @@ const unconfirmed = $("#unconfirmed");
 const confirmed = $("#confirmed");
 const email = $("#email");
 const arr = [];
-const personlink = "/user/person";
-const userlink = "/user/users";
-const rolelink = "/user/roles";
-const roleuserlink = "/user/rolesuser";
+const personlink = "/user/getperson";
+const userlink = "/user/getusers";
+const rolelink = "/user/getroles";
+const roleuserlink = "/user/getrolesuser";
 const userProfile = "/user/userprofile/";
 var usersonpage = 3;
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;
+var totalPage = 0;
 var sortBy = "name";
 var orderBy = "ascending";
-var totalPage = 0; 
-var pagination = null;
+var pagination = true;
 var domainName = window.location.origin;
 var emailConfirmed = null;
 
 $("#target").on("click", async function () {
     pages = 1;
-    pagination = null;
+    pagination = true;
     displayUsers();
 });
 
 $(".sort-option").on("click", async function () {
     pages = 1;
     sortBy = $(this).data("value");
-    pagination = null;
+    pagination = true;
     displayUsers();
 });
 
@@ -41,28 +41,16 @@ $(document).on("click", ".clickable-row", async function () {
 $(".order-option").on("click", async function () {
     pages = 1;
     orderBy = $(this).data("value");
-    pagination = null;
+    pagination = true;
     displayUsers();
 });
 displayUsers();
-
-function getData(url) {
-    return new Promise((resolve, reject) => {
-        $.get(url, (data, status) => {
-            if (status === "success") {
-                resolve(data);
-            } else {
-                reject(new Error(`Failed to retrieve data from ${url}`));
-            }
-        });
-    });
-}
 
 async function displayUsers() {
     usernumber = 0;
     alluser = 0;
     $("#userbody").empty();
-    if (pagination === null)
+    if (pagination === true)
     {
         $("#pagination-demo").twbsPagination('destroy');
     }
@@ -75,7 +63,6 @@ async function displayUsers() {
     }
 
     if (unconfirmed.prop("checked")) {
-        console.log("sdasdasd");
         emailConfirmed = false;
     }
 
@@ -90,7 +77,6 @@ async function displayUsers() {
     if (unconfirmed.prop("checked") && confirmed.prop("checked")) {
         emailConfirmed = null;
     }
-    console.log(emailConfirmed);
     try {
         const [roleuserdata, userdata, persondata, roledata] = await Promise.all([
             getData(domainName + roleuserlink),
@@ -129,7 +115,6 @@ async function displayUsers() {
             }
         }
         for (const user of userdata.$values) {
-
             const roleItam = roleuserdata.$values.find(a => a.usersId === user.id)
             const roleId = roleItam ? roleItam.roleId : "";
             if ($.inArray(roleId.toString(), arr) > -1 || arr.length === 0) {
@@ -164,7 +149,7 @@ async function displayUsers() {
             }
         }
         totalPage = Math.ceil(alluser / usersonpage);
-        pagination = "sdas";
+        pagination = false;
         initializePagination();
     } catch (error) {
         console.error(error);

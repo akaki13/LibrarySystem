@@ -81,7 +81,45 @@
             });
 
             // Add cancel button click event handler
-            $(document).on('click', '.cancel-btn', function () {
+            
+
+            // Add delete button click event handler
+            $('.delete-btn').click(function () {
+                // Get the parent row
+                var row = $(this).closest('tr');
+
+                // Ask for confirmation before deleting the row
+                var confirmDelete = confirm("Are you sure you want to delete this row?");
+                if (confirmDelete) {
+                    // Remove the row from the table
+                    row.remove();
+                }
+            });
+
+            // Add new row button click event handler
+            $('#add-row-btn').click(function () {
+                // Create a new row
+                var newRow = $('<tr>');
+                var newRowContent = '';
+                var rowCount = $('th').length;
+
+                // Get the number of rows in the tabl
+
+                // Add the cells to the new row
+                newRowContent += '<th scope="row">' + (rowCount + 1) + '</th>';
+                newRowContent += '<td contenteditable="true"></td>';
+                newRowContent += '<td contenteditable="true"></td>';
+                newRowContent += '<td contenteditable="true"></td>';
+                newRowContent += '<td><button class="save-btn">Save</button> <button class="delete-btn">Delete</button></td>';
+
+                // Set the HTML content of the new row
+                newRow.html(newRowContent);
+
+                // Append the new row to the table body
+                $('table tbody').append(newRow);
+            });
+            $('.cancel-btn').click(function () {
+                Event.stopPropagation();
                 // Get the parent row
                 var row = $(this).closest('tr');
 
@@ -99,42 +137,7 @@
                 // Update button text and class
                 row.find('.save-btn').text('Edit').removeClass('save-btn').addClass('edit-btn');
                 $(this).text('Delete').removeClass('cancel-btn').addClass('delete-btn');
-            });
 
-            // Add delete button click event handler
-            $(document).on('click', '.delete-btn', function () {
-                // Get the parent row
-                var row = $(this).closest('tr');
-
-                // Ask for confirmation before deleting the row
-                var confirmDelete = confirm("Are you sure you want to delete this row?");
-                if (confirmDelete) {
-                    // Remove the row from the table
-                    row.remove();
-                }
-            });
-
-            // Add new row button click event handler
-            $('#add-row-btn').click(function () {
-                // Create a new row
-                var newRow = $('<tr>');
-                var newRowContent = '';
-
-                // Get the number of rows in the table
-                var rowCount = $('table tbody tr').length;
-
-                // Add the cells to the new row
-                newRowContent += '<th scope="row">' + (rowCount + 1) + '</th>';
-                newRowContent += '<td contenteditable="true"></td>';
-                newRowContent += '<td contenteditable="true"></td>';
-                newRowContent += '<td contenteditable="true"></td>';
-                newRowContent += '<td><button class="save-btn">Save</button> <button class="delete-btn">Delete</button></td>';
-
-                // Set the HTML content of the new row
-                newRow.html(newRowContent);
-
-                // Append the new row to the table body
-                $('table tbody').append(newRow);
             });
         });
     </script>

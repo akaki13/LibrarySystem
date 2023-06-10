@@ -10,11 +10,13 @@ namespace LibrarySystemModels
             AuthorBooks = new HashSet<AuthorBook>();
             Authors = new HashSet<Author>();
             BookGenres = new HashSet<BookGenre>();
+            BookLanguages = new HashSet<BookLanguage>();
             BookPublishers = new HashSet<BookPublisher>();
             BookStorages = new HashSet<BookStorage>();
             Books = new HashSet<Book>();
             Borrows = new HashSet<Borrow>();
             Genres = new HashSet<Genre>();
+            Languages = new HashSet<Language>();
             People = new HashSet<Person>();
             PersonPositions = new HashSet<PersonPosition>();
             Positions = new HashSet<Position>();
@@ -36,11 +38,13 @@ namespace LibrarySystemModels
         public virtual ICollection<AuthorBook> AuthorBooks { get; set; }
         public virtual ICollection<Author> Authors { get; set; }
         public virtual ICollection<BookGenre> BookGenres { get; set; }
+        public virtual ICollection<BookLanguage> BookLanguages { get; set; }
         public virtual ICollection<BookPublisher> BookPublishers { get; set; }
         public virtual ICollection<BookStorage> BookStorages { get; set; }
         public virtual ICollection<Book> Books { get; set; }
         public virtual ICollection<Borrow> Borrows { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }
+        public virtual ICollection<Language> Languages { get; set; }
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<PersonPosition> PersonPositions { get; set; }
         public virtual ICollection<Position> Positions { get; set; }

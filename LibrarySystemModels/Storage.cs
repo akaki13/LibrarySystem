@@ -14,7 +14,7 @@ namespace LibrarySystemModels
         public string Saction { get; set; }
         public string Row { get; set; }
         public string Shell { get; set; }
-        public int? LogsId { get; set; }
+        public int LogsId { get; set; }
 
         public virtual TableLog Logs { get; set; }
         public virtual ICollection<BookStorage> BookStorages { get; set; }

@@ -3,6 +3,7 @@ using LibraryService;
 using LibrarySystem.Data;
 using LibrarySystem.Models.Api;
 using LibrarySystem.Models.View;
+using LibrarySystem.Util;
 using LibrarySystemModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,32 +18,66 @@ namespace LibrarySystem.Controllers
         private readonly ITableLogService _tableLogService;
         private readonly IMapper _mapper;
         private readonly IPublisherService _publisherService;
+        private readonly ILanguageService _languageService;
+        private readonly IAuthorService _authorService;
+        private readonly IStorageService _storageService;
 
         public BookController(IGenresService genresService, ITableLogService tableLogService,
-            IMapper mapper, IPublisherService publisherService)
+            IMapper mapper, IPublisherService publisherService, ILanguageService languageService,
+            IAuthorService authorService, IStorageService storageService)
         {
             _genresService = genresService;
             _tableLogService = tableLogService;
             _mapper = mapper;
             _publisherService = publisherService;
+            _languageService = languageService;
+            _authorService = authorService;
+            _storageService = storageService;
         }
         public IActionResult Index()
         {
             return View();
         }
-
+        
         [Authorize(Roles = "Admin")]
         public IActionResult Genres()
         {
-            var genres = _genresService.GetAll();
-            return View(new GenresView { Genres = genres });
+           
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Authors()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Storage()
+        {
+            return View();
         }
 
         [Authorize(Roles = "Admin")]
         public IActionResult Publishers()
         {
-            var genres = _publisherService.GetAll();
-            return View(new PublisherView {Publishers = genres});
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<List<Publisher>> GetPublishers()
+        {
+            var publishers = _publisherService.GetAll();
+            return publishers;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<List<Genre>> GetGenres()
+        {
+            var genres = _genresService.GetAll();
+            return genres;
         }
 
         [Authorize(Roles = "Admin")]
@@ -58,21 +93,12 @@ namespace LibrarySystem.Controllers
                 genre.LogsId = tableLog.Id;
                 _genresService.Add(genre);
                 _genresService.Save();
-                return new ContentResult
-                {
-                    Content = genre.Id.ToString(),
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.OK
-                };
+                return ResultApi.CreateData(genre.Id);
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "model is not valid",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.ModelNotValid();
+                
             }
         }
 
@@ -88,22 +114,11 @@ namespace LibrarySystem.Controllers
                 _genresService.Save();
                 _tableLogService.Delete(genre.LogsId);
                 _tableLogService.Save();
-
-                return new ContentResult
-                {
-                    Content = "true",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.OK
-                };
+                return ResultApi.Succeeded();
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "false",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.Failed();
             }
         }
 
@@ -113,7 +128,6 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var genre = _genresService.GetById(updateGenreApi.Id);
                 if (genre != null)
                 {
@@ -122,32 +136,17 @@ namespace LibrarySystem.Controllers
                     _genresService.Save();
                     _tableLogService.Update(genre.LogsId);
                     _tableLogService.Save();
-                    return new ContentResult
-                    {
-                        Content = "true",
-                        ContentType = "text/plain",
-                        StatusCode = (int)HttpStatusCode.OK
-                    };
+                    return ResultApi.Succeeded();
                 }
                 else
                 {
-                    return new ContentResult
-                    {
-                        Content = "false",
-                        ContentType = "text/plain",
-                        StatusCode = (int)HttpStatusCode.BadRequest
-                    };
+                    return ResultApi.Failed();
 
                 }
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "model is not valid",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.ModelNotValid();
             }
         }
 
@@ -164,21 +163,11 @@ namespace LibrarySystem.Controllers
                 publisher.LogsId = tableLog.Id;
                 _publisherService.Add(publisher);
                 _publisherService.Save();
-                return new ContentResult
-                {
-                    Content = publisher.Id.ToString(),
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.OK
-                };
+                return ResultApi.CreateData(publisher.Id);
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "model is not valid",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.ModelNotValid();
             }
         }
 
@@ -188,7 +177,6 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var publisher = _publisherService.GetById(updatePublisherApi.Id);
                 if (publisher != null)
                 {
@@ -197,32 +185,17 @@ namespace LibrarySystem.Controllers
                     _publisherService.Save();
                     _tableLogService.Update(publisher.LogsId);
                     _tableLogService.Save();
-                    return new ContentResult
-                    {
-                        Content = "true",
-                        ContentType = "text/plain",
-                        StatusCode = (int)HttpStatusCode.OK
-                    };
+                    return ResultApi.Succeeded();
                 }
                 else
                 {
-                    return new ContentResult
-                    {
-                        Content = "false",
-                        ContentType = "text/plain",
-                        StatusCode = (int)HttpStatusCode.BadRequest
-                    };
+                    return ResultApi.Failed();
 
                 }
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "model is not valid",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.ModelNotValid();
             }
         }
 
@@ -230,7 +203,6 @@ namespace LibrarySystem.Controllers
         [HttpDelete]
         public ActionResult DeletePublisher(int id)
         {
-            Console.WriteLine(id);
             var publisher = _publisherService.GetById(id);
             if (publisher != null)
             {
@@ -238,22 +210,247 @@ namespace LibrarySystem.Controllers
                 _publisherService.Save();
                 _tableLogService.Delete(publisher.LogsId);
                 _tableLogService.Save();
-
-                return new ContentResult
-                {
-                    Content = "true",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.OK
-                };
+                return ResultApi.Succeeded();
             }
             else
             {
-                return new ContentResult
+                return ResultApi.Failed();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Language()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<List<Language>> GetLanguage()
+        {
+            var languages = _languageService.GetAll();
+            return languages;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public ActionResult DeleteLanguage(int id)
+        {
+            var language = _languageService.GetById(id);
+            if (language != null)
+            {
+                _languageService.Delete(language);
+                _publisherService.Save();
+                _tableLogService.Delete(language.LogsId);
+                _tableLogService.Save();
+                return ResultApi.Succeeded();
+            }
+            else
+            {
+                return ResultApi.Failed();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult UpdateLanguage(UpdateLanguageApi updateLanguageApi)
+        {
+            if (ModelState.IsValid)
+            {
+                var language = _languageService.GetById(updateLanguageApi.Id);
+                if (language != null)
                 {
-                    Content = "false",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                    _mapper.Map(updateLanguageApi, language);
+                    _languageService.Update(language);
+                    _languageService.Save();
+                    _tableLogService.Update(language.LogsId);
+                    _tableLogService.Save();
+                    return ResultApi.Succeeded();
+                }
+                else
+                {
+                    return ResultApi.Failed();
+
+                }
+            }
+            else
+            {
+                return ResultApi.ModelNotValid();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult AddLanguage(AddLanguageApi addLanguageApi)
+        {
+            if (ModelState.IsValid)
+            {
+                var language = _mapper.Map<Language>(addLanguageApi);
+                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var tableLog = _tableLogService.AddWithId(DataUtil.LanguageTableName, userID);
+                _tableLogService.Save();
+                language.LogsId = tableLog.Id;
+                _languageService.Add(language);
+                _languageService.Save();
+                return ResultApi.CreateData(language.Id);
+            }
+            else
+            {
+                return ResultApi.ModelNotValid();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<List<Author>> GetAuthor()
+        {
+            var authors = _authorService.GetAll();
+            return authors;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public ActionResult DeleteAuthor(int id)
+        {
+            var author = _authorService.GetById(id);
+            if (author != null)
+            {
+                _authorService.Delete(author);
+                _authorService.Save();
+                _tableLogService.Delete(author.LogsId);
+                _tableLogService.Save();
+                return ResultApi.Succeeded();
+            }
+            else
+            {
+                return ResultApi.Failed();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost] 
+        public ActionResult UpdateAuthor(UpdateAuthorApi updateAuthorApi)
+        {
+            if (ModelState.IsValid)
+            {
+                var author = _authorService.GetById(updateAuthorApi.Id);
+                if (author != null)
+                {
+                    _mapper.Map(updateAuthorApi, author);
+                    _authorService.Update(author);
+                    _authorService.Save();
+                    _tableLogService.Update(author.LogsId);
+                    _tableLogService.Save();
+                    return ResultApi.Succeeded();
+                }
+                else
+                {
+                    return ResultApi.Failed();
+
+                }
+            }
+            else
+            {
+                return ResultApi.ModelNotValid();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult AddAuthor(AddAuthorApi addAuthorApi)
+        {
+            if (ModelState.IsValid)
+            {
+                var author = _mapper.Map<Author>(addAuthorApi);
+                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var tableLog = _tableLogService.AddWithId(DataUtil.AuthorTableName, userID);
+                _tableLogService.Save();
+                author.LogsId = tableLog.Id;
+                _authorService.Add(author);
+                _authorService.Save();
+                return ResultApi.CreateData(author.Id);
+            }
+            else
+            {
+                return ResultApi.ModelNotValid();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<List<Storage>> GetStorage()
+        {
+            var storages = _storageService.GetAll();
+            return storages;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public ActionResult DeleteStorage(int id)
+        {
+            var storage = _storageService.GetById(id);
+            if (storage != null)
+            {
+                _storageService.Delete(storage);
+                _storageService.Save();
+                _tableLogService.Delete(storage.LogsId);
+                _tableLogService.Save();
+                return ResultApi.Succeeded();
+            }
+            else
+            {
+                return ResultApi.Failed();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult UpdateStorage(UpdateStorageApi updateStorageApi)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var storage = _storageService.GetById(updateStorageApi.Id);
+                if (storage != null)
+                {
+                    _mapper.Map(updateStorageApi, storage);
+                    _storageService.Update(storage);
+                    _storageService.Save();
+                    _tableLogService.Update(storage.LogsId);
+                    _tableLogService.Save();
+                    return ResultApi.Succeeded();
+                }
+                else
+                {
+                    return ResultApi.Failed();
+
+                }
+            }
+            else
+            {
+                return ResultApi.ModelNotValid();
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult AddStorage(AddStorageApi addStorageApi)
+        {
+            if (ModelState.IsValid)
+            {
+                var storage = _mapper.Map<Storage>(addStorageApi);
+                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var tableLog = _tableLogService.AddWithId(DataUtil.StorageTableName, userID);
+                _tableLogService.Save();
+                storage.LogsId = tableLog.Id;
+                _storageService.Add(storage);
+                _storageService.Save();
+                return ResultApi.CreateData(storage.Id);
+                
+            }
+            else
+            {
+                return ResultApi.ModelNotValid();
             }
         }
     }

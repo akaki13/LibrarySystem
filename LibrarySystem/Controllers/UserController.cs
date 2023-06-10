@@ -3,13 +3,10 @@ using LibraryService;
 using LibrarySystem.Data;
 using LibrarySystem.Models.Api;
 using LibrarySystem.Models.View;
+using LibrarySystem.Util;
 using LibrarySystemModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Differencing;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using NuGet.Protocol.Plugins;
-using System;
 using System.Net;
 using System.Security.Claims;
 
@@ -61,13 +58,12 @@ namespace LibrarySystem.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Positions()
         {
-            var positions = _positionService.GetAll();
-            return View(new PositionsViews { Positions = positions });
+            return View();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult AddPosition(PositionApi position)
+        public ActionResult AddPosition(AddPositionApi position)
         {
             if (ModelState.IsValid)
             {
@@ -80,21 +76,11 @@ namespace LibrarySystem.Controllers
                 _positionService.Add(savePosition);
                 _positionService.Save();
                 Console.WriteLine(savePosition.Id.ToString());
-                return new ContentResult
-                {
-                    Content = savePosition.Id.ToString(),
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.OK
-                };
+                return ResultApi.CreateData(savePosition.Id);
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "model is not valid",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.ModelNotValid();
             }
         }
 
@@ -110,36 +96,20 @@ namespace LibrarySystem.Controllers
                 if (updatePosition != null)
                 {
                     _mapper.Map(position, updatePosition);
-                     _positionService.Update(updatePosition);
-                     _positionService.Save();
-                     _tableLogService.Update(updatePosition.LogsId);
-                     _tableLogService.Save();
-                    return new ContentResult
-                    {
-                        Content = "true",
-                        ContentType = "text/plain",
-                        StatusCode = (int)HttpStatusCode.OK
-                    };
+                    _positionService.Update(updatePosition);
+                    _positionService.Save();
+                    _tableLogService.Update(updatePosition.LogsId);
+                    _tableLogService.Save();
+                    return ResultApi.Succeeded();
                 }
                 else
                 {
-                    return new ContentResult
-                    {
-                        Content = "false",
-                        ContentType = "text/plain",
-                        StatusCode = (int)HttpStatusCode.BadRequest
-                    };
-
+                    return ResultApi.Failed();
                 }
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "model is not valid",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.ModelNotValid();
             }
         }
 
@@ -147,7 +117,6 @@ namespace LibrarySystem.Controllers
         [HttpDelete]
         public ActionResult DeletePosition(int  id)
         {
-            Console.WriteLine(id);
             var position = _positionService.GetById(id);
             if(position != null)
             {
@@ -155,28 +124,17 @@ namespace LibrarySystem.Controllers
                 _tableLogService.Save();
                 _positionService.Delete(position);
                 _positionService.Save();
-
-                return new ContentResult
-                {
-                    Content = "true",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.OK
-                };
+                return ResultApi.Succeeded();
             }
             else
             {
-                return new ContentResult
-                {
-                    Content = "false",
-                    ContentType = "text/plain",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                return ResultApi.Failed();
             }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<List<User>> Users()
+        public ActionResult<List<User>> GetUsers()
         {
             var allUser = _userService.GetAll();
             return allUser;
@@ -184,7 +142,7 @@ namespace LibrarySystem.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<List<Role>> Roles()
+        public ActionResult<List<Role>> GetRoles()
         {
             var allRole = _roleService.GetRoles();
             return allRole;
@@ -192,7 +150,7 @@ namespace LibrarySystem.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<List<RoleUser>> RolesUser()
+        public ActionResult<List<RoleUser>> GetRolesUser()
         {
             var allRole = _roleUserService.GetAll();
             return allRole;
@@ -200,11 +158,18 @@ namespace LibrarySystem.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<List<Person>> Person()
+        public ActionResult<List<Person>> GetPerson()
         {
             var allperson = _personService.GetAll();
             return allperson;
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<List<Position>> GetPosition()
+        {
+            var allposition = _positionService.GetAll();
+            return allposition;
+        }
     }
 }

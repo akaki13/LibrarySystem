@@ -2,7 +2,7 @@
 
 namespace LibrarySystem.Models.Api
 {
-    public class PositionApi
+    public class AddPositionApi
     {
         [Required]
         public string Title { get; set; }

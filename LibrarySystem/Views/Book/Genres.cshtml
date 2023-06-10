@@ -1,4 +1,4 @@
-﻿@model LibrarySystem.Models.View.GenresView
+﻿
 @{
     ViewData["Title"] = "Genres";
 }
@@ -10,19 +10,38 @@
             <th scope="col" class="text-center">Actions</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model.Genres)
-        {
-            <tr data-value="@item.Id">
-                <td class="text-center" >@item.Name</td>
-                <td class="text-center"><button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button></td>
-            </tr>
-        }
+    <tbody id="body">
+        
     </tbody>
 
 </table>
+<nav aria-label="Page navigation example" class="wrapper">
+    <ul id="pagination-demo" class="pagination-sm text-center"></ul>
+</nav>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this row?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="~/js/Genres.js" asp-append-version="true"></script>
+    <script src="~/js/Table.js" asp-append-version="true"></script>
 }

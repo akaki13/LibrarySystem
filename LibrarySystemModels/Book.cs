@@ -9,6 +9,7 @@ namespace LibrarySystemModels
         {
             AuthorBooks = new HashSet<AuthorBook>();
             BookGenres = new HashSet<BookGenre>();
+            BookLanguages = new HashSet<BookLanguage>();
             BookPublishers = new HashSet<BookPublisher>();
             BookStorages = new HashSet<BookStorage>();
             Borrows = new HashSet<Borrow>();
@@ -22,6 +23,7 @@ namespace LibrarySystemModels
         public virtual TableLog Logs { get; set; }
         public virtual ICollection<AuthorBook> AuthorBooks { get; set; }
         public virtual ICollection<BookGenre> BookGenres { get; set; }
+        public virtual ICollection<BookLanguage> BookLanguages { get; set; }
         public virtual ICollection<BookPublisher> BookPublishers { get; set; }
         public virtual ICollection<BookStorage> BookStorages { get; set; }
         public virtual ICollection<Borrow> Borrows { get; set; }

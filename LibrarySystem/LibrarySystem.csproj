@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Service\**" />
     <Compile Remove="wwwroot\Assets\**" />
+    <Content Remove="Service\**" />
     <Content Remove="wwwroot\Assets\**" />
+    <EmbeddedResource Remove="Service\**" />
     <EmbeddedResource Remove="wwwroot\Assets\**" />
+    <None Remove="Service\**" />
     <None Remove="wwwroot\Assets\**" />
   </ItemGroup>
 
@@ -44,10 +48,6 @@
     <Content Update="Data\Books.Json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>

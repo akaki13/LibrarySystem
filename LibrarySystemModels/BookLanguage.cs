@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 namespace LibrarySystemModels
 {
-    public partial class BookGenre
+    public partial class BookLanguage
     {
         public int Id { get; set; }
         public int? BookId { get; set; }
-        public int? GenreId { get; set; }
+        public int? LanguagesId { get; set; }
+        public int? NumberOfBook { get; set; }
         public int LogsId { get; set; }
 
         public virtual Book Book { get; set; }
-        public virtual Genre Genre { get; set; }
+        public virtual Language Languages { get; set; }
         public virtual TableLog Logs { get; set; }
     }
 }

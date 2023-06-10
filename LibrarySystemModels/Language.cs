@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace LibrarySystemModels
 {
-    public partial class Role
+    public partial class Language
     {
-        public Role()
+        public Language()
         {
-            RoleUsers = new HashSet<RoleUser>();
+            BookLanguages = new HashSet<BookLanguage>();
         }
 
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace LibrarySystemModels
         public int LogsId { get; set; }
 
         public virtual TableLog Logs { get; set; }
-        public virtual ICollection<RoleUser> RoleUsers { get; set; }
+        public virtual ICollection<BookLanguage> BookLanguages { get; set; }
     }
 }

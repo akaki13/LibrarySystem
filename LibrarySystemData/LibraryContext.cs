@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using LibrarySystemModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -20,10 +21,12 @@ namespace LibrarySystemData
         public virtual DbSet<AuthorBook> AuthorBooks { get; set; }
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<BookGenre> BookGenres { get; set; }
+        public virtual DbSet<BookLanguage> BookLanguages { get; set; }
         public virtual DbSet<BookPublisher> BookPublishers { get; set; }
         public virtual DbSet<BookStorage> BookStorages { get; set; }
         public virtual DbSet<Borrow> Borrows { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PersonPosition> PersonPositions { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
@@ -137,6 +140,32 @@ namespace LibrarySystemData
                     .HasConstraintName("FK__Book_Genr__Logs___5812160E");
             });
 
+            modelBuilder.Entity<BookLanguage>(entity =>
+            {
+                entity.ToTable("Book_Languages");
+
+                entity.Property(e => e.BookId).HasColumnName("Book_id");
+
+                entity.Property(e => e.LanguagesId).HasColumnName("Languages_id");
+
+                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
+
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.BookLanguages)
+                    .HasForeignKey(d => d.BookId)
+                    .HasConstraintName("FK__Book_Lang__Book___19DFD96B");
+
+                entity.HasOne(d => d.Languages)
+                    .WithMany(p => p.BookLanguages)
+                    .HasForeignKey(d => d.LanguagesId)
+                    .HasConstraintName("FK__Book_Lang__Langu__1AD3FDA4");
+
+                entity.HasOne(d => d.Logs)
+                    .WithMany(p => p.BookLanguages)
+                    .HasForeignKey(d => d.LogsId)
+                    .HasConstraintName("FK__Book_Lang__Logs___18EBB532");
+            });
+
             modelBuilder.Entity<BookPublisher>(entity =>
             {
                 entity.ToTable("Book_Publisher");
@@ -237,6 +266,20 @@ namespace LibrarySystemData
                     .WithMany(p => p.Genres)
                     .HasForeignKey(d => d.LogsId)
                     .HasConstraintName("FK__Genre__Logs_id__45F365D3");
+            });
+
+            modelBuilder.Entity<Language>(entity =>
+            {
+                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Logs)
+                    .WithMany(p => p.Languages)
+                    .HasForeignKey(d => d.LogsId)
+                    .HasConstraintName("FK__Languages__Logs___160F4887");
             });
 
             modelBuilder.Entity<Person>(entity =>
