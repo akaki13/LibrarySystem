@@ -12,7 +12,7 @@ namespace LibrarySystemModels
 
         public int Id { get; set; }
         public string Title { get; set; }
-        public int LogsId { get; set; }
+        public int? LogsId { get; set; }
 
         public virtual TableLog Logs { get; set; }
         public virtual ICollection<RoleUser> RoleUsers { get; set; }

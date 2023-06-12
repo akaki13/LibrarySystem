@@ -40,6 +40,7 @@ namespace LibrarySystem.Controllers
         {
 
             var allRole = _roleService.GetRoles();
+            Console.WriteLine(allRole);
             return View(new UsersView { Roles = allRole });
         }
 
@@ -67,7 +68,6 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Console.WriteLine(position.Title);
                 var savePosition = _mapper.Map<Position>(position);
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var tableLog = _tableLogService.AddWithId(DataUtil.PositionTableName, userID);
@@ -75,7 +75,6 @@ namespace LibrarySystem.Controllers
                 savePosition.LogsId = tableLog.Id;
                 _positionService.Add(savePosition);
                 _positionService.Save();
-                Console.WriteLine(savePosition.Id.ToString());
                 return ResultApi.CreateData(savePosition.Id);
             }
             else

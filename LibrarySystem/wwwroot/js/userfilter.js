@@ -158,17 +158,16 @@ async function displayUsers() {
 
  function initializePagination() {
 
-    $("#pagination-demo").twbsPagination({
-        totalPages: totalPage,
-        visiblePages: 5,
-        next: 'Next',
-        prev: 'Prev',
-        startPage: 1,
-        onPageClick: function (event, page) {
-            pages = page;
-            displayUsers();
-        }
-    });
+
+     $('#pagination-container').MyPagination({
+         totalPages: totalPage,
+         visiblePages: 5,
+         onPageClick: function (pageNumber) {
+             pages = pageNumber;
+             displayUsers();
+         },
+         currentPage: pages
+     });
 }
 /*const checkboxes = $("[id='rolecheck']");
 const userbody = $("#userbody");

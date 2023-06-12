@@ -140,33 +140,14 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveRegisterDetails(RegisterView registerDetails)
+        public async Task<IActionResult> SaveRegisterDetails(RegisterView registerDetails)
         { 
             if (ModelState.IsValid)
             {
-                var loginCheck = _userService.GetByUserName(registerDetails.Login);
-                var emailCheck = _personService.GetByEmail(registerDetails.Email);
-                var phoneCheck = _personService.GetByPhone(registerDetails.Phone);
-                if (loginCheck != null)
+                IActionResult result = RegisterCheck(registerDetails);
+                if (result != null)
                 {
-                    ViewBag.ErrorMessage = DataUtil.UserNameExist;
-                    return View("Register", registerDetails);
-                }
-                if (emailCheck != null)
-                {
-                    ViewBag.ErrorMessage = DataUtil.EmailExist;
-                    return View("Register", registerDetails);
-
-                }
-                if (phoneCheck != null)
-                {
-                    ViewBag.ErrorMessage = DataUtil.EmailExist;
-                    return View("Register", registerDetails);
-                }
-                if (registerDetails.ConfirmPassword == registerDetails.Password)
-                {
-                    ViewBag.ErrorMessage = DataUtil.PasswordsMatch;
-                    return View("Register", registerDetails);
+                    return result;
                 }
                 var personLog = _tableLogService.Add(DataUtil.PersonTableName);
                 _tableLogService.Save();
@@ -199,7 +180,6 @@ namespace LibrarySystem.Controllers
                 _roleUserService.Save();
                 var tokenEmail = TokenUtil.CreateToken(person.Id.ToString(), _configuration);
                 var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, Request.Scheme);
-                var body = $"Confirm your email address by clicking here: {link}";
                 await EmailUtil.EmailConfirmedLink(person.Email,link, _configuration);
                 return View();
             }
@@ -277,7 +257,35 @@ namespace LibrarySystem.Controllers
             }
             return View();
         }
-        
+
+        private IActionResult RegisterCheck(RegisterView registerDetails)
+        {
+            var emailCheck = _personService.GetByEmail(registerDetails.Email);
+            var phoneCheck = _personService.GetByPhone(registerDetails.Phone);
+            var loginCheck = _userService.GetByUserName(registerDetails.Login);
+            if (loginCheck != null)
+            {
+                ViewBag.ErrorMessage = DataUtil.UserNameExist;
+                return View("Register", registerDetails);
+            }
+            if (emailCheck != null)
+            {
+                ViewBag.ErrorMessage = DataUtil.EmailExist;
+                return View("Register", registerDetails);
+
+            }
+            if (phoneCheck != null)
+            {
+                ViewBag.ErrorMessage = DataUtil.EmailExist;
+                return View("Register", registerDetails);
+            }
+            if (registerDetails.ConfirmPassword == registerDetails.Password)
+            {
+                ViewBag.ErrorMessage = DataUtil.PasswordsMatch;
+                return View("Register", registerDetails);
+            }
+            return null;
+        }
 
     }
 }

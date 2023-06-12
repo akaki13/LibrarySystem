@@ -9,8 +9,23 @@ var pages = 1;
 var usernumber = 0;
 var alluser = 0;
 var totalPage = 0;
-var pagination = $("#pagination-demo");
+var sortBy = "";
+var orderBy = "asc";
 
+$(".sort").on("click", async function () {
+    sortBy = $(this).data('sort');
+    $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
+    $(".bi-sort-alpha-up").removeClass("bi-sort-alpha-up");
+    if (orderBy === "asc") {
+        orderBy = "desc";
+        $(this).addClass('bi-sort-alpha-down');
+    }
+    else {
+        $(this).addClass('bi-sort-alpha-up');
+        orderBy = "asc";
+    }
+    displayLanguage();
+});
 $(document).on('click', '.create-btn', function () {
     var row = $(this).closest('tr');
     var column1Value = row.find('td:eq(0)').text();
@@ -80,10 +95,18 @@ async function displayLanguage() {
     usernumber = 0;
     alluser = 0;
     try {
-        const [positondata] = await Promise.all([
+        const [data] = await Promise.all([
             getData(domainName + getpositionlink),
         ]);
-        for (const item of positondata.$values) {
+        if (sortBy === "title") {
+            if (orderBy === "asc") {
+                data.$values.sort((a, b) => a.title.localeCompare(b.title));
+            }
+            else if (orderBy === "desc") {
+                data.$values.sort((a, b) => b.title.localeCompare(a.title));
+            }
+        }
+        for (const item of data.$values) {
             alluser++;
             var sum = usersonpage * pages;
             var min = sum - usersonpage;
@@ -108,17 +131,14 @@ async function displayLanguage() {
 }
 
 function initializePagination() {
-    pagination.twbsPagination('destroy');
-    pagination.twbsPagination({
+
+    $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,
-        next: 'Next',
-        prev: 'Prev',
-        startPage: pages,
-        initiateStartPageClick: false,
-        onPageClick: function (event, page) {
-            pages = page;
+        onPageClick: function (pageNumber) {
+            pages = pageNumber;
             displayLanguage();
-        }
+        },
+        currentPage: pages
     });
 }

@@ -28,7 +28,6 @@ namespace LibrarySystemData.Infrastructure
         public virtual async Task<List<T>> TakeAll()
         {
             return await _dbSet.ToListAsync();
-
         }
 
         public virtual  void UpdateData(T data)

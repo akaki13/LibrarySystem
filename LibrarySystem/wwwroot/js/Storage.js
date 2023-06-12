@@ -9,7 +9,23 @@ var pages = 1;
 var usernumber = 0;
 var alluser = 0;
 var totalPage = 0;
-var pagination = $("#pagination-demo");
+var sortBy = "";
+var orderBy = "asc";
+
+$(".sort").on("click", async function () {
+    sortBy = $(this).data('sort');
+    $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
+    $(".bi-sort-alpha-up").removeClass("bi-sort-alpha-up");
+    if (orderBy === "asc") {
+        orderBy = "desc";
+        $(this).addClass('bi-sort-alpha-down');
+    }
+    else {
+        $(this).addClass('bi-sort-alpha-up');
+        orderBy = "asc";
+    }
+    displayStorage();
+});
 
 $(document).on('click', '.create-btn', function () {
     var row = $(this).closest('tr');
@@ -80,8 +96,8 @@ $(document).on('click', '.save-btn', function () {
             }
         });
 });
-displayGenre();
-async function displayGenre() {
+displayStorage();
+async function displayStorage() {
     body.empty();
     usernumber = 0;
     alluser = 0;
@@ -89,6 +105,30 @@ async function displayGenre() {
         const [data] = await Promise.all([
             getData(domainName + getlink),
         ]);
+        if (sortBy === "saction") {
+            if (orderBy === "asc") {
+                data.$values.sort((a, b) => a.saction.localeCompare(b.saction));
+            }
+            else if (orderBy === "desc") {
+                data.$values.sort((a, b) => b.saction.localeCompare(a.saction));
+            }
+        }
+        if (sortBy === "row") {
+            if (orderBy === "asc") {
+                data.$values.sort((a, b) => a.row.localeCompare(b.row));
+            }
+            else if (orderBy === "desc") {
+                data.$values.sort((a, b) => b.row.localeCompare(a.row));
+            }
+        }
+        if (sortBy === "shell") {
+            if (orderBy === "asc") {
+                data.$values.sort((a, b) => a.shell.localeCompare(b.shell));
+            }
+            else if (orderBy === "desc") {
+                data.$values.sort((a, b) => b.shell.localeCompare(a.shell));
+            }
+        }
         for (const item of data.$values) {
             alluser++;
             var sum = usersonpage * pages;
@@ -116,18 +156,14 @@ async function displayGenre() {
 }
 
 function initializePagination() {
-    pagination.twbsPagination('destroy');
-     pagination.twbsPagination({
+    $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,
-        next: 'Next',
-        prev: 'Prev',
-        startPage: pages,
-        initiateStartPageClick: false,
-        onPageClick: function (event, page) {
-            pages = page;
-            displayGenre();
-        }
+        onPageClick: function (pageNumber) {
+            pages = pageNumber;
+            displayStorage();
+        },
+        currentPage: pages
     });
     
 }

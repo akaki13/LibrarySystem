@@ -99,7 +99,7 @@ h1 {
     margin-bottom: 1.25em;
 }
 
-#pagination-demo {
+#pagination-container {
     display: inline-block;
     margin-bottom: 1.75em;
 }
@@ -107,6 +107,11 @@ h1 {
     #pagination-demo li {
         display: inline-block;
     }
+
+ul.pagination {
+    list-style: none;
+    padding: 0;
+}
 
 .page-content {
     background: #eee;
@@ -123,4 +128,8 @@ h1 {
 td[contenteditable="true"] {
     border-radius: 5px;
     outline: 1px solid #000000
+}
+
+.sort {
+    cursor: pointer;
 }

@@ -2,143 +2,22 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<table class="table table-striped table-borderless">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Lorem</th>
-            <th scope="col">Ipsum</th>
-            <th scope="col">Dolor</th>
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Sit</td>
-            <td>Amet</td>
-            <td>Consectetur</td>
-            <td><button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Adipisicing</td>
-            <td>Elit</td>
-            <td>Sint</td>
-            <td><button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Hic</td>
-            <td>Fugiat</td>
-            <td>Temporibus</td>
-            <td><button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button></td>
-        </tr>
-    </tbody>
-</table>
+<div id="pagination-container"></div>
 
-<button id="add-row-btn">Add New Row</button>
-
+<i class="bi-sort-down">asdasdasda</i>
 @section Scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <script src="~/js/Pagination.js" asp-append-version="true"></script>
     
     <script>
-        $(document).ready(function () {
-            // Add editable button click event handler
-            $(document).on('click', '.edit-btn', function () {
-                // Get the parent row
-                var row = $(this).closest('tr');
-
-                // Make a copy of the original cell values
-                row.data('original-values', row.find('td:not(:last-child)').map(function () {
-                    return $(this).text();
-                }).get());
-
-                // Make the table cells in the row editable
-                row.find('td:not(:last-child)').attr('contenteditable', true);
-
-                // Update button text and class
-                $(this).text('Save').removeClass('edit-btn').addClass('save-btn');
-
-                // Change delete button to cancel button
-                row.find('.delete-btn').text('Cancel').removeClass('delete-btn').addClass('cancel-btn');
-            });
-
-            // Add save button click event handler
-            $(document).on('click', '.save-btn', function () {
-                // Get the parent row
-                var row = $(this).closest('tr');
-
-                // Make the table cells in the row non-editable
-                row.find('td:not(:last-child)').attr('contenteditable', false);
-
-                // Update button text and class
-                $(this).text('Edit').removeClass('save-btn').addClass('edit-btn');
-
-                // Change cancel button back to delete button
-                row.find('.cancel-btn').text('Delete').removeClass('cancel-btn').addClass('delete-btn');
-            });
-
-            // Add cancel button click event handler
-            
-
-            // Add delete button click event handler
-            $('.delete-btn').click(function () {
-                // Get the parent row
-                var row = $(this).closest('tr');
-
-                // Ask for confirmation before deleting the row
-                var confirmDelete = confirm("Are you sure you want to delete this row?");
-                if (confirmDelete) {
-                    // Remove the row from the table
-                    row.remove();
-                }
-            });
-
-            // Add new row button click event handler
-            $('#add-row-btn').click(function () {
-                // Create a new row
-                var newRow = $('<tr>');
-                var newRowContent = '';
-                var rowCount = $('th').length;
-
-                // Get the number of rows in the tabl
-
-                // Add the cells to the new row
-                newRowContent += '<th scope="row">' + (rowCount + 1) + '</th>';
-                newRowContent += '<td contenteditable="true"></td>';
-                newRowContent += '<td contenteditable="true"></td>';
-                newRowContent += '<td contenteditable="true"></td>';
-                newRowContent += '<td><button class="save-btn">Save</button> <button class="delete-btn">Delete</button></td>';
-
-                // Set the HTML content of the new row
-                newRow.html(newRowContent);
-
-                // Append the new row to the table body
-                $('table tbody').append(newRow);
-            });
-            $('.cancel-btn').click(function () {
-                Event.stopPropagation();
-                // Get the parent row
-                var row = $(this).closest('tr');
-
-                // Retrieve the original cell values
-                var originalValues = row.data('original-values');
-
-                // Update the table cells with the original values
-                row.find('td:not(:last-child)').each(function (index) {
-                    $(this).text(originalValues[index]);
-                });
-
-                // Make the table cells non-editable
-                row.find('td:not(:last-child)').attr('contenteditable', false);
-
-                // Update button text and class
-                row.find('.save-btn').text('Edit').removeClass('save-btn').addClass('edit-btn');
-                $(this).text('Delete').removeClass('cancel-btn').addClass('delete-btn');
-
-            });
+       
+        $('#pagination-container').MyPagination({
+            totalPages: 10,
+            visiblePages: 5,
+            onPageClick: function (pageNumber) {
+                console.log( pageNumber);
+            },
+            currentPage: 2
         });
     </script>
 }

@@ -9,7 +9,24 @@ var pages = 1;
 var usernumber = 0;
 var alluser = 0;
 var totalPage = 0;
-var pagination = $("#pagination-demo");
+var sortBy = "";
+var orderBy = "asc";
+
+$(".sort").on("click", async function () {
+    sortBy = $(this).data('sort');
+    $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
+    $(".bi-sort-alpha-up").removeClass("bi-sort-alpha-up");
+    if (orderBy === "asc") {
+        orderBy = "desc";
+        $(this).addClass('bi-sort-alpha-down');
+    }
+    else
+    {
+        $(this).addClass('bi-sort-alpha-up');
+        orderBy = "asc";
+    }
+    displayPupblisher();
+});
 
 
 $(document).on('click', '.create-btn', function () {
@@ -93,6 +110,23 @@ async function displayPupblisher() {
         const [positondata] = await Promise.all([
             getData(domainName + getpublisherlink),
         ]);
+        if (sortBy === "name") {
+            if (orderBy === "asc") {
+                positondata.$values.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            else if (orderBy === "desc") {
+                positondata.$values.sort((a, b) => b.name.localeCompare(a.name));
+            }
+        }
+        if (sortBy === "address") {
+            if (orderBy === "asc") {
+                positondata.$values.sort((a, b) => a.address.localeCompare(b.address));
+            }
+            else if (orderBy === "desc") {
+                positondata.$values.sort((a, b) => b.address.localeCompare(a.address));
+            }
+        }
+
         for (const item of positondata.$values) {
             alluser++;
             var sum = usersonpage * pages;
@@ -119,17 +153,15 @@ async function displayPupblisher() {
 }
 
 function initializePagination() {
-    pagination.twbsPagination('destroy');
-    pagination.twbsPagination({
+
+    $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,
-        next: 'Next',
-        prev: 'Prev',
-        startPage: pages,
-        initiateStartPageClick: false,
-        onPageClick: function (event, page) {
-            pages = page;
+        onPageClick: function (pageNumber) {
+            pages = pageNumber;
             displayPupblisher();
-        }
+        },
+        currentPage: pages
     });
+ 
 }
