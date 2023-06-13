@@ -11,6 +11,12 @@ var alluser = 0;
 var totalPage = 0;
 var sortBy = "";
 var orderBy = "asc";
+const search = $("#search");
+
+$("#submit").on("click", async function () {
+    pages = 1;
+    displayLanguage();
+});
 
 $(".sort").on("click", async function () {
     sortBy = $(this).data('sort');
@@ -107,16 +113,18 @@ async function displayLanguage() {
             }
         }
         for (const item of data.$values) {
-            alluser++;
-            var sum = usersonpage * pages;
-            var min = sum - usersonpage;
-            if (usernumber < sum && usernumber >= min) {
-                var trElement = $('<tr></tr>').attr('data-value', item.id);
-                var tdElement1 = $('<td></td>').addClass('text-center').text(item.title);
-                var tdElement2 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
-                trElement.append(tdElement1, tdElement2);
-                body.prepend(trElement);
-                usernumber++
+            if (item.title.toLowerCase().includes(search.val().toLowerCase()) || search.val() == "") {
+                alluser++;
+                var sum = usersonpage * pages;
+                var min = sum - usersonpage;
+                if (usernumber < sum && usernumber >= min) {
+                    var trElement = $('<tr></tr>').attr('data-value', item.id);
+                    var tdElement1 = $('<td></td>').addClass('text-center').text(item.title);
+                    var tdElement2 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
+                    trElement.append(tdElement1, tdElement2);
+                    body.prepend(trElement);
+                    usernumber++
+                }
             }
             if (usernumber < min) {
                 usernumber++;

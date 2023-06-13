@@ -11,7 +11,12 @@ var alluser = 0;
 var totalPage = 0;
 var sortBy = "";
 var orderBy = "asc";
+const search = $("#search");
 
+$("#submit").on("click", async function () {
+    pages = 1;
+    displayAuthor();
+});
 $(".sort").on("click", async function () {
     sortBy = $(this).data('sort');
     $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
@@ -117,17 +122,22 @@ async function displayAuthor() {
             }
         }
         for (const item of data.$values) {
-            alluser++;
-            var sum = usersonpage * pages;
-            var min = sum - usersonpage;
-            if (usernumber < sum && usernumber >= min) {
-                var trElement = $('<tr></tr>').attr('data-value', item.id);
-                var tdElement1 = $('<td></td>').addClass('text-center').text(item.name);
-                var tdElement2 = $('<td></td>').addClass('text-center').text(item.surname);
-                var tdElement3 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
-                trElement.append(tdElement1, tdElement2, tdElement3);
-                body.prepend(trElement);
-                usernumber++
+            const searchTerm = search.val().toLowerCase();
+            const nameMatch = item.name.toLowerCase().includes(searchTerm);
+            const surnameMatch = item.surname.toLowerCase().includes(searchTerm);
+            if (nameMatch || surnameMatch ||  search.val() == "") {
+                alluser++;
+                var sum = usersonpage * pages;
+                var min = sum - usersonpage;
+                if (usernumber < sum && usernumber >= min) {
+                    var trElement = $('<tr></tr>').attr('data-value', item.id);
+                    var tdElement1 = $('<td></td>').addClass('text-center').text(item.name);
+                    var tdElement2 = $('<td></td>').addClass('text-center').text(item.surname);
+                    var tdElement3 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
+                    trElement.append(tdElement1, tdElement2, tdElement3);
+                    body.prepend(trElement);
+                    usernumber++
+                }
             }
             if (usernumber < min) {
                 usernumber++;

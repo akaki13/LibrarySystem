@@ -1,5 +1,5 @@
-﻿using LibrarySystem.Data;
-using Microsoft.AspNetCore.Html;
+﻿using HtmlAgilityPack;
+using LibrarySystem.Data;
 using System.Net;
 using System.Net.Mail;
 
@@ -9,15 +9,31 @@ namespace LibrarySystem.Util
     {
         public static async Task  PassworResetLink(string toEmail , string link, IConfiguration configuration)
         {
-            var emailSubject = "Reset your password";
-            var emailMessage = $"Please reset your password by <a href='{link}'> clicking here</a>.";
+            HtmlDocument doc = new HtmlDocument();
+            doc.Load(DataUtil.PasswordHtml);
+            HtmlNode linkNode = doc.DocumentNode.SelectSingleNode("//a");
+
+            if (linkNode != null)
+            {
+                linkNode.SetAttributeValue("href", link);
+            }
+            var emailSubject = DataUtil.PasswordEmailSubject;
+            var emailMessage = doc.DocumentNode.OuterHtml;
             await SendEmailAsync(toEmail, emailSubject, emailMessage , configuration);
         }
 
         public static async Task EmailConfirmedLink(string toEmail, string link, IConfiguration configuration)
         {
-            var emailSubject = "Confirme your email";
-            var emailMessage = $"Confirm your email address by clicking <a href='{link}'> here</a>.";
+            HtmlDocument doc = new HtmlDocument();
+            doc.Load(DataUtil.EmailHtml);
+            HtmlNode linkNode = doc.DocumentNode.SelectSingleNode("//a");
+
+            if (linkNode != null)
+            {
+                linkNode.SetAttributeValue("href", link);
+            }
+            var emailSubject = DataUtil.ConfirmEmailSubject;
+            var emailMessage = doc.DocumentNode.OuterHtml;
             await SendEmailAsync(toEmail, emailSubject, emailMessage, configuration);
         }
 
