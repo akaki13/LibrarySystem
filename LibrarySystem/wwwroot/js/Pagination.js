@@ -106,6 +106,10 @@
                 if (currentPage === totalPages) {
                     $lastBtn.addClass('disabled');
                 }
+                if (totalPages === 0) {
+                    $pagination.empty();
+                }
+
             }
 
             renderPageButtons(settings.currentPage);

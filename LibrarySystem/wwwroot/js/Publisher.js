@@ -19,6 +19,7 @@ $("#submit").on("click", async function () {
 });
 
 $(".sort").on("click", async function () {
+    pages = 1;
     sortBy = $(this).data('sort');
     $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
     $(".bi-sort-alpha-up").removeClass("bi-sort-alpha-up");
@@ -48,13 +49,7 @@ $(document).on('click', '.create-btn', function () {
 
     postData(domainName + addpublisherlink, data)
         .then(function (response) {
-            row.attr('data-value', response);
-            row.find('td:not(:last-child)').attr('contenteditable', false);
-            console.log("asdasda");
-
-            $button.text('Edit').removeClass('create-btn').addClass('edit-btn'); 
-
-            row.find('.destroy-btn').removeClass('destroy-btn').addClass('delete-btn');
+            displayPupblisher();
         })
         .catch(function (error) {
             if (error.status === 400) {
@@ -72,13 +67,22 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
 
-    $(document).on('click', '.confirm-delete', function () {
-        deleteData(domainName + deletepublisherlink + id);
-        row.remove();
-        deleteModal.hide();
+    $(document).on('click', '.confirm-delete', async function () {
+        deleteData(domainName + deletepublisherlink + id)
+            .then(function (response) {
+                displayPupblisher();
+                deleteModal.hide();
+            })
+            .catch(function (error) {
+                if (error.status === 400) {
+                    alert("Error: " + error.responseText);
+                } else {
+                    alert("An error occurred while processing the request.");
+                }
+            });
+        
     });
 });
-
 $(document).on('click', '.save-btn', function () {
     var row = $(this).closest('tr');
     id = row.data("value");
@@ -132,7 +136,6 @@ async function displayPupblisher() {
                 positondata.$values.sort((a, b) => b.address.localeCompare(a.address));
             }
         }
-
         for (const item of positondata.$values) {
             if (item.name.toLowerCase().includes(search.val().toLowerCase()) || search.val() == "") {
                 alluser++;
@@ -153,6 +156,11 @@ async function displayPupblisher() {
             }
         }
         totalPage = Math.ceil(alluser / usersonpage);
+        if (alluser === min && alluser === usernumber)
+        {
+            pages--;
+           displayPupblisher();
+        }
         initializePagination();
     } catch (error) {
         console.error(error);
@@ -161,7 +169,6 @@ async function displayPupblisher() {
 }
 
 function initializePagination() {
-
     $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,

@@ -40,10 +40,7 @@ $(document).on('click', '.create-btn', function () {
     var $button = $(this); 
     postData(domainName + addgenrelink, data)
         .then(function (response) {
-            row.attr('data-value', response);
-            row.find('td:not(:last-child)').attr('contenteditable', false);
-            $button.text('Edit').removeClass('create-btn').addClass('edit-btn'); 
-            row.find('.destroy-btn').removeClass('destroy-btn').addClass('delete-btn');
+            displayGenre();
         })
         .catch(function (error) {
             if (error.status === 400) {
@@ -61,9 +58,17 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', function () {
-        deleteData(domainName + deletegenrelink + id);
-        row.remove();
-        deleteModal.hide();
+        deleteData(domainName + deletegenrelink + id).then(function (response) {
+            displayGenre();
+            deleteModal.hide();
+        })
+            .catch(function (error) {
+                if (error.status === 400) {
+                    alert("Error: " + error.responseText);
+                } else {
+                    alert("An error occurred while processing the request.");
+                }
+            });
     });
 });
 
@@ -126,7 +131,10 @@ async function displayGenre() {
                 usernumber++;
             }
         }
-        
+        if (alluser === min && alluser === usernumber) {
+            pages--;
+            displayGenre();
+        }
         totalPage = Math.ceil(alluser / usersonpage);    
         initializePagination();
     } catch (error) {

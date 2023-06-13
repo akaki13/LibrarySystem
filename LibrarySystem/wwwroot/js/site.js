@@ -16,20 +16,21 @@
         });
     });
 }
-
 function deleteData(url) {
-    $.ajax({
-        url: url,
-        type: 'DELETE',
-        success: function (response) {
-            console.log("ok")
-        },
-        error: function (xhr, status, error) {
-            reject({
-                status: xhr.status,
-                responseText: xhr.responseText
-            });
-        }
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                reject({
+                    status: xhr.status,
+                    responseText: xhr.responseText
+                });
+            }
+        });
     });
 }
 

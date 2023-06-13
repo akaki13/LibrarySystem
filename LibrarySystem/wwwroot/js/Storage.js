@@ -45,10 +45,7 @@ $(document).on('click', '.create-btn', function () {
     var $button = $(this); 
     postData(domainName + addlink, data)
         .then(function (response) {
-            row.attr('data-value', response);
-            row.find('td:not(:last-child)').attr('contenteditable', false);
-            $button.text('Edit').removeClass('create-btn').addClass('edit-btn'); 
-            row.find('.destroy-btn').removeClass('destroy-btn').addClass('delete-btn');
+            displayStorage();
         })
         .catch(function (error) {
             if (error.status === 400) {
@@ -65,10 +62,18 @@ $(document).on('click', '.delete-btn', function () {
     var deleteModal = new bootstrap.Modal($('#deleteModal'));
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
-    $(document).on('click', '.confirm-delete', function () {
-        deleteData(domainName + deletelink + id);
-        row.remove();
-        deleteModal.hide();
+    $(document).on('click', '.confirm-delete', async function () {
+        deleteData(domainName + deletelink + id).then(function (response) {
+            displayStorage();
+            deleteModal.hide();
+        })
+            .catch(function (error) {
+                if (error.status === 400) {
+                    alert("Error: " + error.responseText);
+                } else {
+                    alert("An error occurred while processing the request.");
+                }
+            });
     });
 });
 
@@ -159,9 +164,12 @@ async function displayStorage() {
                 usernumber++;
             }
         }
-        
+        if (alluser === min && alluser === usernumber) {
+            pages--;
+            displayPupblisher();
+        }
         totalPage = Math.ceil(alluser / usersonpage);    
-        initializePagination();
+        displayStorage();
     } catch (error) {
         console.error(error);
     }
