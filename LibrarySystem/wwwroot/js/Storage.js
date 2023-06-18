@@ -1,8 +1,8 @@
 var domainName = window.location.origin;
-const addlink = "/book/addstorage";
-const deletelink = "/book/deletestorage/";
-const updatelink = "/book/updatestorage";
-const getlink = "/book/getstorage";
+const addlink = "/bookcategory/addstorage";
+const deletelink = "/bookcategory/deletestorage/";
+const updatelink = "/bookcategory/updatestorage";
+const getlink = "/bookcategory/getstorage";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -11,7 +11,9 @@ var alluser = 0;
 var totalPage = 0;
 var sortBy = "";
 var orderBy = "asc";
-const search = $("#search");
+const searchName = $("#name");
+const searchLocation = $("#location");
+const searchCapacity = $("#capacity");
 
 $("#submit").on("click", async function () {
     pages = 1;
@@ -38,9 +40,9 @@ $(document).on('click', '.create-btn', function () {
     var column2Value = row.find('td:eq(1)').text();
     var column3Value = row.find('td:eq(2)').text();
     var data = {
-        Saction: column1Value,
-        Row: column2Value,
-        Shell: column3Value,
+        Name: column1Value,
+        Location: column2Value,
+        Capacity: column3Value,
     };
     var $button = $(this); 
     postData(domainName + addlink, data)
@@ -85,15 +87,14 @@ $(document).on('click', '.save-btn', function () {
     var column3Value = row.find('td:eq(2)').text();
     var data = {
         Id: id,
-        Saction: column1Value,
-        Row: column2Value,
-        Shell: column3Value,
+        Name: column1Value,
+        Location: column2Value,
+        Capacity: column3Value,
     };
     var $button = $(this); 
     postData(domainName + updatelink, data)
         .then(function (response) {
             row.find('td:not(:last-child)').attr('contenteditable', false);
-            console.log("asdasda");
             $button.text('Edit').removeClass('save-btn').addClass('edit-btn'); 
             row.find('.cancel-btn').text('Delete').removeClass('cancel-btn').addClass('delete-btn');
         
@@ -115,61 +116,61 @@ async function displayStorage() {
         const [data] = await Promise.all([
             getData(domainName + getlink),
         ]);
-        if (sortBy === "saction") {
+        if (sortBy === "name") {
             if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.saction.localeCompare(b.saction));
+                data.$values.sort((a, b) => a.name.localeCompare(b.name));
             }
             else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.saction.localeCompare(a.saction));
+                data.$values.sort((a, b) => b.name.localeCompare(a.name));
             }
         }
-        if (sortBy === "row") {
+        if (sortBy === "location") {
             if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.row.localeCompare(b.row));
+                data.$values.sort((a, b) => a.location.localeCompare(b.location));
             }
             else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.row.localeCompare(a.row));
+                data.$values.sort((a, b) => b.location.localeCompare(a.location));
             }
         }
-        if (sortBy === "shell") {
+        if (sortBy === "capacity") {
             if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.shell.localeCompare(b.shell));
+                data.$values.sort((a, b) => a.capacity - b.capacity);
             }
             else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.shell.localeCompare(a.shell));
+                data.$values.sort((a, b) => b.capacity - a.capacity);
             }
         }
         for (const item of data.$values) {
-            const searchTerm = search.val().toLowerCase();
-            const sactionMatch = item.saction.toLowerCase().includes(searchTerm);
-            const rowMatch = item.row.toLowerCase().includes(searchTerm);
-            const shellMatch = item.shell.toLowerCase().includes(searchTerm);
+            const nameMatch = searchName.val() ? item.name.toLowerCase().includes(searchName.val().toLowerCase()) : true;
+            const locatiomMatch = searchLocation.val() ? item.location.toLowerCase().includes(searchLocation.val().toLowerCase()) : true;
+            const capacityMatch = searchCapacity.val() ? item.capacity.toString().toLowerCase().includes(searchCapacity.val().toString().toLowerCase()) : true;
 
-            if (sactionMatch || rowMatch || shellMatch || search.val() == "") {
+            if (nameMatch && locatiomMatch && capacityMatch) {
                 alluser++;
                 var sum = usersonpage * pages;
                 var min = sum - usersonpage;
                 if (usernumber < sum && usernumber >= min) {
                     var trElement = $('<tr></tr>').attr('data-value', item.id);
-                    var tdElement1 = $('<td></td>').addClass('text-center').text(item.saction);
-                    var tdElement2 = $('<td></td>').addClass('text-center').text(item.row);
-                    var tdElement3 = $('<td></td>').addClass('text-center').text(item.shell);
+                    var tdElement1 = $('<td></td>').addClass('text-center').text(item.name);
+                    var tdElement2 = $('<td></td>').addClass('text-center').text(item.location);
+                    var tdElement3 = $('<td></td>').addClass('text-center').text(item.capacity);
                     var tdElement4 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
                     trElement.append(tdElement1, tdElement2, tdElement3, tdElement4);
-                    body.prepend(trElement);
-                    usernumber++
+                    body.append(trElement);
+                    usernumber++;
                 }
             }
+
             if (usernumber < min) {
                 usernumber++;
             }
         }
         if (alluser === min && alluser === usernumber) {
             pages--;
-            displayPupblisher();
+            displayStorage();
         }
         totalPage = Math.ceil(alluser / usersonpage);    
-        displayStorage();
+        initializePagination();
     } catch (error) {
         console.error(error);
     }

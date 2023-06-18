@@ -1,8 +1,8 @@
 var domainName = window.location.origin;
-const addgenrelink = "/book/addgenre";
-const deletegenrelink = "/book/deletegenre/";
-const updategenrelink = "/book/updategenre";
-const getgenrelink = "/book/getgenres";
+const addgenrelink = "/bookcategory/addgenre";
+const deletegenrelink = "/bookcategory/deletegenre/";
+const updategenrelink = "/bookcategory/updategenre";
+const getgenrelink = "/bookcategory/getgenres";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -123,7 +123,7 @@ async function displayGenre() {
                     var tdElement1 = $('<td></td>').addClass('text-center').text(item.name);
                     var tdElement2 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
                     trElement.append(tdElement1, tdElement2);
-                    body.prepend(trElement);
+                    body.append(trElement);
                     usernumber++
                 }
             }

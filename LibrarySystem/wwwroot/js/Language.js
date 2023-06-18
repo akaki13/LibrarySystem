@@ -1,8 +1,8 @@
 var domainName = window.location.origin;
-const addPositionlink = "/book/addlanguage";
-const deletepositionlink = "/book/deletelanguage/";
-const updatepositionlink = "/book/updatelanguage";
-const getpositionlink = "/book/getlanguage";
+const addPositionlink = "/bookcategory/addlanguage";
+const deletepositionlink = "/bookcategory/deletelanguage/";
+const updatepositionlink = "/bookcategory/updatelanguage";
+const getpositionlink = "/bookcategory/getlanguage";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -124,7 +124,7 @@ async function displayLanguage() {
                     var tdElement1 = $('<td></td>').addClass('text-center').text(item.title);
                     var tdElement2 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
                     trElement.append(tdElement1, tdElement2);
-                    body.prepend(trElement);
+                    body.append(trElement);
                     usernumber++
                 }
             }

@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "Publishers";
+}
+<div class="input-group mb-2">
+    <input type="text" id="search" class="form-control" placeholder="By Name">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" id="submit" type="button"><i class="fa fa-search"></i></button>
+    </span>
+</div>
+<button id="add-row-btn">Add New Row</button>
+<table class="table table-striped table-borderless">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center sort " data-sort="name">Name</th>
+            <th scope="col" class="text-center sort " data-sort="address">Adress</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="body">
+    </tbody>
+
+</table>
+<nav aria-label="Page navigation example" class="wrapper">
+    <div id="pagination-container"></div>
+</nav>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this row?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/js/Pagination.js" asp-append-version="true"></script>
+    <script src="~/js/Publisher.js" asp-append-version="true"></script>
+    <script src="~/js/Table.js" asp-append-version="true"></script>
+
+}

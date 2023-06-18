@@ -50,8 +50,7 @@ button {
     margin-bottom: 25px;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
 }
-
-    .grid .grid-body {
+  .grid .grid-body {
         padding: 15px 20px 15px 20px;
         font-size: 0.9em;
         line-height: 1.9em;
@@ -133,3 +132,36 @@ td[contenteditable="true"] {
 .sort {
     cursor: pointer;
 }
+
+.form-control {
+    margin-right: 5px;
+    border-radius: 5px;
+}
+.card-body {
+    background-color: #ebf2fa;
+}
+.autocomplete-dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.js-example-basic-multiple {
+    width: 300px;
+}
+.btn-color {
+    background-color: #0e1c36;
+    color: #fff;
+}
+.btn-link {
+    border-radius: 5px;
+    color: #fff;
+    background-color: #630fe8;
+    text-decoration: none;
+    padding: 4px 4px;
+}
+    .btn-link:hover {
+        color: white;
+        text-decoration: none;
+    }

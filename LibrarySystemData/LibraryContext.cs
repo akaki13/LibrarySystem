@@ -432,17 +432,13 @@ namespace LibrarySystemData
             {
                 entity.ToTable("Storage");
 
+                entity.Property(e => e.Location)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
-                entity.Property(e => e.Row)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Saction)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Shell)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

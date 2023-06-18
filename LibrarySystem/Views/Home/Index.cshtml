@@ -2,22 +2,24 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<div id="pagination-container"></div>
+<select class="js-example-basic-multiple" id="mySelect" style=" width: 500px" multiple>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+</select>
 
-<i class="bi-sort-down">asdasdasda</i>
+
 @section Scripts {
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="~/js/Pagination.js" asp-append-version="true"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+ 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-       
-        $('#pagination-container').MyPagination({
-            totalPages: 10,
-            visiblePages: 5,
-            onPageClick: function (pageNumber) {
-                console.log( pageNumber);
-            },
-            currentPage: 2
+        $(document).ready(function () {
+            $('#mySelect').select2({
+                placeholder: 'Select options',// Set maximum number of selections allowed
+                // Add any other desired options here
+            });
         });
     </script>
 }

@@ -46,6 +46,18 @@ builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
+builder.Services.AddScoped<IBookGenreService, BookGenreService>();
+builder.Services.AddScoped<IBookLanguageRepository, BookLanguageRepository>();
+builder.Services.AddScoped<IBookLanguageService, BookLanguageService>();
+builder.Services.AddScoped<IBookPublisherRepository, BookPublisherRepository>();
+builder.Services.AddScoped<IBookPublisherService, BookPublisherService>();
+builder.Services.AddScoped<IBookStorageRepository, BookStorageRepository>();
+builder.Services.AddScoped<IBookStorageService, BookStorageService>();
+builder.Services.AddScoped<IAuthorBookRepository, AuthorBookRepository>();
+builder.Services.AddScoped<IAuthorBookService, AuthorBookService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt => {

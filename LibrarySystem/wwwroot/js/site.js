@@ -1,4 +1,13 @@
-﻿function postData(url, data) {
+﻿/*var domainName = window.location.origin;
+const getauthorlink = "/bookcategory/getauthor";
+const getgenrelink = "/bookcategory/getgenres";
+const getpublisherlink = "/bookcategory/getpublishers";
+const getlanguagelink = "/bookcategory/getlanguage";
+const getstoragelink = "/bookcategory/getstorage";
+const addauthorlink = "/bookcategory/addauthor";
+const deleteauthorlink = "/bookcategory/deleteauthor/";
+const updateauthorlink = "/bookcategory/updateauthor";*/
+function postData(url, data) {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: url,

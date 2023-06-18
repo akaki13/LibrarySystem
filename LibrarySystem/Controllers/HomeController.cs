@@ -19,7 +19,6 @@ namespace LibrarySystem.Controllers
 
         public IActionResult Index()
         {
-            var json = JsonUtil.TakeBookData();
             return View();
         }
         /*		public IActionResult NavBar()

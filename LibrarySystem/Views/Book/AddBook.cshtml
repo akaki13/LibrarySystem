@@ -1,0 +1,75 @@
+﻿@model LibrarySystem.Models.View.AddBookView
+@{
+    ViewData["Title"] = "Add Book";
+    
+}
+
+<form class="card-body cardbody-color p-lg-5" method="post" asp-action="AddBook" asp-controller="Book">
+
+    <div class="mb-3">
+        <p>@ViewBag.ErrorMessage</p>
+    </div>
+    <div class="mb-3">
+        <p class="mb-1">Name</p>
+    <input type="text" class="form-control"  asp-for="Name" placeholder="Name">
+    <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+    <div class="mb-3">
+    <p class="mb-1">Description</p>
+    <input type="text" class="form-control"  asp-for="Description" placeholder="Description">
+    <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+  
+    <div class="mb-3">
+        <p class="mb-1">Genre </p>
+        <select class="js-example-basic-multiple" asp-for="GenreId" id="GenreSelect"  multiple> 
+        </select>
+        <span class="text-danger" asp-validation-for="GenreId"></span>
+    </div>
+    <div class="mb-3">
+        <p class="mb-1">Publisher </p>
+        <select class="js-example-basic-multiple" asp-for="PublisherId" id="PublisherSelect" multiple>
+        </select>
+        <span class="text-danger" asp-validation-for="PublisherId"></span>
+    </div>
+    <div class="mb-3">
+        <p class="mb-1">Author </p>
+        <select class="js-example-basic-multiple" asp-for="AuthorId" id="AuthorSelect" multiple>
+        </select>
+        <span class="text-danger" asp-validation-for="AuthorId"></span>
+    </div>
+    <div class="mb-3">
+        <p class="mb-1">Language </p>
+        <select class="js-example-basic-multiple" asp-for="LanguageId" id="LanguageSelect" multiple>
+        </select>
+        <span class="text-danger" asp-validation-for="LanguageId"></span>
+    </div>
+    <div class="mb-3">
+        <p class="mb-1">Storage </p>
+        <select class="js-example-basic-multiple" asp-for="StorageId" id="StorageSelect" multiple>
+        </select>
+        <span class="text-danger" asp-validation-for="StorageId"></span>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-color px-5 mb-5 w-100" >
+            Save Book
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        var genreIds = '@(Model?.GenreId != null ? Html.Raw(Json.Serialize(Model.GenreId.ToArray())) : string.Empty)';
+        var publisherIds = '@(Model?.PublisherId != null ? Html.Raw(Json.Serialize(Model.PublisherId.ToArray())) : string.Empty)';
+        var authorIds = '@(Model?.AuthorId != null ? Html.Raw(Json.Serialize(Model.AuthorId.ToArray())) : string.Empty)';
+        var languageIds = '@(Model?.LanguageId != null ? Html.Raw(Json.Serialize(Model.LanguageId.ToArray())) : string.Empty)';
+        var storageIds = '@(Model?.StorageId != null ? Html.Raw(Json.Serialize(Model.StorageId.ToArray())) : string.Empty)';
+
+    </script>
+
+    <script src="~/js/AddBook.js" asp-append-version="true"></script>
+}

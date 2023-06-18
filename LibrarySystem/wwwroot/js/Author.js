@@ -1,8 +1,8 @@
 var domainName = window.location.origin;
-const addlink = "/book/addauthor";
-const deletelink = "/book/deleteauthor/";
-const updatelink = "/book/updateauthor";
-const getlink = "/book/getauthor";
+const addauthorlink = "/bookcategory/addauthor";
+const deleteauthorlink = "/bookcategory/deleteauthor/";
+const updateauthorlink = "/bookcategory/updateauthor";
+const getauthorlink = "/bookcategory/getauthor";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -11,7 +11,8 @@ var alluser = 0;
 var totalPage = 0;
 var sortBy = "";
 var orderBy = "asc";
-const search = $("#search");
+const searchSurname = $("#surname");
+const searchName = $("#name");
 
 $("#submit").on("click", async function () {
     pages = 1;
@@ -40,7 +41,7 @@ $(document).on('click', '.create-btn', function () {
         Surname: column2Value,
     };
     var $button = $(this); 
-    postData(domainName + addlink, data)
+    postData(domainName + addauthorlink, data)
         .then(function (response) {
             displayAuthor();
         })
@@ -60,7 +61,7 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete',async function () {
-        deleteData(domainName + deletelink + id)
+        deleteData(domainName + deleteauthorlink + id)
             .then(function (response) {
                 displayAuthor();
                deleteModal.hide();
@@ -86,7 +87,7 @@ $(document).on('click', '.save-btn', function () {
         Surname: column2Value,
     };
     var $button = $(this); 
-    postData(domainName + updatelink, data)
+    postData(domainName + updateauthorlink, data)
         .then(function (response) {
             row.find('td:not(:last-child)').attr('contenteditable', false);
             console.log("asdasda");
@@ -109,7 +110,7 @@ async function displayAuthor() {
     alluser = 0;
     try {
         const [data] = await Promise.all([
-            getData(domainName + getlink),
+            getData(domainName + getauthorlink),
         ]);
         if (sortBy === "name") {
             if (orderBy === "asc") {
@@ -127,11 +128,10 @@ async function displayAuthor() {
                 data.$values.sort((a, b) => b.surname.localeCompare(a.surname));
             }
         }
-        for (const item of data.$values) {
-            const searchTerm = search.val().toLowerCase();
-            const nameMatch = item.name.toLowerCase().includes(searchTerm);
-            const surnameMatch = item.surname.toLowerCase().includes(searchTerm);
-            if (nameMatch || surnameMatch ||  search.val() == "") {
+        for (const item of data.$values) {  
+            const nameMatch = searchName.val() ? item.name.toLowerCase().includes(searchName.val().toLowerCase()) : true;
+            const surnameMatch = searchSurname.val() ? item.surname.toLowerCase().includes(searchSurname.val().toLowerCase()) : true;   
+            if (nameMatch && surnameMatch) {
                 alluser++;
                 var sum = usersonpage * pages;
                 var min = sum - usersonpage;
@@ -141,7 +141,7 @@ async function displayAuthor() {
                     var tdElement2 = $('<td></td>').addClass('text-center').text(item.surname);
                     var tdElement3 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
                     trElement.append(tdElement1, tdElement2, tdElement3);
-                    body.prepend(trElement);
+                    body.append(trElement);
                     usernumber++
                 }
             }

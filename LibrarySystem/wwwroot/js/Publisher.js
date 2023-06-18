@@ -1,8 +1,8 @@
 var domainName = window.location.origin;
-const addpublisherlink = "/book/addPublisher";
-const deletepublisherlink = "/book/deletepublisher/";
-const updatepublisherlink = "/book/updatepublisher";
-const getpublisherlink = "/book/getpublishers";
+const addpublisherlink = "/bookcategory/addPublisher";
+const deletepublisherlink = "/bookcategory/deletepublisher/";
+const updatepublisherlink = "/bookcategory/updatepublisher";
+const getpublisherlink = "/bookcategory/getpublishers";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -147,7 +147,7 @@ async function displayPupblisher() {
                     var tdElement2 = $('<td></td>').addClass('text-center').text(item.address);
                     var tdElement3 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
                     trElement.append(tdElement1, tdElement2, tdElement3);
-                    body.prepend(trElement);
+                    body.append(trElement);
                     usernumber++
                 }
             }

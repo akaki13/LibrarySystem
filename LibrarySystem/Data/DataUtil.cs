@@ -16,8 +16,14 @@ namespace LibrarySystem.Data
         public const string PersonTableName = "Person";
         public const string PublisherTableName = "Publisher";
         public const string StorageTableName = "Storage";
-        public const string LanguageTableName = "Language"; 
-        public const string AuthorTableName = "Author";
+        public const string LanguageTableName = "Language";
+        public const string AuthorTableName = "Author"; 
+        public const string AuthorBookTableName = "Author_Book";
+        public const string BookTableName = "Book";
+        public const string BookGenreTableName = "Book_Genre";
+        public const string BookPublisherTableName = "Book_Publisher";
+        public const string BookLanguageTableName = "Book_Language";
+        public const string BookStorageTableName = "Book_Storage";
         public const string PositionTableName = "Position";
         public const string UserTableName = "Users";
         public const string GenreTableName = "Genre";
