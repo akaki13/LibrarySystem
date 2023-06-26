@@ -180,7 +180,7 @@ namespace LibrarySystem.Controllers
                 _roleUserService.Save();
                 var tokenEmail = TokenUtil.CreateToken(person.Id.ToString(), _configuration);
                 var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, Request.Scheme);
-                await EmailUtil.EmailConfirmedLink(person.Email,link, _configuration);
+                await EmailUtil.EmailConfirmedLink(person.Email,link, _configuration, person);
                 return View();
             }
             else
@@ -252,7 +252,7 @@ namespace LibrarySystem.Controllers
                 {
                     var token = TokenUtil.CreateToken(user.Id.ToString(), _configuration);
                     var link =  Url.Action("ResetPassword", "Account", new { token = token }, Request.Scheme);
-                    await EmailUtil.PassworResetLink(forgot.Email, link , _configuration);
+                    await EmailUtil.PassworResetLink(forgot.Email, link , _configuration , person);
                 }
             }
             return View();

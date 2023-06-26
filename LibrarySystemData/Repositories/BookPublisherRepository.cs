@@ -12,11 +12,14 @@ namespace LibrarySystemData.Repositories
     {
         public BookPublisherRepository(LibraryContext context)
            : base(context) { }
-
+        public List<BookPublisher> GetByBookId(int id)
+        {
+            return _dbSet.Where(i => i.BookId.Equals(id)).ToList();
+        }
     }
 
     public interface IBookPublisherRepository : IRepositoryBase<BookPublisher>
     {
-
+        List<BookPublisher> GetByBookId(int id);
     }
 }

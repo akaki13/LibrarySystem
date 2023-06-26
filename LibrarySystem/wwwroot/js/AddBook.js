@@ -47,7 +47,7 @@ $(document).ready(async function () {
         id: publisher.id,
     }));
     const authorList = authordata.$values.map(author => ({
-        text: author.name +" "+ author.name,
+        text: author.name +" "+ author.surname,
         id: author.id,
     }));
     const languageList = languagedata.$values.map(language => ({

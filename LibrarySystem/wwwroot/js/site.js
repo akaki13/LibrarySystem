@@ -7,6 +7,78 @@ const getstoragelink = "/bookcategory/getstorage";
 const addauthorlink = "/bookcategory/addauthor";
 const deleteauthorlink = "/bookcategory/deleteauthor/";
 const updateauthorlink = "/bookcategory/updateauthor";*/
+function initializePagination() {
+    $('#pagination-container').MyPagination({
+        totalPages: totalPage,
+        visiblePages: 5,
+        onPageClick: function (pageNumber) {
+            pages = pageNumber;
+            displayData();
+        },
+        currentPage: pages
+    });
+}
+
+function CheckSearch(search, titles) {
+    return search.val() ? titles.toLowerCase().includes(search.val().toLowerCase()) : true;
+}
+
+function sortData(data, key) {
+    if (sortBy === key) {
+        if (orderBy === "asc") {
+            return data.$values.sort((a, b) => a[key].localeCompare(b[key]));
+        }
+        else if (orderBy === "desc") {
+            return data.$values.sort((a, b) => b[key].localeCompare(a[key]));
+        }
+    }
+}
+
+function sortTable(data, itemData, relatedData, relatedIdKey, relatedTitleKeys, key) {
+    if (sortBy === key) {
+        if (orderBy === "asc") {
+            return data.$values.sort((a, b) => {
+                const genreA = getEntityTitles(a.id, itemData, relatedData, relatedIdKey, relatedTitleKeys);
+                const genreB = getEntityTitles(b.id, itemData, relatedData, relatedIdKey, relatedTitleKeys);
+                return genreA.localeCompare(genreB);
+            });
+
+        }
+        else if (orderBy === "desc") {
+            return data.$values.sort((a, b) => {
+                const genreA = getEntityTitles(a.id, itemData, relatedData, relatedIdKey, relatedTitleKeys);
+                const genreB = getEntityTitles(b.id, itemData, relatedData, relatedIdKey, relatedTitleKeys);
+                return genreB.localeCompare(genreA);
+            });
+        }
+    }
+}
+
+function sortIntData(data, key) {
+    if (sortBy === key) {
+        if (orderBy === "asc") {
+            return data.$values.sort((a, b) => a[key] - b[key]);
+        }
+        else if (orderBy === "desc") {
+            return data.$values.sort((a, b) => b[key] - a[key]);
+        }
+    }
+}
+
+function creaetTdElement(data) {
+    return $('<td></td>').addClass('text-center').text(data);
+}
+
+function getEntityTitles(itemId, itemData, relatedData, relatedIdKey, relatedTitleKeys) {
+    const itemRelatedItems = itemData.$values.filter(a => a.bookId === itemId);
+    const matchedRelated = relatedData.$values.filter(data =>
+        itemRelatedItems.some(item => item[relatedIdKey] === data.id)
+    );
+    const relatedTitles = matchedRelated.map(i => relatedTitleKeys.map(key => i[key]).join(' '));
+    const titles = relatedTitles.join(', ');
+    return titles;
+}
+
 function postData(url, data) {
     return new Promise((resolve, reject) => {
         $.ajax({

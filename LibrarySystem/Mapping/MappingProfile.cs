@@ -17,6 +17,11 @@ namespace LibrarySystem.Mapping
             CreateMap<AddLanguageApi, Language>();
             CreateMap<AddAuthorApi, Author>();
             CreateMap<AddStorageApi, Storage>();
+            CreateMap<Book, UpdateBookView>();
+            CreateMap<UpdateBookView, BookView>();
+            CreateMap<UpdateBookView, Book>()
+           .ForMember(dest => dest.Id, opt => opt.Ignore())
+           .ForMember(dest => dest.LogsId, opt => opt.Ignore());
             CreateMap<UpdateStorageApi, Storage>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.LogsId, opt => opt.Ignore());

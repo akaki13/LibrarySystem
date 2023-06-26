@@ -17,7 +17,7 @@ const searchCapacity = $("#capacity");
 
 $("#submit").on("click", async function () {
     pages = 1;
-    displayStorage();
+    displayData();
 });
 $(".sort").on("click", async function () {
     sortBy = $(this).data('sort');
@@ -31,7 +31,8 @@ $(".sort").on("click", async function () {
         $(this).addClass('bi-sort-alpha-up');
         orderBy = "asc";
     }
-    displayStorage();
+    pages = 1;
+    displayData();
 });
 
 $(document).on('click', '.create-btn', function () {
@@ -47,7 +48,7 @@ $(document).on('click', '.create-btn', function () {
     var $button = $(this); 
     postData(domainName + addlink, data)
         .then(function (response) {
-            displayStorage();
+            displayData();
         })
         .catch(function (error) {
             if (error.status === 400) {
@@ -66,7 +67,7 @@ $(document).on('click', '.delete-btn', function () {
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', async function () {
         deleteData(domainName + deletelink + id).then(function (response) {
-            displayStorage();
+            displayData();
             deleteModal.hide();
         })
             .catch(function (error) {
@@ -107,8 +108,8 @@ $(document).on('click', '.save-btn', function () {
             }
         });
 });
-displayStorage();
-async function displayStorage() {
+displayData();
+async function displayData() {
     body.empty();
     usernumber = 0;
     alluser = 0;
@@ -116,34 +117,14 @@ async function displayStorage() {
         const [data] = await Promise.all([
             getData(domainName + getlink),
         ]);
-        if (sortBy === "name") {
-            if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.name.localeCompare(a.name));
-            }
-        }
-        if (sortBy === "location") {
-            if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.location.localeCompare(b.location));
-            }
-            else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.location.localeCompare(a.location));
-            }
-        }
-        if (sortBy === "capacity") {
-            if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.capacity - b.capacity);
-            }
-            else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.capacity - a.capacity);
-            }
-        }
+        sortData(data, 'name');
+        sortData(data, 'location');
+        sortIntData(data, 'capacity');
+
         for (const item of data.$values) {
-            const nameMatch = searchName.val() ? item.name.toLowerCase().includes(searchName.val().toLowerCase()) : true;
-            const locatiomMatch = searchLocation.val() ? item.location.toLowerCase().includes(searchLocation.val().toLowerCase()) : true;
-            const capacityMatch = searchCapacity.val() ? item.capacity.toString().toLowerCase().includes(searchCapacity.val().toString().toLowerCase()) : true;
+            const nameMatch = CheckSearch(searchName, item.name);
+            const locatiomMatch = CheckSearch(searchLocation, item.location);
+            const capacityMatch = CheckSearch(searchCapacity, item.capacity);
 
             if (nameMatch && locatiomMatch && capacityMatch) {
                 alluser++;
@@ -167,7 +148,7 @@ async function displayStorage() {
         }
         if (alluser === min && alluser === usernumber) {
             pages--;
-            displayStorage();
+            displayData();
         }
         totalPage = Math.ceil(alluser / usersonpage);    
         initializePagination();
@@ -176,7 +157,7 @@ async function displayStorage() {
     }
 }
 
-function initializePagination() {
+/*function initializePagination() {
     $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,
@@ -187,4 +168,4 @@ function initializePagination() {
         currentPage: pages
     });
     
-}
+}*/

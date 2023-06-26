@@ -37,10 +37,7 @@ namespace LibrarySystemData.Infrastructure
 
         public virtual void  SaveData()
         {
-            
             _context.SaveChanges();
-            
-            
 
         }
 

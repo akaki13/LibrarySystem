@@ -3,8 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Models.View
 {
-    public class AddBookView
+    public class UpdateBookView
     {
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 

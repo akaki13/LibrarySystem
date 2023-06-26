@@ -15,7 +15,7 @@ const search = $("#search");
 
 $("#submit").on("click", async function () {
     pages = 1;
-    displayGenre();
+    displayData();
 });
 $(".sort").on("click", async function () {
     sortBy = $(this).data('sort');
@@ -29,7 +29,8 @@ $(".sort").on("click", async function () {
         $(this).addClass('bi-sort-alpha-up');
         orderBy = "asc";
     }
-    displayGenre();
+    pages = 1;
+    displayData();
 });
 $(document).on('click', '.create-btn', function () {
     var row = $(this).closest('tr');
@@ -40,7 +41,7 @@ $(document).on('click', '.create-btn', function () {
     var $button = $(this); 
     postData(domainName + addgenrelink, data)
         .then(function (response) {
-            displayGenre();
+            displayData();
         })
         .catch(function (error) {
             if (error.status === 400) {
@@ -59,7 +60,7 @@ $(document).on('click', '.delete-btn', function () {
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', function () {
         deleteData(domainName + deletegenrelink + id).then(function (response) {
-            displayGenre();
+            displayData();
             deleteModal.hide();
         })
             .catch(function (error) {
@@ -96,8 +97,8 @@ $(document).on('click', '.save-btn', function () {
             }
         });
 });
-displayGenre();
-async function displayGenre() {
+displayData();
+async function displayData() {
     body.empty();
     usernumber = 0;
     alluser = 0;
@@ -105,14 +106,7 @@ async function displayGenre() {
         const [data] = await Promise.all([
             getData(domainName + getgenrelink),
         ]);
-        if (sortBy === "name") {
-            if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.name.localeCompare(a.name));
-            }
-        }
+        sortData(data, 'name');
         for (const item of data.$values) {
             if (item.name.toLowerCase().includes(search.val().toLowerCase()) || search.val() == "") {
                 alluser++;
@@ -133,7 +127,7 @@ async function displayGenre() {
         }
         if (alluser === min && alluser === usernumber) {
             pages--;
-            displayGenre();
+            displayData();
         }
         totalPage = Math.ceil(alluser / usersonpage);    
         initializePagination();
@@ -142,7 +136,7 @@ async function displayGenre() {
     }
 }
 
-function initializePagination() {
+/*function initializePagination() {
 
     $('#pagination-container').MyPagination({
         totalPages: totalPage,
@@ -154,4 +148,4 @@ function initializePagination() {
         currentPage: pages
     });
     
-}
+}*/

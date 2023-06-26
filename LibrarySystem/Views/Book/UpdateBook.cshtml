@@ -1,10 +1,10 @@
-﻿@model LibrarySystem.Models.View.AddBookView
+﻿@model LibrarySystem.Models.View.UpdateBookView
 @{
     ViewData["Title"] = "Add Book";
 
 }
 
-<form class="card-body cardbody-color p-lg-5" method="post" asp-action="AddBook" asp-controller="Book">
+<form class="card-body cardbody-color p-lg-5" method="post" asp-action="UpdateBook" asp-controller="Book">
 
     <div class="mb-3">
         <p>@ViewBag.ErrorMessage</p>
@@ -19,7 +19,7 @@
         <input type="text" class="form-control" asp-for="Description" placeholder="Description">
         <span class="text-danger" asp-validation-for="Description"></span>
     </div>
-
+   
     <div class="mb-3">
         <p class="mb-1">Genre </p>
         <select class="js-example-basic-multiple" asp-for="GenreId" id="GenreSelect" multiple>
@@ -50,9 +50,10 @@
         </select>
         <span class="text-danger" asp-validation-for="StorageId"></span>
     </div>
+    <input type="hidden" class="form-control" asp-for="Id" class="form-control" value="@Model.Id">
     <div class="text-center">
         <button type="submit" class="btn btn-color px-5 mb-5 w-100">
-            Save Book
+            Update Book
         </button>
     </div>
 </form>

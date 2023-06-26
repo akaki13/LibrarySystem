@@ -15,7 +15,7 @@ const search = $("#search");
 
 $("#submit").on("click", async function () {
     pages = 1;
-    displayPupblisher();
+    displayData();
 });
 
 $(".sort").on("click", async function () {
@@ -32,7 +32,8 @@ $(".sort").on("click", async function () {
         $(this).addClass('bi-sort-alpha-up');
         orderBy = "asc";
     }
-    displayPupblisher();
+    pages = 1;
+    displayData();
 });
 
 
@@ -70,7 +71,7 @@ $(document).on('click', '.delete-btn', function () {
     $(document).on('click', '.confirm-delete', async function () {
         deleteData(domainName + deletepublisherlink + id)
             .then(function (response) {
-                displayPupblisher();
+                displayData();
                 deleteModal.hide();
             })
             .catch(function (error) {
@@ -111,8 +112,8 @@ $(document).on('click', '.save-btn', function () {
         });
 });
 
-displayPupblisher();
-async function displayPupblisher() {
+displayData();
+async function displayData() {
     body.empty();
     usernumber = 0;
     alluser = 0;
@@ -120,22 +121,9 @@ async function displayPupblisher() {
         const [positondata] = await Promise.all([
             getData(domainName + getpublisherlink),
         ]);
-        if (sortBy === "name") {
-            if (orderBy === "asc") {
-                positondata.$values.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            else if (orderBy === "desc") {
-                positondata.$values.sort((a, b) => b.name.localeCompare(a.name));
-            }
-        }
-        if (sortBy === "address") {
-            if (orderBy === "asc") {
-                positondata.$values.sort((a, b) => a.address.localeCompare(b.address));
-            }
-            else if (orderBy === "desc") {
-                positondata.$values.sort((a, b) => b.address.localeCompare(a.address));
-            }
-        }
+        sortData(positondata, 'name');
+        sortData(positondata, 'address');
+
         for (const item of positondata.$values) {
             if (item.name.toLowerCase().includes(search.val().toLowerCase()) || search.val() == "") {
                 alluser++;
@@ -159,7 +147,7 @@ async function displayPupblisher() {
         if (alluser === min && alluser === usernumber)
         {
             pages--;
-           displayPupblisher();
+            displayData();
         }
         initializePagination();
     } catch (error) {
@@ -168,7 +156,7 @@ async function displayPupblisher() {
     }
 }
 
-function initializePagination() {
+/*function initializePagination() {
     $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,
@@ -179,4 +167,4 @@ function initializePagination() {
         currentPage: pages
     });
  
-}
+}*/

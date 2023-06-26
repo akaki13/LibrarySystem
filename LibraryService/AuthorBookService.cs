@@ -53,7 +53,13 @@ namespace LibraryService
             _authorBookRepository.SaveData();
             
         }
+
+        public List<AuthorBook> GetByBookId(int id)
+        {
+            return _authorBookRepository.GetByBookId(id);
+        }
     }
+    
 
     public interface IAuthorBookService
     {
@@ -64,5 +70,6 @@ namespace LibraryService
         AuthorBook GetById(int id);
         void Delete(AuthorBook authorBook);
         void AddMultipleData(int ints, int bookId, int logId);
+        List<AuthorBook> GetByBookId(int id);
     }
 }

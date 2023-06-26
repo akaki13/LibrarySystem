@@ -12,11 +12,15 @@ namespace LibrarySystemData.Repositories
     {
         public BookGenreRepository(LibraryContext context)
            : base(context) { }
+        public List<BookGenre> GetByBookId(int id)
+        { 
+            return _dbSet.Where(i => i.BookId.Equals(id)).ToList();
+        }
 
     }
 
     public interface IBookGenreRepository : IRepositoryBase<BookGenre>
     {
-
+        public List<BookGenre> GetByBookId(int id);
     }
 }

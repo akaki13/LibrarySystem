@@ -1,5 +1,7 @@
 ﻿using HtmlAgilityPack;
 using LibrarySystem.Data;
+using LibrarySystemModels;
+using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -7,34 +9,24 @@ namespace LibrarySystem.Util
 {
     public static class EmailUtil
     {
-        public static async Task  PassworResetLink(string toEmail , string link, IConfiguration configuration)
+        public static async Task  PassworResetLink(string toEmail , string link, IConfiguration configuration, Person person)
         {
-            HtmlDocument doc = new HtmlDocument();
-            doc.Load(DataUtil.PasswordHtml);
-            HtmlNode linkNode = doc.DocumentNode.SelectSingleNode("//a");
 
-            if (linkNode != null)
-            {
-                linkNode.SetAttributeValue("href", link);
-            }
-            var emailSubject = DataUtil.PasswordEmailSubject;
-            var emailMessage = doc.DocumentNode.OuterHtml;
-            await SendEmailAsync(toEmail, emailSubject, emailMessage , configuration);
+            string htmlData = File.ReadAllText(DataUtil.PasswordHtml);
+            htmlData = htmlData.Replace("{FirstName}", person.Firstname);
+            htmlData = htmlData.Replace("{LastName}", person.Lastname);
+            htmlData = htmlData.Replace("{ResetPasswordLink}", link);
+            await SendEmailAsync(toEmail, DataUtil.PasswordEmailSubject, htmlData, configuration);
         }
-
-        public static async Task EmailConfirmedLink(string toEmail, string link, IConfiguration configuration)
+        
+        public static async Task EmailConfirmedLink(string toEmail, string link, IConfiguration configuration, Person person)
         {
-            HtmlDocument doc = new HtmlDocument();
-            doc.Load(DataUtil.EmailHtml);
-            HtmlNode linkNode = doc.DocumentNode.SelectSingleNode("//a");
-
-            if (linkNode != null)
-            {
-                linkNode.SetAttributeValue("href", link);
-            }
-            var emailSubject = DataUtil.ConfirmEmailSubject;
-            var emailMessage = doc.DocumentNode.OuterHtml;
-            await SendEmailAsync(toEmail, emailSubject, emailMessage, configuration);
+           
+            string htmlData = File.ReadAllText(DataUtil.EmailHtml);
+            htmlData = htmlData.Replace("{FirstName}", person.Firstname);
+            htmlData = htmlData.Replace("{LastName}", person.Lastname);
+            htmlData = htmlData.Replace("{EmailCinfirmLink}", link);
+            await SendEmailAsync(toEmail, DataUtil.ConfirmEmailSubject, htmlData, configuration);
         }
 
         public static async Task SendEmailAsync(string email, string subject, string message, IConfiguration configuration)

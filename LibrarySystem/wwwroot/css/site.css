@@ -150,9 +150,9 @@ td[contenteditable="true"] {
 .js-example-basic-multiple {
     width: 300px;
 }
-.btn-color {
-    background-color: #0e1c36;
-    color: #fff;
+
+.card {
+    background-color: #ebf2fa;
 }
 .btn-link {
     border-radius: 5px;
@@ -165,3 +165,8 @@ td[contenteditable="true"] {
         color: white;
         text-decoration: none;
     }
+
+.btn-color {
+    background-color: #0e1c36;
+    color: #fff;
+}

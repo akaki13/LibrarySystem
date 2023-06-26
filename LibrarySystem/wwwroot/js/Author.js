@@ -16,7 +16,7 @@ const searchName = $("#name");
 
 $("#submit").on("click", async function () {
     pages = 1;
-    displayAuthor();
+    displayData();
 });
 $(".sort").on("click", async function () {
     sortBy = $(this).data('sort');
@@ -30,7 +30,8 @@ $(".sort").on("click", async function () {
         $(this).addClass('bi-sort-alpha-up');
         orderBy = "asc";
     }
-    displayAuthor();
+    pages = 1;
+    displayData();
 });
 $(document).on('click', '.create-btn', function () {
     var row = $(this).closest('tr');
@@ -43,7 +44,7 @@ $(document).on('click', '.create-btn', function () {
     var $button = $(this); 
     postData(domainName + addauthorlink, data)
         .then(function (response) {
-            displayAuthor();
+            displayData();
         })
         .catch(function (error) {
             if (error.status === 400) {
@@ -63,7 +64,7 @@ $(document).on('click', '.delete-btn', function () {
     $(document).on('click', '.confirm-delete',async function () {
         deleteData(domainName + deleteauthorlink + id)
             .then(function (response) {
-                displayAuthor();
+                displayData();
                deleteModal.hide();
         })
             .catch(function (error) {
@@ -103,8 +104,8 @@ $(document).on('click', '.save-btn', function () {
             }
         });
 });
-displayAuthor();
-async function displayAuthor() {
+displayData();
+async function displayData() {
     body.empty();
     usernumber = 0;
     alluser = 0;
@@ -151,7 +152,7 @@ async function displayAuthor() {
         }
         if (alluser === min && alluser === usernumber) {
             pages--;
-            displayAuthor();
+            displayData();
         }
         totalPage = Math.ceil(alluser / usersonpage);    
         initializePagination();
@@ -160,7 +161,7 @@ async function displayAuthor() {
     }
 }
 
-function initializePagination() {
+/*function initializePagination() {
     $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,
@@ -171,4 +172,4 @@ function initializePagination() {
         currentPage: pages
     });
     
-}
+}*/

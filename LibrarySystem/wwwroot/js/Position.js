@@ -17,7 +17,7 @@ const searchSalary = $("#salary");
 
 $("#submit").on("click", async function () {
     pages = 1;
-    displayPosition();
+    displayData();
 });
 $(".sort").on("click", async function () {
     sortBy = $(this).data('sort');
@@ -31,7 +31,8 @@ $(".sort").on("click", async function () {
         $(this).addClass('bi-sort-alpha-up');
         orderBy = "asc";
     }
-    displayPosition();
+    pages = 1;
+    displayData();
 });
 $(document).on('click', '.create-btn', function () {
     var row = $(this).closest('tr');
@@ -46,7 +47,7 @@ $(document).on('click', '.create-btn', function () {
     var $button = $(this);
     postData(domainName + addPositionlink, data)
         .then(function (response) {
-            displayPosition();
+            displayData();
         })
         .catch(function (error) {
             if (error.status === 400) {
@@ -65,7 +66,7 @@ $(document).on('click', '.delete-btn', function () {
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', function () {
         deleteData(domainName + deletepositionlink + id).then(function (response) {
-            displayPosition();
+            displayData();
             deleteModal.hide();
         })
             .catch(function (error) {
@@ -105,8 +106,8 @@ $(document).on('click', '.save-btn', function () {
             }
         });
 });
-displayPosition();
-async function displayPosition() {
+displayData();
+async function displayData() {
     body.empty();
     usernumber = 0;
     alluser = 0;
@@ -114,34 +115,14 @@ async function displayPosition() {
         const [positondata] = await Promise.all([
             getData(domainName + getpositionlink),
         ]);
-        if (sortBy === "title") {
-            if (orderBy === "asc") {
-                positondata.$values.sort((a, b) => a.title.localeCompare(b.title));
-            }
-            else if (orderBy === "desc") {
-                positondata.$values.sort((a, b) => b.title.localeCompare(a.title));
-            }
-        }
-        if (sortBy === "description") {
-            if (orderBy === "asc") {
-                positondata.$values.sort((a, b) => a.description.localeCompare(b.description));
-            }
-            else if (orderBy === "desc") {
-                positondata.$values.sort((a, b) => b.description.localeCompare(a.description));
-            }
-        }
-        if (sortBy === "salary") {
-            if (orderBy === "asc") {
-                positondata.$values.sort((a, b) => a.salary - b.salary);
-            }
-            else if (orderBy === "desc") {
-                positondata.$values.sort((a, b) => b.salary - a.salary);
-            }
-        }
+        sortData(data, 'title');
+        sortData(data, 'description');
+        sortIntData(data, 'salary')
+
         for (const item of positondata.$values) {
-            const titleMatch = searchTitle.val() ? item.title.toLowerCase().includes(searchTitle.val().toLowerCase()) : true;
-            const descriptionMatch = searchDescription.val() ? item.description.toLowerCase().includes(searchDescription.val().toLowerCase()) : true;
-            const salaryMatch = searchSalary.val() ? item.salary.toString().toLowerCase().includes(searchSalary.val().toString().toLowerCase()) : true;
+            const titleMatch = CheckSearch(searchTitle, item.title);
+            const descriptionMatch = CheckSearch(searchDescription, item.description); \
+            const salaryMatch = sortIntData(searchSalary, item.salary);
 
             if (titleMatch && descriptionMatch && salaryMatch)  {
             alluser++;
@@ -164,7 +145,7 @@ async function displayPosition() {
         }
         if (alluser === min && alluser === usernumber) {
             pages--;
-            displayPosition();
+            displayData();
         }
         totalPage = Math.ceil(alluser / usersonpage);
         initializePagination();
@@ -174,7 +155,7 @@ async function displayPosition() {
     }
 }
 
-function initializePagination() {
+/*function initializePagination() {
     $('#pagination-container').MyPagination({
         totalPages: totalPage,
         visiblePages: 5,
@@ -184,4 +165,4 @@ function initializePagination() {
         },
         currentPage: pages
     });
-}
+}*/

@@ -8,11 +8,15 @@ namespace LibrarySystemData.Repositories
     {
         public AuthorBookRepository(LibraryContext context)
            : base(context) { }
+        public List<AuthorBook> GetByBookId(int id)
+        {
+            return _dbSet.Where(i => i.BookId.Equals(id)).ToList();
+        }
 
     }
 
     public interface IAuthorBookRepository : IRepositoryBase<AuthorBook>
     {
-
+        List<AuthorBook> GetByBookId(int id);
     }
 }

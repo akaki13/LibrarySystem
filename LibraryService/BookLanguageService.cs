@@ -51,7 +51,11 @@ namespace LibraryService
             };
             _bookLanguageRepository.AddData(data);
             _bookLanguageRepository.SaveData();
-            
+        }
+
+        public List<BookLanguage> GetByBookId(int id)
+        {
+            return _bookLanguageRepository.GetByBookId(id);
         }
     }
 
@@ -64,5 +68,6 @@ namespace LibraryService
         BookLanguage GetById(int id);
         void AddMultipleData(int ints, int bookId, int logId);
         void Delete(BookLanguage bookLanguage);
+        List<BookLanguage> GetByBookId(int id);
     }
 }

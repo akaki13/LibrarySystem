@@ -12,11 +12,15 @@ namespace LibrarySystemData.Repositories
     {
         public BookLanguageRepository(LibraryContext context)
            : base(context) { }
+        public List<BookLanguage> GetByBookId(int id)
+        {
+            return _dbSet.Where(i => i.BookId.Equals(id)).ToList();
+        }
 
     }
 
     public interface IBookLanguageRepository : IRepositoryBase<BookLanguage>
     {
-
+        List<BookLanguage> GetByBookId(int id);
     }
 }
