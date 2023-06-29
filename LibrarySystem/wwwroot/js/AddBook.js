@@ -4,31 +4,6 @@ const getgenrelink = "/bookcategory/getgenres";
 const getpublisherlink = "/bookcategory/getpublishers";
 const getlanguagelink = "/bookcategory/getlanguage";
 const getstoragelink = "/bookcategory/getstorage";
-/*$(document).ready(async function () {
-    const [genredata] = await Promise.all([
-        getData(domainName + getgenrelink),
-    ]);
-    console.log(genredata)
-    const genreList = genredata.$values.map(genre => ({
-        value: genre.name,
-        id: genre.id,
-    }));
-
-    genreInput.autocomplete({
-        source: genreList,
-        minLength: 0,
-        multiselect: true,
-        select: function (event, ui) {
-            const selectedGenreId = ui.item.id;
-            genreId.val(selectedGenreId);
-            console.log(ui.item)
-        }
-    });
-
-    genreInput.on('click', function () {
-        genreInput.autocomplete('search', '');
-    });
-});*/
 
 $(document).ready(async function () {
     const [genredata, publisherdata, authordata, languagedata, storagedata ] = await Promise.all([
