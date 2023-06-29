@@ -42,17 +42,16 @@ namespace LibraryService
             _bookGenreRepository.UpdateData(bookGenre);
         }
 
-        public void AddMultipleData(int ints, int bookId, int logId)
+        public BookGenre AddData(int ints, int bookId)
         {
             var data = new BookGenre
             {
                 BookId = bookId,
                 GenreId = ints,
-                LogsId = logId,
             };
             _bookGenreRepository.AddData(data);
             _bookGenreRepository.SaveData();
-            
+            return data;
         }
 
         public List<BookGenre> GetByBookId(int id)
@@ -69,7 +68,7 @@ namespace LibraryService
         void Save();
         BookGenre GetById(int id);
         void Delete(BookGenre bookGenre);
-        void AddMultipleData(int ints, int bookId, int logId);
+        BookGenre AddData(int ints, int bookId);
         List<BookGenre> GetByBookId(int id);
 
     }

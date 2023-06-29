@@ -46,11 +46,10 @@ $(document).on('click', '.create-btn', function () {
         Address: column2Value,
     };
 
-    var $button = $(this); 
 
     postData(domainName + addpublisherlink, data)
         .then(function (response) {
-            displayPupblisher();
+            displayData();
         })
         .catch(function (error) {
             if (error.status === 400) {

@@ -3,12 +3,11 @@ using LibraryService;
 using LibrarySystem.Data;
 using LibrarySystem.Models.View;
 using LibrarySystem.Util;
-using LibrarySystemData.Repositories;
 using LibrarySystemModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Text.Json;
+
 
 namespace LibrarySystem.Controllers
 {
@@ -119,10 +118,10 @@ namespace LibrarySystem.Controllers
             {
                 var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var book = _bookService.GetById(updateBookView.Id);
-                _mapper.Map(book, updateBookView);
+                _mapper.Map(updateBookView, book);
                 _bookService.Update(book);
-                _tableLogService.Update(book.LogsId);
-                _tableLogService.Save();
+                _bookService.Save();
+                _tableLogService.Update(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
                 DeleteData(updateBookView);
                 var bookview = _mapper.Map<BookView>(updateBookView);
                 AddData(bookview, userID, book.Id);
@@ -147,8 +146,7 @@ namespace LibrarySystem.Controllers
                 DeleteData(bookview);
                 _bookService.Delete(book);
                 _bookService.Save();
-                _tableLogService.Delete(book.LogsId);
-                _tableLogService.Save();
+                _tableLogService.Delete(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
                 return ResultApi.Succeeded();
             }
             else
@@ -164,16 +162,14 @@ namespace LibrarySystem.Controllers
             if (ModelState.IsValid)
             {
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var bookLog = _tableLogService.AddWithId(DataUtil.BookTableName, userID);
-                _tableLogService.Save();
                 var book = new Book
                 {
                     Name = bookView.Name,
                     Description = bookView.Description,
-                    LogsId = bookLog.Id,
                 };
                 _bookService.Add(book);
                 _bookService.Save();
+                _tableLogService.AddData(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
                 AddData(bookView, userID, book.Id);
                 return RedirectToAction("Index", "Book");
             }
@@ -187,33 +183,30 @@ namespace LibrarySystem.Controllers
         {
             foreach (int i in bookView.AuthorId)
             {
-                var authorBookLog = _tableLogService.AddWithId(DataUtil.AuthorBookTableName, userID);
-                _tableLogService.Save();
-                _authorBookService.AddMultipleData(i, id, authorBookLog.Id);
+                var data  = _authorBookService.AddData(i, id);
+                _tableLogService.AddData(DataUtil.AuthorBookTableName, data.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+
             }
             foreach (int i in bookView.GenreId)
             {
-                var genreBookLog = _tableLogService.AddWithId(DataUtil.BookGenreTableName, userID);
-                _tableLogService.Save();
-                _bookGenreService.AddMultipleData(i, id, genreBookLog.Id);
+                var data = _bookGenreService.AddData(i, id);
+                _tableLogService.AddData(DataUtil.BookGenreTableName, data.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
             }
             foreach (int i in bookView.LanguageId)
             {
-                var log = _tableLogService.AddWithId(DataUtil.BookLanguageTableName, userID);
-                _tableLogService.Save();
-                _bookLanguageService.AddMultipleData(i, id, log.Id);
+                var data =  _bookLanguageService.AddData(i, id);
+                _tableLogService.AddData(DataUtil.BookLanguageTableName, data.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
             }
             foreach (int i in bookView.PublisherId)
             {
-                var log = _tableLogService.AddWithId(DataUtil.BookPublisherTableName, userID);
-                _tableLogService.Save();
-                _bookPublisherService.AddMultipleData(i, id, log.Id);
+                var data = _bookPublisherService.AddData(i, id);
+                _tableLogService.AddData(DataUtil.BookPublisherTableName, data.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
             }
             foreach (int i in bookView.StorageId)
             {
-                var log = _tableLogService.AddWithId(DataUtil.BookStorageTableName, userID);
-                _tableLogService.Save();
-                _bookStorageService.AddMultipleData(i, id, log.Id);
+                var data = _bookStorageService.AddData(i, id);
+                _tableLogService.AddData(DataUtil.BookStorageTableName, data.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+
             }
         }
 
@@ -222,42 +215,43 @@ namespace LibrarySystem.Controllers
             var genres = _bookGenreService.GetByBookId(bookView.Id);
             foreach (var genre in genres)
             {
-                _tableLogService.Delete(genre.LogsId);
-                _tableLogService.Save();
                 _bookGenreService.Delete(genre);
                 _bookGenreService.Save();
+                _tableLogService.Delete(DataUtil.BookGenreTableName, genre.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
             }
             var languages = _bookLanguageService.GetByBookId(bookView.Id);
             foreach (var language in languages)
             {
-                _tableLogService.Delete(language.LogsId);
-                _tableLogService.Save();
                 _bookLanguageService.Delete(language);
                 _bookGenreService.Save();
+                _tableLogService.Delete(DataUtil.BookLanguageTableName, language.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
             }
             var publishers = _bookPublisherService.GetByBookId(bookView.Id);
             foreach (var publisher in publishers)
             {
-                _tableLogService.Delete(publisher.LogsId);
-                _tableLogService.Save();
+
                 _bookPublisherService.Delete(publisher);
                 _bookPublisherService.Save();
+                _tableLogService.Delete(DataUtil.BookPublisherTableName, publisher.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
             }
             var storages = _bookStorageService.GetByBookId(bookView.Id);
             foreach (var storage in storages)
             {
-                _tableLogService.Delete(storage.LogsId);
-                _tableLogService.Save();
                 _bookStorageService.Delete(storage);
                 _bookStorageService.Save();
+                _tableLogService.Delete(DataUtil.BookStorageTableName, storage.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
             }
             var authors = _authorBookService.GetByBookId(bookView.Id);
             foreach (var author in authors)
             {
-                _tableLogService.Delete(author.LogsId);
-                _tableLogService.Save();
                 _authorBookService.Delete(author);
                 _authorBookService.Save();
+                _tableLogService.Delete(DataUtil.AuthorBookTableName, author.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
             }
         }
 

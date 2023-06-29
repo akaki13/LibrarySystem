@@ -11,7 +11,7 @@ namespace LibrarySystemData.Configuration
     public class UserConfiguration : EntityTypeConfiguration<User>
     {
         public UserConfiguration() {
-           
+   
         }
     }
 }

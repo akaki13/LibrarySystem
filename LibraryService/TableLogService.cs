@@ -12,39 +12,46 @@ namespace LibraryService
             _tableLogRepository = tableLogRepository;
         }
 
-        public TableLog Add(string tableName)
+        public void AddData(string tableName, int tableId, string status, string description, int? userID)
         {
-            return _tableLogRepository.AddData(tableName).Result;
-        }
-        public TableLog AddWithId(string tableName,int id)
-        {
-            return _tableLogRepository.AddDataWithId(tableName,id).Result;
-        }
-
-        public void Update(int id)
-        {
-             _tableLogRepository.UpdateData(id);
-        }
-
-        public void Delete(int id)
-        {
-            _tableLogRepository.DeleteData(id);
-        }
-
-        public void Save()
-        {
+            var tableLog = new TableLog
+            {
+                TableName = tableName,
+                TableId = tableId,
+                CreateDate = DateTime.Now,
+                Status = status,
+                Description = description,
+                UserId = userID,
+            };
+            _tableLogRepository.AddData(tableLog);
             _tableLogRepository.SaveData();
         }
 
+        public void Update(string tableName, int tableId, string status, string description)
+        {
+            var tableLog = _tableLogRepository.GetData(tableName, tableId);
+            tableLog.CreateDate = DateTime.Now;
+            tableLog.Status = status;
+            tableLog.Description = description;
+            _tableLogRepository.UpdateData(tableLog);
+            _tableLogRepository.SaveData();
+        }
+
+        public void Delete(string tableName, int tableId, string status, string description)
+        {
+            var tableLog = _tableLogRepository.GetData(tableName, tableId);
+            tableLog.DeleteDate = DateTime.Now;
+            tableLog.Status = status;
+            tableLog.Description = description;
+            _tableLogRepository.UpdateData(tableLog);
+            _tableLogRepository.SaveData();
+        }
     }
 
     public interface ITableLogService
     {
-        TableLog Add(string tableName);
-        void Update(int id);
-        void Save();
-        void Delete(int id);
-        TableLog AddWithId(string tableName, int id);
-
+        void AddData(string tableName, int tableId, string status, string description, int? userID);
+        void Update(string tableName, int tableId, string status, string description);
+        void Delete(string tableName, int tableId, string status, string description);
     }
 }

@@ -115,19 +115,18 @@ async function displayData() {
         const [positondata] = await Promise.all([
             getData(domainName + getpositionlink),
         ]);
-        sortData(data, 'title');
-        sortData(data, 'description');
-        sortIntData(data, 'salary')
+        sortData(positondata, 'title');
+        sortData(positondata, 'description');
+        sortIntData(positondata, 'salary')
 
         for (const item of positondata.$values) {
             const titleMatch = CheckSearch(searchTitle, item.title);
-            const descriptionMatch = CheckSearch(searchDescription, item.description); \
-            const salaryMatch = sortIntData(searchSalary, item.salary);
-
+            const descriptionMatch = CheckSearch(searchDescription, item.description); 
+            const salaryMatch = CheckSearch(searchSalary, item.salary);
             if (titleMatch && descriptionMatch && salaryMatch)  {
-            alluser++;
-            var sum = usersonpage * pages;
-            var min = sum - usersonpage;
+                alluser++;
+                var sum = usersonpage * pages;
+                var min = sum - usersonpage;
                 if (usernumber < sum && usernumber >= min) {
                     var trElement = $('<tr></tr>').attr('data-value', item.id);
                     var tdElement1 = $('<td></td>').addClass('text-center').text(item.title);

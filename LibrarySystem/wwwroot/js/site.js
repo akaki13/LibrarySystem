@@ -65,7 +65,7 @@ function sortIntData(data, key) {
     }
 }
 
-function creaetTdElement(data) {
+function creatTdElement(data) {
     return $('<td></td>').addClass('text-center').text(data);
 }
 

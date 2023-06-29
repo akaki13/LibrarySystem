@@ -41,16 +41,16 @@ namespace LibraryService
         {
             _bookLanguageRepository.UpdateData(bookLanguage);
         }
-        public void AddMultipleData(int ints, int bookId, int logId)
+        public  BookLanguage AddData(int ints, int bookId)
         {
             var data = new BookLanguage
             {
                 BookId = bookId,
                 LanguagesId = ints,
-                LogsId = logId,
             };
             _bookLanguageRepository.AddData(data);
             _bookLanguageRepository.SaveData();
+            return data;
         }
 
         public List<BookLanguage> GetByBookId(int id)
@@ -66,7 +66,7 @@ namespace LibraryService
         void Update(BookLanguage bookLanguage);
         void Save();
         BookLanguage GetById(int id);
-        void AddMultipleData(int ints, int bookId, int logId);
+        BookLanguage AddData(int ints, int bookId);
         void Delete(BookLanguage bookLanguage);
         List<BookLanguage> GetByBookId(int id);
     }

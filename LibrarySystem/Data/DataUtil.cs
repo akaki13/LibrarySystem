@@ -34,6 +34,11 @@ namespace LibrarySystem.Data
         public const string ModelNotValid = "model is not valid";
         public const string PasswordEmailSubject = "Reset your password";
         public const string ConfirmEmailSubject = "Confirm your email";
+        public const string TableStatusInfo = "Info";
+        public const string TableStatusError = "Error";
+        public const string NewData = "Created New data";
+        public const string UpdateData = "Data Updated";
+        public const string DeleteData = "Data Deleted";
 
     }
 }

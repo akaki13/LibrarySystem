@@ -9,10 +9,8 @@ namespace LibrarySystemModels
         public int? BookId { get; set; }
         public int? LanguagesId { get; set; }
         public int? NumberOfBook { get; set; }
-        public int LogsId { get; set; }
 
         public virtual Book Book { get; set; }
         public virtual Language Languages { get; set; }
-        public virtual TableLog Logs { get; set; }
     }
 }

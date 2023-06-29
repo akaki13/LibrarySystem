@@ -41,19 +41,16 @@ namespace LibraryService
         {
             _bookStorageRepository.UpdateData(bookStorage);
         }
-        public void AddMultipleData(int ints, int bookId, int logId)
+        public BookStorage AddData(int ints, int bookId)
         {
-
-
             var data = new BookStorage
             {
                 BookId = bookId,
                 StorageId = ints,
-                LogsId = logId,
             };
             _bookStorageRepository.AddData(data);
             _bookStorageRepository.SaveData();
-            
+            return data;
         }
 
         public List<BookStorage> GetByBookId(int id)
@@ -70,7 +67,7 @@ namespace LibraryService
         void Save();
         BookStorage GetById(int id);
         void Delete(BookStorage bookStorage);
-        void AddMultipleData(int ints, int bookId, int logId);
+        BookStorage AddData(int ints, int bookId);
         List<BookStorage> GetByBookId(int id);
     }
 }

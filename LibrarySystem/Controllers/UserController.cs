@@ -70,11 +70,10 @@ namespace LibrarySystem.Controllers
             {
                 var savePosition = _mapper.Map<Position>(position);
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var tableLog = _tableLogService.AddWithId(DataUtil.PositionTableName, userID);
-                _tableLogService.Save();
-                savePosition.LogsId = tableLog.Id;
                 _positionService.Add(savePosition);
                 _positionService.Save();
+                _tableLogService.AddData(DataUtil.PositionTableName, savePosition.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+
                 return ResultApi.CreateData(savePosition.Id);
             }
             else
@@ -87,7 +86,6 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public ActionResult UpdatePosition(UpdatePositionApi position)
         {
-            Console.WriteLine(position);
             if (ModelState.IsValid)
             {
 
@@ -97,8 +95,7 @@ namespace LibrarySystem.Controllers
                     _mapper.Map(position, updatePosition);
                     _positionService.Update(updatePosition);
                     _positionService.Save();
-                    _tableLogService.Update(updatePosition.LogsId);
-                    _tableLogService.Save();
+                    _tableLogService.Update(DataUtil.PositionTableName, updatePosition.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
                     return ResultApi.Succeeded();
                 }
                 else
@@ -119,11 +116,18 @@ namespace LibrarySystem.Controllers
             var position = _positionService.GetById(id);
             if(position != null)
             {
-                _tableLogService.Delete(position.LogsId);
-                _tableLogService.Save();
-                _positionService.Delete(position);
-                _positionService.Save();
-                return ResultApi.Succeeded();
+                try
+                {
+                    _positionService.Update(position);
+                    _positionService.Save();
+                    _tableLogService.Delete(DataUtil.PositionTableName, position.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+                    return ResultApi.Succeeded();
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Update(DataUtil.PositionTableName, position.Id, DataUtil.TableStatusError, e.Message);
+                    return ResultApi.Failed();
+                }
             }
             else
             {

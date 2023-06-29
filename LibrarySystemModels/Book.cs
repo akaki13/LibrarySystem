@@ -18,9 +18,7 @@ namespace LibrarySystemModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int LogsId { get; set; }
 
-        public virtual TableLog Logs { get; set; }
         public virtual ICollection<AuthorBook> AuthorBooks { get; set; }
         public virtual ICollection<BookGenre> BookGenres { get; set; }
         public virtual ICollection<BookLanguage> BookLanguages { get; set; }

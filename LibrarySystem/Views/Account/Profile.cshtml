@@ -69,7 +69,7 @@
                                         <p class="mb-0">Data of Birth</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p class=" mb-0">@Model.Person.DateOfBirth.ToShortDateString()</p>
+                                        <p class=" mb-0">@Model.Person.DateOfBirth?.ToShortDateString()</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -93,7 +93,7 @@
 
                     <div class="buttons ">
 
-                            <a class="btn btn-outline-primary px-4" asp-controller="Account" asp-action="EditProfile">Edit Profile</a>
+                            <a class="btn-link px-4" asp-controller="Account" asp-action="EditProfile">Edit Profile</a>
                     </div>
 
 

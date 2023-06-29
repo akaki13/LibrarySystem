@@ -1,6 +1,7 @@
 ﻿
 using LibrarySystem.Data;
 using LibrarySystem.Models.Json;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 
 namespace LibrarySystem.Util
@@ -15,6 +16,10 @@ namespace LibrarySystem.Util
                 string json = r.ReadToEnd();
                 return JsonConvert.DeserializeObject<List<Menu>>(json);
             }
+        }
+        public static string SerializeObject<T>(T model)
+        {
+            return JsonConvert.SerializeObject(model);
         }
     }
 }

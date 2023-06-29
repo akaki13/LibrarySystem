@@ -114,7 +114,7 @@ async function displayData() {
                 var min = sum - usersonpage;
                 if (usernumber < sum && usernumber >= min) {
                     var trElement = $('<tr></tr>').attr('data-value', item.id);
-                    var tdElement1 = $('<td></td>').addClass('text-center').text(item.name);
+                    var tdElement1 = creatTdElement(item.name);
                     var tdElement2 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
                     trElement.append(tdElement1, tdElement2);
                     body.append(trElement);

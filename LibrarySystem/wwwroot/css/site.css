@@ -25,6 +25,10 @@ button {
     border: none;
     transition: .5s ease;
 }
+.button:hover {
+    text-decoration: none;
+    background: #d63384;
+}
 .navbar a:hover,
 .navbar .active,
 .navbar .active:focus,
@@ -35,6 +39,10 @@ button {
     color: #000000
 }
 
+.btn-primary {
+    margin-bottom: 5px;
+    background: #630fe8;
+}
 
 
 .btn {

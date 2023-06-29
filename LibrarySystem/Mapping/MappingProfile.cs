@@ -20,29 +20,22 @@ namespace LibrarySystem.Mapping
             CreateMap<Book, UpdateBookView>();
             CreateMap<UpdateBookView, BookView>();
             CreateMap<UpdateBookView, Book>()
-           .ForMember(dest => dest.Id, opt => opt.Ignore())
-           .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+           .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdateStorageApi, Storage>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdateAuthorApi, Author>()
-              .ForMember(dest => dest.Id, opt => opt.Ignore())
-              .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+              .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdateLanguageApi, Language>()
-              .ForMember(dest => dest.Id, opt => opt.Ignore())
-              .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+              .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdatePublisherApi, Publisher>()
-               .ForMember(dest => dest.Id, opt => opt.Ignore())
-               .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+               .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdateGenreApi, Genre>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdatePositionApi, Position>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<EditProfileView, Person>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.LogsId, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+         
 
         }
     }

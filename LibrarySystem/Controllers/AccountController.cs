@@ -72,6 +72,7 @@ namespace LibrarySystem.Controllers
             person.EmailIsConfiormed = true;
             _personService.Update(person);
             _personService.Save();
+            _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
             ViewBag.ErrorMessage = DataUtil.EmailConfirmed;
             return View();
         }
@@ -95,6 +96,7 @@ namespace LibrarySystem.Controllers
                 user.Password = resetPassword.Password;
                 _userService.Update(user);
                 _userService.Save();
+                _tableLogService.Update(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
                 return View();
             }
             else
@@ -128,9 +130,8 @@ namespace LibrarySystem.Controllers
                 var person = _personService.GetById(user.PersonId);
                 _mapper.Map(edit, person);
                 _personService.Update(person);
-                _personService.Save();
-                _tableLogService.Update(person.LogsId);
-                _tableLogService.Save();
+                _personService.Save();  
+                _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -149,38 +150,34 @@ namespace LibrarySystem.Controllers
                 {
                     return result;
                 }
-                var personLog = _tableLogService.Add(DataUtil.PersonTableName);
-                _tableLogService.Save();
                 var person = _mapper.Map<Person>(registerDetails);
-                person.LogsId = personLog.Id;
                 person.EmailIsConfiormed = false;
                 _personService.Add(person);
                 _personService.Save();
-                var userLog = _tableLogService.Add(DataUtil.UserTableName);
-                _tableLogService.Save();
+
                 User user = new User
                 {
                     Login = registerDetails.Login,
                     Password = registerDetails.Password,
                     PersonId = person.Id,
-                    LogsId = userLog.Id,
                 };
                 _userService.Add(user);
                 _userService.Save();
+                _tableLogService.AddData(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.NewData, null);
+                _tableLogService.AddData(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.NewData, null);
                 var role = _roleService.GetByTitle(DataUtil.Role);
-                var roleUserLog = _tableLogService.Add(DataUtil.UserRoleTableName);
-                _tableLogService.Save();
                 RoleUser roleUser = new RoleUser
                 {
                     RoleId = role.Id,
                     UsersId = user.Id,
-                    LogsId = roleUserLog.Id,
                 };
                 _roleUserService.Add(roleUser);
                 _roleUserService.Save();
+                _tableLogService.AddData(DataUtil.UserRoleTableName, roleUser.Id, DataUtil.TableStatusInfo, DataUtil.NewData, null);
+
                 var tokenEmail = TokenUtil.CreateToken(person.Id.ToString(), _configuration);
                 var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, Request.Scheme);
-                await EmailUtil.EmailConfirmedLink(person.Email,link, _configuration, person);
+                await EmailUtil.EmailConfirmedLink(person.Email, link, _configuration, person);
                 return View();
             }
             else
@@ -279,7 +276,7 @@ namespace LibrarySystem.Controllers
                 ViewBag.ErrorMessage = DataUtil.EmailExist;
                 return View("Register", registerDetails);
             }
-            if (registerDetails.ConfirmPassword == registerDetails.Password)
+            if (registerDetails.ConfirmPassword != registerDetails.Password)
             {
                 ViewBag.ErrorMessage = DataUtil.PasswordsMatch;
                 return View("Register", registerDetails);

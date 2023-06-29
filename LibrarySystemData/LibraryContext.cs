@@ -41,8 +41,7 @@ namespace LibrarySystemData
         {
             if (!optionsBuilder.IsConfigured)
             {
-/*#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-47MVG9S;Database=library1;Trusted_Connection=True;MultipleActiveResultSets=true");*/
+                optionsBuilder.UseSqlServer("Server=DESKTOP-47MVG9S;Database=library;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -52,20 +51,13 @@ namespace LibrarySystemData
             {
                 entity.ToTable("Author");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
-
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Authors)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Author__Logs_id__403A8C7D");
+                    .IsUnicode(false);               
             });
 
             modelBuilder.Entity<AuthorBook>(entity =>
@@ -76,7 +68,6 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.BookId).HasColumnName("Book_id");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.HasOne(d => d.Autor)
                     .WithMany(p => p.AuthorBooks)
@@ -88,10 +79,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Author_Bo__Book___5DCAEF64");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.AuthorBooks)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Author_Bo__Logs___5CD6CB2B");
+                
             });
 
             modelBuilder.Entity<Book>(entity =>
@@ -102,16 +90,12 @@ namespace LibrarySystemData
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Books)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Book__Logs_id__4BAC3F29");
+              
             });
 
             modelBuilder.Entity<BookGenre>(entity =>
@@ -122,7 +106,6 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.GenreId).HasColumnName("Genre_id");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.BookGenres)
@@ -134,10 +117,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.GenreId)
                     .HasConstraintName("FK__Book_Genr__Genre__59FA5E80");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.BookGenres)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Book_Genr__Logs___5812160E");
+              
             });
 
             modelBuilder.Entity<BookLanguage>(entity =>
@@ -148,7 +128,6 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.LanguagesId).HasColumnName("Languages_id");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.BookLanguages)
@@ -160,10 +139,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.LanguagesId)
                     .HasConstraintName("FK__Book_Lang__Langu__1AD3FDA4");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.BookLanguages)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Book_Lang__Logs___18EBB532");
+             
             });
 
             modelBuilder.Entity<BookPublisher>(entity =>
@@ -172,7 +148,6 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.BookId).HasColumnName("Book_id");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.PublisherId).HasColumnName("Publisher_id");
 
@@ -181,10 +156,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Book_Publ__Book___5441852A");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.BookPublishers)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Book_Publ__Logs___534D60F1");
+             
 
                 entity.HasOne(d => d.Publisher)
                     .WithMany(p => p.BookPublishers)
@@ -198,7 +170,6 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.BookId).HasColumnName("Book_id");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.StorageId).HasColumnName("Storage_id");
 
@@ -207,10 +178,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Book_Stor__Book___4F7CD00D");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.BookStorages)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Book_Stor__Logs___4E88ABD4");
+                
 
                 entity.HasOne(d => d.Storage)
                     .WithMany(p => p.BookStorages)
@@ -226,7 +194,6 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.BookId).HasColumnName("Book_id");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.PersonId).HasColumnName("Person_id");
 
@@ -243,10 +210,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Borrows__Book_id__72C60C4A");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Borrows)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Borrows__Logs_id__70DDC3D8");
+                
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Borrows)
@@ -256,30 +220,22 @@ namespace LibrarySystemData
 
             modelBuilder.Entity<Genre>(entity =>
             {
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Genres)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Genre__Logs_id__45F365D3");
+                
             });
 
             modelBuilder.Entity<Language>(entity =>
             {
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Languages)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Languages__Logs___160F4887");
+                
             });
 
             modelBuilder.Entity<Person>(entity =>
@@ -308,32 +264,24 @@ namespace LibrarySystemData
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Phone)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.People)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Person__Logs_id__398D8EEE");
+               
             });
 
             modelBuilder.Entity<PersonPosition>(entity =>
             {
                 entity.ToTable("Person_Position");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.PersonId).HasColumnName("Person_id");
 
                 entity.Property(e => e.PositionId).HasColumnName("Position_id");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.PersonPositions)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Person_Po__Logs___6C190EBB");
+                
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.PersonPositions)
@@ -354,16 +302,13 @@ namespace LibrarySystemData
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
+               
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Positions)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Position__Logs_i__6477ECF3");
+               
             });
 
             modelBuilder.Entity<Publisher>(entity =>
@@ -374,48 +319,35 @@ namespace LibrarySystemData
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Publishers)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Publisher__Logs___48CFD27E");
+               
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Roles)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Role__Logs_id__619B8048");
             });
 
             modelBuilder.Entity<RoleUser>(entity =>
             {
                 entity.ToTable("Role_Users");
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.RoleId).HasColumnName("Role_id");
 
                 entity.Property(e => e.UsersId).HasColumnName("Users_id");
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.RoleUsers)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Role_User__Logs___6754599E");
+             
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.RoleUsers)
@@ -436,16 +368,12 @@ namespace LibrarySystemData
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Storages)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Storage__Logs_id__4316F928");
+                
             });
 
             modelBuilder.Entity<TableLog>(entity =>
@@ -469,6 +397,14 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.UserId).HasColumnName("User_id");
 
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TableLogs)
                     .HasForeignKey(d => d.UserId)
@@ -481,18 +417,12 @@ namespace LibrarySystemData
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LogsId).HasColumnName("Logs_id");
 
                 entity.Property(e => e.Password)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PersonId).HasColumnName("Person_id");
-
-                entity.HasOne(d => d.Logs)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.LogsId)
-                    .HasConstraintName("FK__Users__Logs_id__3C69FB99");
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Users)

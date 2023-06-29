@@ -41,17 +41,17 @@ namespace LibraryService
         {
             _authorBookRepository.UpdateData(authorBook);
         }
-        public void AddMultipleData(int ints , int bookId,int logId)
+        public AuthorBook AddData(int ints, int bookId)
         {
             var bookAuthor = new AuthorBook
             {
                 BookId = bookId,
                 AutorId = ints,
-                LogsId = logId
+
             };
             _authorBookRepository.AddData(bookAuthor);
             _authorBookRepository.SaveData();
-            
+            return bookAuthor;
         }
 
         public List<AuthorBook> GetByBookId(int id)
@@ -69,7 +69,7 @@ namespace LibraryService
         void Save();
         AuthorBook GetById(int id);
         void Delete(AuthorBook authorBook);
-        void AddMultipleData(int ints, int bookId, int logId);
+        AuthorBook AddData(int ints, int bookId);
         List<AuthorBook> GetByBookId(int id);
     }
 }

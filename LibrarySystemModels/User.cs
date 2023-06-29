@@ -15,9 +15,7 @@ namespace LibrarySystemModels
         public int? PersonId { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public int? LogsId { get; set; }
 
-        public virtual TableLog Logs { get; set; }
         public virtual Person Person { get; set; }
         public virtual ICollection<RoleUser> RoleUsers { get; set; }
         public virtual ICollection<TableLog> TableLogs { get; set; }
