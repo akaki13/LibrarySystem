@@ -40,6 +40,10 @@ namespace LibrarySystemData.Infrastructure
             _context.SaveChanges();
 
         }
+        public virtual void DiscardChanges()
+        {
+            _context.ChangeTracker.Clear();
+        }
 
         public virtual async Task<T> FindById(int? id)
         {

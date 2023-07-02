@@ -1,5 +1,6 @@
 ﻿using LibrarySystemData.Repositories;
 using LibrarySystemModels;
+using System.Security.Cryptography;
 
 namespace LibraryService
 {
@@ -30,7 +31,7 @@ namespace LibraryService
         public void Update(string tableName, int tableId, string status, string description)
         {
             var tableLog = _tableLogRepository.GetData(tableName, tableId);
-            tableLog.CreateDate = DateTime.Now;
+            tableLog.ChangeDate = DateTime.Now;
             tableLog.Status = status;
             tableLog.Description = description;
             _tableLogRepository.UpdateData(tableLog);
@@ -46,6 +47,10 @@ namespace LibraryService
             _tableLogRepository.UpdateData(tableLog);
             _tableLogRepository.SaveData();
         }
+        public void Discard()
+        {
+            _tableLogRepository.DiscardChanges();
+        }
     }
 
     public interface ITableLogService
@@ -53,5 +58,6 @@ namespace LibraryService
         void AddData(string tableName, int tableId, string status, string description, int? userID);
         void Update(string tableName, int tableId, string status, string description);
         void Delete(string tableName, int tableId, string status, string description);
+        void Discard();
     }
 }

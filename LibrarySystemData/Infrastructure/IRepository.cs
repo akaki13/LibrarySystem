@@ -10,5 +10,6 @@ namespace LibrarySystemData.Infrastructure
         Task<T> FindById (int? id);
         Task<List<T>> TakeAll();
         void DeleteData(T data);
+        void DiscardChanges();
     }
 }

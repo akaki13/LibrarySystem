@@ -112,6 +112,7 @@ namespace LibrarySystem.Controllers
                 }
                 catch (Exception e)
                 {
+                    _tableLogService.Discard();
                     _tableLogService.Update(DataUtil.GenreTableName, genre.Id, DataUtil.TableStatusError, e.Message);
                     return ResultApi.Failed();
                 }
@@ -212,6 +213,7 @@ namespace LibrarySystem.Controllers
                 }
                 catch (Exception e)
                 {
+                    _tableLogService.Discard();
                     _tableLogService.Update(DataUtil.PublisherTableName, publisher.Id, DataUtil.TableStatusError, e.Message);
                     return ResultApi.Failed();
                 }
@@ -252,6 +254,7 @@ namespace LibrarySystem.Controllers
                 }
                 catch (Exception e)
                 {
+                    _tableLogService.Discard();
                     _tableLogService.Update(DataUtil.LanguageTableName, language.Id, DataUtil.TableStatusError, e.Message);
                     return ResultApi.Failed();
                 }
@@ -333,6 +336,7 @@ namespace LibrarySystem.Controllers
                 }
                 catch (Exception e)
                 {
+                    _tableLogService.Discard();
                     _tableLogService.Update(DataUtil.AuthorTableName, author.Id, DataUtil.TableStatusError, e.Message);
                     return ResultApi.Failed();
                 }
@@ -413,6 +417,7 @@ namespace LibrarySystem.Controllers
                 }
                 catch (Exception e)
                 {
+                    _tableLogService.Discard();
                     _tableLogService.Update(DataUtil.StorageTableName, storage.Id, DataUtil.TableStatusError, e.Message);
                     return ResultApi.Failed();
                 }

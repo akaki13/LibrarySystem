@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryService;
 using LibrarySystem.Data;
+using LibrarySystem.Models.Email;
 using LibrarySystem.Models.View;
 using LibrarySystem.Util;
 using LibrarySystemModels;
@@ -163,8 +164,8 @@ namespace LibrarySystem.Controllers
                 };
                 _userService.Add(user);
                 _userService.Save();
-                _tableLogService.AddData(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.NewData, null);
-                _tableLogService.AddData(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.NewData, null);
+                _tableLogService.AddData(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
+                _tableLogService.AddData(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
                 var role = _roleService.GetByTitle(DataUtil.Role);
                 RoleUser roleUser = new RoleUser
                 {
@@ -173,11 +174,17 @@ namespace LibrarySystem.Controllers
                 };
                 _roleUserService.Add(roleUser);
                 _roleUserService.Save();
-                _tableLogService.AddData(DataUtil.UserRoleTableName, roleUser.Id, DataUtil.TableStatusInfo, DataUtil.NewData, null);
+                _tableLogService.AddData(DataUtil.UserRoleTableName, roleUser.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
 
                 var tokenEmail = TokenUtil.CreateToken(person.Id.ToString(), _configuration);
                 var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, Request.Scheme);
-                await EmailUtil.EmailConfirmedLink(person.Email, link, _configuration, person);
+                var emailmodel = new EmailModel
+                {
+                    FirstName = person.Firstname,
+                    LastName = person.Lastname,
+                    Link = link,
+                };
+                await EmailUtil.EmailConfirmedLink(person.Email, _configuration, emailmodel);
                 return View();
             }
             else
@@ -249,7 +256,13 @@ namespace LibrarySystem.Controllers
                 {
                     var token = TokenUtil.CreateToken(user.Id.ToString(), _configuration);
                     var link =  Url.Action("ResetPassword", "Account", new { token = token }, Request.Scheme);
-                    await EmailUtil.PassworResetLink(forgot.Email, link , _configuration , person);
+                    var emailmodel = new EmailModel
+                    {
+                        FirstName = person.Firstname,
+                        LastName = person.Lastname,
+                        Link = link,
+                    };
+                    await EmailUtil.PassworResetLink(forgot.Email , _configuration , emailmodel);
                 }
             }
             return View();

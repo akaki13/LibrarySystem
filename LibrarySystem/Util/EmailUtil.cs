@@ -1,31 +1,46 @@
 ﻿using HtmlAgilityPack;
 using LibrarySystem.Data;
+using LibrarySystem.Models.Email;
 using LibrarySystemModels;
 using System;
 using System.Net;
 using System.Net.Mail;
+using static System.Net.Mime.MediaTypeNames;
+using System.Reflection;
 
 namespace LibrarySystem.Util
 {
     public static class EmailUtil
     {
-        public static async Task  PassworResetLink(string toEmail , string link, IConfiguration configuration, Person person)
+        public static async Task  PassworResetLink(string toEmail , IConfiguration configuration, EmailModel model)
         {
 
             string htmlData = File.ReadAllText(DataUtil.PasswordHtml);
-            htmlData = htmlData.Replace("{FirstName}", person.Firstname);
-            htmlData = htmlData.Replace("{LastName}", person.Lastname);
-            htmlData = htmlData.Replace("{ResetPasswordLink}", link);
+            Type modelType = model.GetType();
+            PropertyInfo[] properties = modelType.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                string placeholder = "{" + property.Name + "}";
+                string value = property.GetValue(model)?.ToString();
+                htmlData = htmlData.Replace(placeholder, value);
+            }
             await SendEmailAsync(toEmail, DataUtil.PasswordEmailSubject, htmlData, configuration);
         }
         
-        public static async Task EmailConfirmedLink(string toEmail, string link, IConfiguration configuration, Person person)
+        public static async Task EmailConfirmedLink(string toEmail, IConfiguration configuration, EmailModel model)
         {
            
             string htmlData = File.ReadAllText(DataUtil.EmailHtml);
-            htmlData = htmlData.Replace("{FirstName}", person.Firstname);
-            htmlData = htmlData.Replace("{LastName}", person.Lastname);
-            htmlData = htmlData.Replace("{EmailCinfirmLink}", link);
+            Type modelType = model.GetType();
+            PropertyInfo[] properties = modelType.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                string placeholder = "{" + property.Name + "}";
+                string value = property.GetValue(model)?.ToString();
+                htmlData = htmlData.Replace(placeholder, value);
+            }
             await SendEmailAsync(toEmail, DataUtil.ConfirmEmailSubject, htmlData, configuration);
         }
 

@@ -47,11 +47,9 @@ $(document).on('click', '.create-btn', function () {
             displayData();
         })
         .catch(function (error) {
-            if (error.status === 400) {
-                alert("Error: " + error.responseText);
-            } else {
-                alert("An error occurred while processing the request.");
-            }
+            var exampleModal = new bootstrap.Modal($('#exampleModal'));
+            $("#modalbody").html(createModalBody);
+            exampleModal.show();
         });
 });
 
@@ -68,11 +66,9 @@ $(document).on('click', '.delete-btn', function () {
                deleteModal.hide();
         })
             .catch(function (error) {
-                if (error.status === 400) {
-                    alert("Error: " + error.responseText);
-                } else {
-                    alert("An error occurred while processing the request.");
-                }
+                var exampleModal = new bootstrap.Modal($('#exampleModal'));
+                $("#modalbody").html(delteModalBody);
+                exampleModal.show();
             });
     });
 });
@@ -97,11 +93,9 @@ $(document).on('click', '.save-btn', function () {
         
         })
         .catch(function (error) {
-            if (error.status === 400) {
-                alert("Error: " + error.responseText); 
-            } else {
-                alert("An error occurred while processing the request."); 
-            }
+            var exampleModal = new bootstrap.Modal($('#exampleModal'));
+            $("#modalbody").html(createModalBody);
+            exampleModal.show();
         });
 });
 displayData();

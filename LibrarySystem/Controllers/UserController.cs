@@ -125,6 +125,7 @@ namespace LibrarySystem.Controllers
                 }
                 catch (Exception e)
                 {
+                    _tableLogService.Discard();
                     _tableLogService.Update(DataUtil.PositionTableName, position.Id, DataUtil.TableStatusError, e.Message);
                     return ResultApi.Failed();
                 }

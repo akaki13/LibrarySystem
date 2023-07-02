@@ -7,6 +7,9 @@ const getstoragelink = "/bookcategory/getstorage";
 const addauthorlink = "/bookcategory/addauthor";
 const deleteauthorlink = "/bookcategory/deleteauthor/";
 const updateauthorlink = "/bookcategory/updateauthor";*/
+const createModalBody = "data is not valid";
+const delteModalBody = "can not delete data";
+
 function initializePagination() {
     $('#pagination-container').MyPagination({
         totalPages: totalPage,
