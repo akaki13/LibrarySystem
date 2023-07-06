@@ -7,6 +7,8 @@ using LibrarySystem.Util;
 using LibrarySystemModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Differencing;
+using System;
 using System.Security.Claims;
 
 
@@ -43,7 +45,7 @@ namespace LibrarySystem.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-
+            
             return View();
         }
         public ActionResult ResetPassword(string token)
@@ -67,15 +69,26 @@ namespace LibrarySystem.Controllers
             var person = _personService.GetById(id);
             if (person == null)
             {
+                _tableLogService.AddDataError( DataUtil.TableStatusError, DataUtil.DataDoMotFound, id);
                 ViewBag.ErrorMessage = DataUtil.DoNotSaved;
                 return View();
             }
-            person.EmailIsConfiormed = true;
-            _personService.Update(person);
-            _personService.Save();
-            _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-            ViewBag.ErrorMessage = DataUtil.EmailConfirmed;
-            return View();
+            try
+            {
+                person.EmailIsConfiormed = true;
+                _personService.Update(person);
+                _personService.Save();
+                _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                ViewBag.ErrorMessage = DataUtil.EmailConfirmed;
+                return View();
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusError, e.Message);
+                return View();
+            }
+            
         }
 
         public ActionResult SavePassword(ResetPasswordView resetPassword)
@@ -94,11 +107,21 @@ namespace LibrarySystem.Controllers
                     ViewBag.ErrorMessage = DataUtil.DoNotSaved;
                     return View("ResetPassword", resetPassword.Token);
                 }
-                user.Password = resetPassword.Password;
-                _userService.Update(user);
-                _userService.Save();
-                _tableLogService.Update(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                return View();
+                try
+                {
+                    user.Password = resetPassword.Password;
+                    _userService.Update(user);
+                    _userService.Save();
+                    _tableLogService.Update(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                    return View();
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.Update(DataUtil.UserTableName, user.Id, DataUtil.TableStatusError, e.Message);
+                    return View();
+                }
+                
             }
             else
             {
@@ -126,14 +149,26 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var user = _userService.GetById(userID);
                 var person = _personService.GetById(user.PersonId);
-                _mapper.Map(edit, person);
-                _personService.Update(person);
-                _personService.Save();  
-                _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                return RedirectToAction("Index", "Home");
+                try
+                {
+                    _mapper.Map(edit, person);
+                    _personService.Update(person);
+                    _personService.Save();
+                    _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusError, e.Message);
+                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                    return View(edit);
+                }
+                
             }
             else
             {
@@ -151,41 +186,52 @@ namespace LibrarySystem.Controllers
                 {
                     return result;
                 }
-                var person = _mapper.Map<Person>(registerDetails);
-                person.EmailIsConfiormed = false;
-                _personService.Add(person);
-                _personService.Save();
+                try
+                {
+                    var person = _mapper.Map<Person>(registerDetails);
+                    person.EmailIsConfiormed = false;
+                    _personService.Add(person);
+                    _personService.Save();
 
-                User user = new User
-                {
-                    Login = registerDetails.Login,
-                    Password = registerDetails.Password,
-                    PersonId = person.Id,
-                };
-                _userService.Add(user);
-                _userService.Save();
-                _tableLogService.AddData(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
-                _tableLogService.AddData(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
-                var role = _roleService.GetByTitle(DataUtil.Role);
-                RoleUser roleUser = new RoleUser
-                {
-                    RoleId = role.Id,
-                    UsersId = user.Id,
-                };
-                _roleUserService.Add(roleUser);
-                _roleUserService.Save();
-                _tableLogService.AddData(DataUtil.UserRoleTableName, roleUser.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
+                    User user = new User
+                    {
+                        Login = registerDetails.Login,
+                        Password = registerDetails.Password,
+                        PersonId = person.Id,
+                    };
+                    _userService.Add(user);
+                    _userService.Save();
+                    _tableLogService.AddData(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
+                    _tableLogService.AddData(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
+                    var role = _roleService.GetByTitle(DataUtil.Role);
+                    RoleUser roleUser = new RoleUser
+                    {
+                        RoleId = role.Id,
+                        UsersId = user.Id,
+                    };
+                    _roleUserService.Add(roleUser);
+                    _roleUserService.Save();
+                    _tableLogService.AddData(DataUtil.UserRoleTableName, roleUser.Id, DataUtil.TableStatusInfo, DataUtil.NewData, user.Id);
 
-                var tokenEmail = TokenUtil.CreateToken(person.Id.ToString(), _configuration);
-                var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, Request.Scheme);
-                var emailmodel = new EmailModel
+                    var tokenEmail = TokenUtil.CreateToken(person.Id.ToString(), _configuration);
+                    var link = Url.Action("EmailConfirmation", "Account", new { tokenEmail = tokenEmail }, Request.Scheme);
+                    var emailmodel = new EmailConfirmation
+                    {
+                        FirstName = person.Firstname,
+                        LastName = person.Lastname,
+                        EmailConfirmationLink = link,
+                    };
+                    await EmailUtil.CreateTextAndSend(DataUtil.EmailHtmlPath, DataUtil.ConfirmEmailSubject , person.Email, _configuration, emailmodel);
+                    return View();
+                }
+                catch (Exception e)
                 {
-                    FirstName = person.Firstname,
-                    LastName = person.Lastname,
-                    Link = link,
-                };
-                await EmailUtil.EmailConfirmedLink(person.Email, _configuration, emailmodel);
-                return View();
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                    return View("Register", registerDetails);
+                }
+                
             }
             else
             {
@@ -208,6 +254,7 @@ namespace LibrarySystem.Controllers
                 }
                 else
                 {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                     ViewBag.ErrorMessage = DataUtil.LoginEror;
                     return View("Login");
                 }
@@ -231,6 +278,7 @@ namespace LibrarySystem.Controllers
                     var person = _personService.GetById(user.PersonId);
                     return View(new ProfileView { Role = role, Person = person });
                 }
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, userID);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -256,13 +304,13 @@ namespace LibrarySystem.Controllers
                 {
                     var token = TokenUtil.CreateToken(user.Id.ToString(), _configuration);
                     var link =  Url.Action("ResetPassword", "Account", new { token = token }, Request.Scheme);
-                    var emailmodel = new EmailModel
+                    var emailmodel = new PasswordReset
                     {
                         FirstName = person.Firstname,
                         LastName = person.Lastname,
-                        Link = link,
+                        PasswordResetLink = link,
                     };
-                    await EmailUtil.PassworResetLink(forgot.Email , _configuration , emailmodel);
+                    await EmailUtil.CreateTextAndSend(DataUtil.PasswordHtmlPath, DataUtil.PasswordEmailSubject, forgot.Email, _configuration, emailmodel);
                 }
             }
             return View();

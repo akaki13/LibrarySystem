@@ -116,16 +116,26 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var book = _bookService.GetById(updateBookView.Id);
-                _mapper.Map(updateBookView, book);
-                _bookService.Update(book);
-                _bookService.Save();
-                _tableLogService.Update(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                DeleteData(updateBookView);
-                var bookview = _mapper.Map<BookView>(updateBookView);
-                AddData(bookview, userID, book.Id);
-                return RedirectToAction("Index", "Book");
+                try
+                {
+                    _mapper.Map(updateBookView, book);
+                    _bookService.Update(book);
+                    _bookService.Save();
+                    _tableLogService.Update(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                    DeleteData(updateBookView);
+                    var bookview = _mapper.Map<BookView>(updateBookView);
+                    AddData(bookview, userID, book.Id);
+                    return RedirectToAction("Index", "Book");
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.Update(DataUtil.BookTableName, book.Id, DataUtil.TableStatusError, e.Message);
+                    return ResultApi.Failed();
+                }
             }
             else
             {
@@ -141,16 +151,25 @@ namespace LibrarySystem.Controllers
             var book = _bookService.GetById(id);
             if (book != null)
             {
-                
-                UpdateBookView bookview = CreateData(id, book);
-                DeleteData(bookview);
-                _bookService.Delete(book);
-                _bookService.Save();
-                _tableLogService.Delete(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
-                return ResultApi.Succeeded();
+                try
+                {
+                    UpdateBookView bookview = CreateData(id, book);
+                    DeleteData(bookview);
+                    _bookService.Delete(book);
+                    _bookService.Save();
+                    _tableLogService.Delete(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+                    return ResultApi.Succeeded();
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.Update(DataUtil.BookTableName, book.Id, DataUtil.TableStatusError, e.Message);
+                    return ResultApi.Failed();
+                }
             }
             else
             {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                 return ResultApi.Failed();
             }
         }
@@ -161,17 +180,26 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var book = new Book
+                try
                 {
-                    Name = bookView.Name,
-                    Description = bookView.Description,
-                };
-                _bookService.Add(book);
-                _bookService.Save();
-                _tableLogService.AddData(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
-                AddData(bookView, userID, book.Id);
-                return RedirectToAction("Index", "Book");
+                    int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    var book = new Book
+                    {
+                        Name = bookView.Name,
+                        Description = bookView.Description,
+                    };
+                    _bookService.Add(book);
+                    _bookService.Save();
+                    _tableLogService.AddData(DataUtil.BookTableName, book.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+                    AddData(bookView, userID, book.Id);
+                    return RedirectToAction("Index", "Book");
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                    return ResultApi.Failed();
+                }
             }
             else
             {
@@ -207,6 +235,18 @@ namespace LibrarySystem.Controllers
                 var data = _bookStorageService.AddData(i, id);
                 _tableLogService.AddData(DataUtil.BookStorageTableName, data.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
 
+            }
+        }
+
+        private void CheckData(UpdateBookView bookView)
+        {
+            var genres = _bookGenreService.GetByBookId(bookView.Id);
+            foreach (var genre in genres)
+            {
+                if (bookView.GenreId.Contains(genre.GenreId))
+                {
+                    
+                }
             }
         }
 

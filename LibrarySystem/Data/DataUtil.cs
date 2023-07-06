@@ -29,8 +29,8 @@ namespace LibrarySystem.Data
         public const string GenreTableName = "Genre";
         public const string UserRoleTableName = "Role_Users";
         public const string JsonPath = @"Data\Books.json";
-        public const string PasswordHtml = @"Data\Password.html";
-        public const string EmailHtml = @"Data\Email.html";
+        public const string PasswordHtmlPath = @"Data\Password.html";
+        public const string EmailHtmlPath = @"Data\Email.html";
         public const string ModelNotValid = "model is not valid";
         public const string PasswordEmailSubject = "Reset your password";
         public const string ConfirmEmailSubject = "Confirm your email";
@@ -39,6 +39,6 @@ namespace LibrarySystem.Data
         public const string NewData = "Created New data";
         public const string UpdateData = "Data Updated";
         public const string DeleteData = "Data Deleted";
-
+        public const string DataDoMotFound = "Data did not found";
     }
 }

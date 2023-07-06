@@ -1,5 +1,6 @@
 using LibraryService;
 using LibrarySystem.Mapping;
+using LibrarySystem.Models.Email;
 using LibrarySystemData;
 using LibrarySystemData.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,12 +12,11 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-        options.JsonSerializerOptions.MaxDepth = 32; // Optional: Set the maximum allowed depth
+        options.JsonSerializerOptions.MaxDepth = 32;
     });
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -58,7 +58,8 @@ builder.Services.AddScoped<IBookStorageRepository, BookStorageRepository>();
 builder.Services.AddScoped<IBookStorageService, BookStorageService>();
 builder.Services.AddScoped<IAuthorBookRepository, AuthorBookRepository>();
 builder.Services.AddScoped<IAuthorBookService, AuthorBookService>();
-
+builder.Services.AddScoped<ISliderRepository, SliderRepository>();
+builder.Services.AddScoped<ISliderService, SliderService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt => {
         opt.TokenValidationParameters = new TokenValidationParameters

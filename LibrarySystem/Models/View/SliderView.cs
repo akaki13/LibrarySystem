@@ -2,8 +2,8 @@
 
 namespace LibrarySystem.Models.View
 {
-    public class GenresView
+    public class SliderView
     {
-        public List<Genre> Genres { get; set; }
+        public List<Slider> Sliders { get; set; }
     }
 }

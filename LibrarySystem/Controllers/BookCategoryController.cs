@@ -6,6 +6,7 @@ using LibrarySystem.Util;
 using LibrarySystemModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 
 
@@ -83,10 +84,20 @@ namespace LibrarySystem.Controllers
             {
                 var genre = _mapper.Map<Genre>(addGenreApi);
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                _genresService.Add(genre);
-                _genresService.Save();
-                _tableLogService.AddData(DataUtil.GenreTableName, genre.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
-                return ResultApi.CreateData(genre.Id);
+                try
+                {
+                    _genresService.Add(genre);
+                    _genresService.Save();
+                    _tableLogService.AddData(DataUtil.GenreTableName, genre.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+                    return ResultApi.CreateData(genre.Id);
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                    return ResultApi.Failed();
+                }
+                
             }
             else
             {
@@ -119,6 +130,7 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                 return ResultApi.Failed();
             }
         }
@@ -133,13 +145,24 @@ namespace LibrarySystem.Controllers
                 if (genre != null)
                 {
                     _mapper.Map(updateGenreApi, genre);
-                    _genresService.Update(genre);
-                    _genresService.Save();
-                    _tableLogService.Update(DataUtil.GenreTableName, genre.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                    return ResultApi.Succeeded();
+                    try
+                    {
+                        _genresService.Update(genre);
+                        _genresService.Save();
+                        _tableLogService.Update(DataUtil.GenreTableName, genre.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                        return ResultApi.Succeeded();
+                    }
+                    catch (Exception e)
+                    {
+                        _tableLogService.Discard();
+                        _tableLogService.Update(DataUtil.GenreTableName, genre.Id, DataUtil.TableStatusError, e.Message);
+                        return ResultApi.Failed();
+                    }
+                    
                 }
                 else
                 {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                     return ResultApi.Failed();
 
                 }
@@ -158,10 +181,20 @@ namespace LibrarySystem.Controllers
             {
                 var publisher = _mapper.Map<Publisher>(addPublisherApi);
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                _publisherService.Add(publisher);
-                _publisherService.Save();
-                _tableLogService.AddData(DataUtil.PublisherTableName, publisher.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
-                return ResultApi.CreateData(publisher.Id);
+                try
+                {
+                    _publisherService.Add(publisher);
+                    _publisherService.Save();
+                    _tableLogService.AddData(DataUtil.PublisherTableName, publisher.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+                    return ResultApi.CreateData(publisher.Id);
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                    return ResultApi.Failed();
+                }
+                
             }
             else
             {
@@ -182,11 +215,11 @@ namespace LibrarySystem.Controllers
                     _publisherService.Update(publisher);
                     _publisherService.Save();
                     _tableLogService.Update(DataUtil.PublisherTableName, publisher.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-
                     return ResultApi.Succeeded();
                 }
                 else
                 {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                     return ResultApi.Failed();
 
                 }
@@ -220,6 +253,7 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                 return ResultApi.Failed();
             }
         }
@@ -261,6 +295,7 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                 return ResultApi.Failed();
             }
         }
@@ -275,13 +310,24 @@ namespace LibrarySystem.Controllers
                 if (language != null)
                 {
                     _mapper.Map(updateLanguageApi, language);
-                    _languageService.Update(language);
-                    _languageService.Save();
-                    _tableLogService.Update(DataUtil.LanguageTableName, language.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                    return ResultApi.Succeeded();
+                    try
+                    {
+                        _languageService.Update(language);
+                        _languageService.Save();
+                        _tableLogService.Update(DataUtil.LanguageTableName, language.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                        return ResultApi.Succeeded();
+                    }
+                    catch (Exception e)
+                    {
+                        _tableLogService.Discard();
+                        _tableLogService.Update(DataUtil.LanguageTableName, language.Id, DataUtil.TableStatusError, e.Message);
+                        return ResultApi.Failed();
+                    }
+                    
                 }
                 else
                 {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                     return ResultApi.Failed();
 
                 }
@@ -303,7 +349,6 @@ namespace LibrarySystem.Controllers
                 _languageService.Add(language);
                 _languageService.Save();
                 _tableLogService.AddData(DataUtil.LanguageTableName, language.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
-
                 return ResultApi.CreateData(language.Id);
             }
             else
@@ -343,6 +388,7 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                 return ResultApi.Failed();
             }
         }
@@ -357,13 +403,24 @@ namespace LibrarySystem.Controllers
                 if (author != null)
                 {
                     _mapper.Map(updateAuthorApi, author);
-                    _authorService.Update(author);
-                    _authorService.Save();
-                    _tableLogService.Update(DataUtil.AuthorTableName, author.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                    return ResultApi.Succeeded();
+                    try
+                    {
+                        _authorService.Update(author);
+                        _authorService.Save();
+                        _tableLogService.Update(DataUtil.AuthorTableName, author.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                        return ResultApi.Succeeded();
+                    }
+                    catch (Exception e)
+                    {
+                        _tableLogService.Discard();
+                        _tableLogService.Update(DataUtil.AuthorTableName, author.Id, DataUtil.TableStatusError, e.Message);
+                        return ResultApi.Failed();
+                    }
+                    
                 }
                 else
                 {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                     return ResultApi.Failed();
 
                 }
@@ -380,12 +437,22 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var author = _mapper.Map<Author>(addAuthorApi);
-                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                _authorService.Add(author);
-                _authorService.Save();
-                _tableLogService.AddData(DataUtil.AuthorTableName, author.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
-                return ResultApi.CreateData(author.Id);
+                try
+                {
+                    var author = _mapper.Map<Author>(addAuthorApi);
+                    int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    _authorService.Add(author);
+                    _authorService.Save();
+                    _tableLogService.AddData(DataUtil.AuthorTableName, author.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+                    return ResultApi.CreateData(author.Id);
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                    return ResultApi.Failed();
+                }
+               
             }
             else
             {
@@ -424,6 +491,7 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                 return ResultApi.Failed();
             }
         }
@@ -438,14 +506,25 @@ namespace LibrarySystem.Controllers
                 var storage = _storageService.GetById(updateStorageApi.Id);
                 if (storage != null)
                 {
-                    _mapper.Map(updateStorageApi, storage);
-                    _storageService.Update(storage);
-                    _storageService.Save();
-                    _tableLogService.Update(DataUtil.StorageTableName, storage.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                    return ResultApi.Succeeded();
+                    try
+                    {
+                        _mapper.Map(updateStorageApi, storage);
+                        _storageService.Update(storage);
+                        _storageService.Save();
+                        _tableLogService.Update(DataUtil.StorageTableName, storage.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                        return ResultApi.Succeeded();
+                    }
+                    catch (Exception e)
+                    {
+                        _tableLogService.Discard();
+                        _tableLogService.Update(DataUtil.StorageTableName, storage.Id, DataUtil.TableStatusError, e.Message);
+                        return ResultApi.Failed();
+                    }
+                    
                 }
                 else
                 {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                     return ResultApi.Failed();
 
                 }
@@ -462,14 +541,22 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var storage = _mapper.Map<Storage>(addStorageApi);
-                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                _storageService.Add(storage);
-                _storageService.Save();
-                _tableLogService.AddData(DataUtil.StorageTableName, storage.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+                try
+                {
+                    var storage = _mapper.Map<Storage>(addStorageApi);
+                    int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    _storageService.Add(storage);
+                    _storageService.Save();
+                    _tableLogService.AddData(DataUtil.StorageTableName, storage.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
 
-                return ResultApi.CreateData(storage.Id);
-
+                    return ResultApi.CreateData(storage.Id);
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError( DataUtil.TableStatusError, e.Message , null);
+                    return ResultApi.Failed();
+                }
             }
             else
             {

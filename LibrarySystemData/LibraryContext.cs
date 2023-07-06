@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using LibrarySystemModels;
+﻿using LibrarySystemModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LibrarySystemData
 {
@@ -27,6 +24,7 @@ namespace LibrarySystemData
         public virtual DbSet<Borrow> Borrows { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Slider> Slider { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PersonPosition> PersonPositions { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
@@ -234,8 +232,12 @@ namespace LibrarySystemData
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                
+            });
+            modelBuilder.Entity<Slider>(entity =>
+            {
+                entity.Property(e => e.Path)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Person>(entity =>

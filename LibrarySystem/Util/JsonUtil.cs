@@ -17,6 +17,7 @@ namespace LibrarySystem.Util
                 return JsonConvert.DeserializeObject<List<Menu>>(json);
             }
         }
+
         public static string SerializeObject<T>(T model)
         {
             return JsonConvert.SerializeObject(model);

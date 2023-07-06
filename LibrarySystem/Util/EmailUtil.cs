@@ -12,10 +12,10 @@ namespace LibrarySystem.Util
 {
     public static class EmailUtil
     {
-        public static async Task  PassworResetLink(string toEmail , IConfiguration configuration, EmailModel model)
+        public static async Task  CreateTextAndSend<T>(string path, string subject, string toEmail , IConfiguration configuration, T model)
         {
 
-            string htmlData = File.ReadAllText(DataUtil.PasswordHtml);
+            string htmlData = File.ReadAllText(path);
             Type modelType = model.GetType();
             PropertyInfo[] properties = modelType.GetProperties();
 
@@ -25,23 +25,7 @@ namespace LibrarySystem.Util
                 string value = property.GetValue(model)?.ToString();
                 htmlData = htmlData.Replace(placeholder, value);
             }
-            await SendEmailAsync(toEmail, DataUtil.PasswordEmailSubject, htmlData, configuration);
-        }
-        
-        public static async Task EmailConfirmedLink(string toEmail, IConfiguration configuration, EmailModel model)
-        {
-           
-            string htmlData = File.ReadAllText(DataUtil.EmailHtml);
-            Type modelType = model.GetType();
-            PropertyInfo[] properties = modelType.GetProperties();
-
-            foreach (PropertyInfo property in properties)
-            {
-                string placeholder = "{" + property.Name + "}";
-                string value = property.GetValue(model)?.ToString();
-                htmlData = htmlData.Replace(placeholder, value);
-            }
-            await SendEmailAsync(toEmail, DataUtil.ConfirmEmailSubject, htmlData, configuration);
+            await SendEmailAsync(toEmail, subject, htmlData, configuration);
         }
 
         public static async Task SendEmailAsync(string email, string subject, string message, IConfiguration configuration)

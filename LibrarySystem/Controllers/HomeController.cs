@@ -1,5 +1,6 @@
 ﻿using LibraryService;
 using LibrarySystem.Models;
+using LibrarySystem.Models.View;
 using LibrarySystem.Util;
 using LibrarySystemData.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -10,16 +11,18 @@ namespace LibrarySystem.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IUserService _userService;
-        public HomeController(ILogger<HomeController> logger,IUserService userService)
+        private readonly ISliderService _sliderService;
+
+        public HomeController(ILogger<HomeController> logger,ISliderService sliderService)
         {
-            _userService = userService;
             _logger = logger;
+            _sliderService = sliderService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var sliders = _sliderService.GetAll();
+            return View(new SliderView {Sliders = sliders});
         }
         /*		public IActionResult NavBar()
                 {

@@ -68,13 +68,21 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var savePosition = _mapper.Map<Position>(position);
-                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                _positionService.Add(savePosition);
-                _positionService.Save();
-                _tableLogService.AddData(DataUtil.PositionTableName, savePosition.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
-
-                return ResultApi.CreateData(savePosition.Id);
+                try
+                {
+                    var savePosition = _mapper.Map<Position>(position);
+                    int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    _positionService.Add(savePosition);
+                    _positionService.Save();
+                    _tableLogService.AddData(DataUtil.PositionTableName, savePosition.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+                    return ResultApi.CreateData(savePosition.Id);
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                    return ResultApi.Failed();
+                }
             }
             else
             {
@@ -92,14 +100,24 @@ namespace LibrarySystem.Controllers
                 var updatePosition = _positionService.GetById(position.Id);
                 if (updatePosition != null)
                 {
-                    _mapper.Map(position, updatePosition);
-                    _positionService.Update(updatePosition);
-                    _positionService.Save();
-                    _tableLogService.Update(DataUtil.PositionTableName, updatePosition.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                    return ResultApi.Succeeded();
+                    try
+                    {
+                        _mapper.Map(position, updatePosition);
+                        _positionService.Update(updatePosition);
+                        _positionService.Save();
+                        _tableLogService.Update(DataUtil.PositionTableName, updatePosition.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                        return ResultApi.Succeeded();
+                    }
+                    catch (Exception e)
+                    {
+                        _tableLogService.Discard();
+                        _tableLogService.Update(DataUtil.PositionTableName, updatePosition.Id, DataUtil.TableStatusError, e.Message);
+                        return ResultApi.Failed();
+                    }
                 }
                 else
                 {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                     return ResultApi.Failed();
                 }
             }
@@ -132,6 +150,7 @@ namespace LibrarySystem.Controllers
             }
             else
             {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
                 return ResultApi.Failed();
             }
         }

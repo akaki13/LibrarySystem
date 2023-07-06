@@ -13,6 +13,19 @@ namespace LibraryService
             _tableLogRepository = tableLogRepository;
         }
 
+        public void AddDataError( string status, string description, int? userID)
+        {
+            var tableLog = new TableLog
+            {
+                CreateDate = DateTime.Now,
+                Status = status,
+                Description = description,
+                UserId = userID,
+            };
+            _tableLogRepository.AddData(tableLog);
+            _tableLogRepository.SaveData();
+        }
+
         public void AddData(string tableName, int tableId, string status, string description, int? userID)
         {
             var tableLog = new TableLog
@@ -59,5 +72,6 @@ namespace LibraryService
         void Update(string tableName, int tableId, string status, string description);
         void Delete(string tableName, int tableId, string status, string description);
         void Discard();
+        void AddDataError(string status, string description, int? userID);
     }
 }
