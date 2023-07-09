@@ -18,21 +18,7 @@ $("#submit").on("click", async function () {
     pages = 1;
     displayData();
 });
-$(".sort").on("click", async function () {
-    sortBy = $(this).data('sort');
-    $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
-    $(".bi-sort-alpha-up").removeClass("bi-sort-alpha-up");
-    if (orderBy === "asc") {
-        orderBy = "desc";
-        $(this).addClass('bi-sort-alpha-down');
-    }
-    else {
-        $(this).addClass('bi-sort-alpha-up');
-        orderBy = "asc";
-    }
-    pages = 1;
-    displayData();
-});
+
 $(document).on('click', '.create-btn', function () {
     var row = $(this).closest('tr');
     var column1Value = row.find('td:eq(0)').text();
@@ -87,7 +73,6 @@ $(document).on('click', '.save-btn', function () {
     postData(domainName + updateauthorlink, data)
         .then(function (response) {
             row.find('td:not(:last-child)').attr('contenteditable', false);
-            console.log("asdasda");
             $button.text('Edit').removeClass('save-btn').addClass('edit-btn'); 
             row.find('.cancel-btn').text('Delete').removeClass('cancel-btn').addClass('delete-btn');
         

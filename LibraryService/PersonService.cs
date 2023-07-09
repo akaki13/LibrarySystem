@@ -27,6 +27,11 @@ namespace LibraryService
             _personRepository.UpdateData(person);
         }
 
+        public void Delete(Person person)
+        {
+            _personRepository.DeleteData(person);
+        }
+
         public void Add(Person person)
         {
             _personRepository.AddData(person);
@@ -61,6 +66,7 @@ namespace LibraryService
         Person GetByEmail(string email);
         Person GetByPhone(string phone);
         List<Person> GetAll();
+        void Delete(Person person);
 
     }
 }

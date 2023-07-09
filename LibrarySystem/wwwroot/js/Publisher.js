@@ -18,23 +18,7 @@ $("#submit").on("click", async function () {
     displayData();
 });
 
-$(".sort").on("click", async function () {
-    pages = 1;
-    sortBy = $(this).data('sort');
-    $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
-    $(".bi-sort-alpha-up").removeClass("bi-sort-alpha-up");
-    if (orderBy === "asc") {
-        orderBy = "desc";
-        $(this).addClass('bi-sort-alpha-down');
-    }
-    else
-    {
-        $(this).addClass('bi-sort-alpha-up');
-        orderBy = "asc";
-    }
-    pages = 1;
-    displayData();
-});
+
 
 
 $(document).on('click', '.create-btn', function () {

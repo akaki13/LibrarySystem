@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Presons";
+}
+
+<div class="mb-3 ">
+    <a class="mb-5 btn-link" asp-controller="User" asp-action="AddPerson">  Add Person  </a>
+</div>
+
+<div class="input-group mb-2" >
+    <input type="text" id="firstname" class="form-control" placeholder="Name">
+    <input type="text" id="lastname" class="form-control" placeholder="Lastname">
+    <input type="text" id="dateOfBirth" class="form-control" placeholder="DoB">
+    <input type="text" id="phone" class="form-control" placeholder="Phone">
+    <input type="text" id="email" class="form-control" placeholder="Email">
+    <input type="text" id="address" class="form-control" placeholder="Address">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" id="submit"  type="button"><i class="fa fa-search"></i></button>
+    </span>
+</div>
+<table class="table table-striped table-borderless">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center sort " data-sort="firstname">Name</th>
+            <th scope="col" class="text-center sort " data-sort="lastname">Lastname</th>
+            <th scope="col" class="text-center sort " data-sort="dateOfBirth">DoB</th>
+            <th scope="col" class="text-center sort " data-sort="phone">Phone</th>
+            <th scope="col" class="text-center sort " data-sort="email">Email</th>
+            <th scope="col" class="text-center sort " data-sort="address">Address</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="body">
+    </tbody>
+</table>
+<nav aria-label="Page navigation example" class="wrapper">
+    <div id="pagination-container"></div>
+</nav>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this row?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalbody"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="~/js/Pagination.js" asp-append-version="true"></script>
+    <script src="~/js/Person.js" asp-append-version="true"></script>
+}

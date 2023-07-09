@@ -58,6 +58,11 @@ namespace LibraryService
         {
             return _bookGenreRepository.GetByBookId(id);
         }
+
+        public List<BookGenre> GetByGenreId(int id)
+        {
+            return _bookGenreRepository.GetByGenreId(id);
+        }
     }
 
     public interface IBookGenreService
@@ -70,6 +75,7 @@ namespace LibraryService
         void Delete(BookGenre bookGenre);
         BookGenre AddData(int ints, int bookId);
         List<BookGenre> GetByBookId(int id);
+        List<BookGenre> GetByGenreId(int id);
 
     }
 }

@@ -61,6 +61,17 @@ namespace LibrarySystem.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddPerson()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Person()
+        {
+            return View();
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -193,6 +204,128 @@ namespace LibrarySystem.Controllers
         {
             var allposition = _positionService.GetAll();
             return allposition;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult AddPerson(AddPersonView personView)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var emailCheck = _personService.GetByEmail(personView.Email);
+                    if (emailCheck != null)
+                    {
+                        ViewBag.ErrorMessage = DataUtil.EmailExist;
+                        return View(personView);
+                    }
+                    var person = _mapper.Map<Person>(personView);
+                    int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    _personService.Add(person);
+                    _personService.Save();
+                    _tableLogService.AddData(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
+                    return RedirectToAction("Person", "User");
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                    return View(personView);
+                }
+            }
+            else
+            {
+                return View(personView);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult UpdatePerson(int id)
+        {
+            var person = _personService.GetById(id);
+            if (person != null)
+            {
+                var personView = _mapper.Map<UpdatePersonView>(person);
+                return View(personView);
+            }
+            else
+            {
+                return RedirectToAction("Person", "User");
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult UpdatePerson(UpdatePersonView updatePersonView)
+        {
+            if (ModelState.IsValid)
+            {
+                var person = _personService.GetById(updatePersonView.Id);
+                if (person == null)
+                {
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
+                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                    return View(updatePersonView);
+                }
+                var ckeckEmail = _personService.GetByEmail(updatePersonView.Email);
+                if (ckeckEmail == null || ckeckEmail.Email == person.Email)
+                {
+                    try
+                    {
+                        _mapper.Map(updatePersonView, person);
+                        _personService.Update(person);
+                        _personService.Save();
+                        _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.NewData);
+                        return RedirectToAction("Person", "User");
+                    }
+                    catch (Exception e)
+                    {
+                        _tableLogService.Discard();
+                        _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                        return View(updatePersonView);
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = DataUtil.EmailExist;
+                    return View(updatePersonView);
+                }
+            }
+            else
+            {
+                return View(updatePersonView);
+            }
+           
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public ActionResult DeletePerson(int id)
+        {
+            var person = _personService.GetById(id);
+            if (person != null)
+            {
+                try
+                {
+                    _personService.Delete(person);
+                    _personService.Save();
+                    _tableLogService.Delete(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+                    return ResultApi.Succeeded();
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusError, e.Message);
+                    return ResultApi.Failed();
+                }
+            }
+            else
+            {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
+                return ResultApi.Failed();
+            }
         }
     }
 }

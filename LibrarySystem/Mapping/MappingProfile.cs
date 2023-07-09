@@ -2,6 +2,7 @@
 using LibrarySystem.Models.Api;
 using LibrarySystem.Models.View;
 using LibrarySystemModels;
+using System.Globalization;
 
 namespace LibrarySystem.Mapping
 {
@@ -12,12 +13,15 @@ namespace LibrarySystem.Mapping
             CreateMap<Person, EditProfileView>();
             CreateMap<RegisterView, Person>();
             CreateMap<AddPositionApi, Position>();
+            CreateMap<AddPersonView, Person>();
             CreateMap<AddPublisherApi, Publisher>();
             CreateMap<AddGenreApi, Genre>();
             CreateMap<AddLanguageApi, Language>();
             CreateMap<AddAuthorApi, Author>();
             CreateMap<AddStorageApi, Storage>();
             CreateMap<Book, UpdateBookView>();
+            CreateMap<Person, UpdatePersonView>();
+            CreateMap<UpdatePersonView, Person>();
             CreateMap<UpdateBookView, BookView>();
             CreateMap<UpdateBookView, Book>()
            .ForMember(dest => dest.Id, opt => opt.Ignore());

@@ -58,6 +58,10 @@ namespace LibraryService
         {
             return _bookPublisherRepository.GetByBookId(id);
         }
+        public List<BookPublisher> GetByPublisherId(int id)
+        {
+            return _bookPublisherRepository.GetByPublisherId(id);
+        }
     }
 
     public interface IBookPublisherService
@@ -70,5 +74,6 @@ namespace LibraryService
         void Delete(BookPublisher bookPublisher);
         BookPublisher AddData(int ints, int bookId);
         List<BookPublisher> GetByBookId(int id);
+        List<BookPublisher> GetByPublisherId(int id);
     }
 }

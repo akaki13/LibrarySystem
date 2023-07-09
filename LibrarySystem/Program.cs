@@ -60,6 +60,9 @@ builder.Services.AddScoped<IAuthorBookRepository, AuthorBookRepository>();
 builder.Services.AddScoped<IAuthorBookService, AuthorBookService>();
 builder.Services.AddScoped<ISliderRepository, SliderRepository>();
 builder.Services.AddScoped<ISliderService, SliderService>();
+builder.Services.AddScoped<IBorrowRepository, BorrowRepository>();
+builder.Services.AddScoped<IBorrowService, BorrowService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt => {
         opt.TokenValidationParameters = new TokenValidationParameters

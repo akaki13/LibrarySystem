@@ -57,6 +57,11 @@ namespace LibraryService
         {
             return _bookStorageRepository.GetByBookId(id);
         }
+
+        public List<BookStorage> GetByStorageId(int id)
+        {
+            return _bookStorageRepository.GetByStorageId(id);
+        }
     }
 
     public interface IBookStorageService
@@ -69,5 +74,6 @@ namespace LibraryService
         void Delete(BookStorage bookStorage);
         BookStorage AddData(int ints, int bookId);
         List<BookStorage> GetByBookId(int id);
+        List<BookStorage> GetByStorageId(int id);
     }
 }

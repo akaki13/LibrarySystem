@@ -13,10 +13,16 @@ namespace LibrarySystemData.Repositories
             return _dbSet.Where(i => i.BookId.Equals(id)).ToList();
         }
 
+        public List<AuthorBook> GetByAuthorId(int id)
+        {
+            return _dbSet.Where(i => i.AutorId.Equals(id)).ToList();
+        }
+
     }
 
     public interface IAuthorBookRepository : IRepositoryBase<AuthorBook>
     {
         List<AuthorBook> GetByBookId(int id);
+        List<AuthorBook> GetByAuthorId(int id);
     }
 }

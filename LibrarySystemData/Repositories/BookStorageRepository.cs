@@ -16,11 +16,17 @@ namespace LibrarySystemData.Repositories
         {
             return _dbSet.Where(i => i.BookId.Equals(id)).ToList();
         }
+
+        public List<BookStorage> GetByStorageId(int id)
+        {
+            return _dbSet.Where(i => i.StorageId.Equals(id)).ToList();
+        }
     }
 
     public interface IBookStorageRepository : IRepositoryBase<BookStorage>
     {
         List<BookStorage> GetByBookId(int id);
+        List<BookStorage> GetByStorageId(int id);
 
     }
 }

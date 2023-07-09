@@ -17,10 +17,16 @@ namespace LibrarySystemData.Repositories
             return _dbSet.Where(i => i.BookId.Equals(id)).ToList();
         }
 
+        public List<BookLanguage> GetByLanguegeId(int id)
+        {
+            return _dbSet.Where(i => i.LanguagesId.Equals(id)).ToList();
+        }
+
     }
 
     public interface IBookLanguageRepository : IRepositoryBase<BookLanguage>
     {
         List<BookLanguage> GetByBookId(int id);
+        public List<BookLanguage> GetByLanguegeId(int id);
     }
 }

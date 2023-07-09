@@ -109,22 +109,6 @@ $(document).ready(async function () {
         minLength: 0,
         multiselect: true,
     });
-
-    $(".sort").on("click", async function () {
-        sortBy = $(this).data('sort');
-        $(".bi-sort-alpha-down").removeClass("bi-sort-alpha-down");
-        $(".bi-sort-alpha-up").removeClass("bi-sort-alpha-up");
-        if (orderBy === "asc") {
-            orderBy = "desc";
-            $(this).addClass('bi-sort-alpha-down');
-        }
-        else {
-            $(this).addClass('bi-sort-alpha-up');
-            orderBy = "asc";
-        }
-        pages = 1;
-        displayData();
-    });
 /*    searchGenre.on('click', function () {
         searchGenre.autocomplete('search', '');
     });*/

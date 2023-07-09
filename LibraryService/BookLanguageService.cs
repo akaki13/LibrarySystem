@@ -57,6 +57,11 @@ namespace LibraryService
         {
             return _bookLanguageRepository.GetByBookId(id);
         }
+
+        public List<BookLanguage> GetByLanguegeId(int id)
+        {
+            return _bookLanguageRepository.GetByLanguegeId(id);
+        }
     }
 
     public interface IBookLanguageService
@@ -69,5 +74,6 @@ namespace LibraryService
         BookLanguage AddData(int ints, int bookId);
         void Delete(BookLanguage bookLanguage);
         List<BookLanguage> GetByBookId(int id);
+        List<BookLanguage> GetByLanguegeId(int id);
     }
 }

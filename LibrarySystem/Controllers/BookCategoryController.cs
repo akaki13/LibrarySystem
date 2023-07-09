@@ -2,6 +2,7 @@
 using LibraryService;
 using LibrarySystem.Data;
 using LibrarySystem.Models.Api;
+using LibrarySystem.Models.View;
 using LibrarySystem.Util;
 using LibrarySystemModels;
 using Microsoft.AspNetCore.Authorization;
@@ -21,10 +22,17 @@ namespace LibrarySystem.Controllers
         private readonly ILanguageService _languageService;
         private readonly IAuthorService _authorService;
         private readonly IStorageService _storageService;
+        private readonly IAuthorBookService _authorBookService;
+        private readonly IBookGenreService _bookGenreService;
+        private readonly IBookLanguageService _bookLanguageService;
+        private readonly IBookPublisherService _bookPublisherService;
+        private readonly IBookStorageService _bookStorageService;
 
         public BookCategoryController(IGenresService genresService, ITableLogService tableLogService,
             IMapper mapper, IPublisherService publisherService, ILanguageService languageService,
-            IAuthorService authorService, IStorageService storageService)
+            IAuthorService authorService, IStorageService storageService, IAuthorBookService authorBookService,
+            IBookGenreService bookGenreService,IBookLanguageService bookLanguageService, IBookPublisherService bookPublisherService,
+            IBookStorageService bookStorageService)
         {
             _genresService = genresService;
             _tableLogService = tableLogService;
@@ -33,6 +41,11 @@ namespace LibrarySystem.Controllers
             _languageService = languageService;
             _authorService = authorService;
             _storageService = storageService;
+            _authorBookService = authorBookService;
+            _bookGenreService = bookGenreService;
+            _bookLanguageService = bookLanguageService;
+            _bookPublisherService = bookPublisherService;
+            _bookStorageService = bookStorageService;
         }
         
         [Authorize(Roles = "Admin")]
@@ -116,6 +129,14 @@ namespace LibrarySystem.Controllers
             {
                 try
                 {
+                    var bookGenres = _bookGenreService.GetByGenreId(genre.Id);
+                    foreach (var bookGenre in bookGenres)
+                    {
+                        _bookGenreService.Delete(bookGenre);
+                        _bookGenreService.Save();
+                        _tableLogService.Delete(DataUtil.BookGenreTableName, bookGenre.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
+                    }
                     _genresService.Delete(genre);
                     _genresService.Save();
                     _tableLogService.Delete(DataUtil.GenreTableName, genre.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
@@ -239,6 +260,14 @@ namespace LibrarySystem.Controllers
             {
                 try
                 {
+                    var bookPublishers = _bookPublisherService.GetByPublisherId(publisher.Id);
+                    foreach (var bookPublisher in bookPublishers)
+                    {
+                        _bookPublisherService.Delete(bookPublisher);
+                        _bookPublisherService.Save();
+                        _tableLogService.Delete(DataUtil.BookPublisherTableName, bookPublisher.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
+                    }
                     _publisherService.Delete(publisher);
                     _publisherService.Save();
                     _tableLogService.Delete(DataUtil.PublisherTableName, publisher.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
@@ -281,6 +310,14 @@ namespace LibrarySystem.Controllers
             {
                 try
                 {
+                    var bookLanguages = _bookLanguageService.GetByLanguegeId(language.Id);
+                    foreach (var bookLanguage in bookLanguages)
+                    {
+                        _bookLanguageService.Delete(bookLanguage);
+                        _bookGenreService.Save();
+                        _tableLogService.Delete(DataUtil.BookLanguageTableName, bookLanguage.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
+                    }
                     _languageService.Delete(language);
                     _publisherService.Save();
                     _tableLogService.Delete(DataUtil.LanguageTableName, language.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
@@ -374,6 +411,13 @@ namespace LibrarySystem.Controllers
             {
                 try
                 {
+                    var authorBoooks = _authorBookService.GetByAuthorId(author.Id);
+                    foreach (var authorBook in authorBoooks)
+                    {
+                        _authorBookService.Delete(authorBook);
+                        _authorBookService.Save();
+                        _tableLogService.Delete(DataUtil.AuthorBookTableName, authorBook.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+                    }
                     _authorService.Delete(author);
                     _authorService.Save();
                     _tableLogService.Delete(DataUtil.AuthorTableName, author.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
@@ -477,6 +521,14 @@ namespace LibrarySystem.Controllers
             {
                 try
                 {
+                    var bookStorages = _bookStorageService.GetByStorageId(storage.Id);
+                    foreach (var bookStorage in bookStorages)
+                    {
+                        _bookStorageService.Delete(bookStorage);
+                        _bookStorageService.Save();
+                        _tableLogService.Delete(DataUtil.BookStorageTableName, bookStorage.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+
+                    }
                     _storageService.Delete(storage);
                     _storageService.Save();
                     _tableLogService.Delete(DataUtil.StorageTableName, storage.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
