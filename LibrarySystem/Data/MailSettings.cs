@@ -10,7 +10,7 @@
         static MailSettings()
         {
             IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json") // Specify the path to your JSON file
+                .AddJsonFile("appsettings.json") 
                 .Build();
 
             Mail = configuration["MailSettings:Mail"];
