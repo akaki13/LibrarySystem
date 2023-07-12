@@ -1,11 +1,12 @@
 using LibraryService;
+using LibrarySystem.Data;
 using LibrarySystem.Mapping;
-using LibrarySystem.Models.Email;
 using LibrarySystemData;
 using LibrarySystemData.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -75,7 +76,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();

@@ -221,7 +221,7 @@ namespace LibrarySystem.Controllers
                         LastName = person.Lastname,
                         EmailConfirmationLink = link,
                     };
-                    await EmailUtil.CreateTextAndSend(DataUtil.EmailHtmlPath, DataUtil.ConfirmEmailSubject , person.Email, _configuration, emailmodel);
+                    await EmailUtil.CreateTextAndSend(DataUtil.EmailHtmlPath, DataUtil.ConfirmEmailSubject , person.Email, emailmodel);
                     return View();
                 }
                 catch (Exception e)
@@ -310,7 +310,7 @@ namespace LibrarySystem.Controllers
                         LastName = person.Lastname,
                         PasswordResetLink = link,
                     };
-                    await EmailUtil.CreateTextAndSend(DataUtil.PasswordHtmlPath, DataUtil.PasswordEmailSubject, forgot.Email, _configuration, emailmodel);
+                    await EmailUtil.CreateTextAndSend(DataUtil.PasswordHtmlPath, DataUtil.PasswordEmailSubject, forgot.Email, emailmodel);
                 }
             }
             return View();

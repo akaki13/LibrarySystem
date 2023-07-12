@@ -12,7 +12,7 @@ namespace LibrarySystem.Util
 {
     public static class EmailUtil
     {
-        public static async Task  CreateTextAndSend<T>(string path, string subject, string toEmail , IConfiguration configuration, T model)
+        public static async Task  CreateTextAndSend<T>(string path, string subject, string toEmail , T model)
         {
 
             string htmlData = File.ReadAllText(path);
@@ -25,26 +25,26 @@ namespace LibrarySystem.Util
                 string value = property.GetValue(model)?.ToString();
                 htmlData = htmlData.Replace(placeholder, value);
             }
-            await SendEmailAsync(toEmail, subject, htmlData, configuration);
+            await SendEmailAsync(toEmail, subject, htmlData);
         }
 
-        public static async Task SendEmailAsync(string email, string subject, string message, IConfiguration configuration)
+        public static async Task SendEmailAsync(string email, string subject, string message)
         {
-            var smtpClient = new SmtpClient(configuration.GetSection("MailSettings:Host").Value, configuration.GetValue<int>("MailSettings:Port"))
+            var smtpClient = new SmtpClient(MailSettings.Host,MailSettings.Port)
             {
                 EnableSsl = true,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(configuration.GetSection("MailSettings:Mail").Value, configuration.GetSection("MailSettings:Password").Value)
+                Credentials = new NetworkCredential(MailSettings.Mail, MailSettings.Password)
             };
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(configuration.GetSection("MailSettings:Mail").Value),
+                From = new MailAddress(MailSettings.Mail),
                 Subject = subject,
                 Body = message,
                 IsBodyHtml = true
             };
             mailMessage.To.Add(email);
-            mailMessage.To.Add(configuration.GetSection("MailSettings:Bccmail").Value);
+            mailMessage.To.Add(MailSettings.BccMail);
             await smtpClient.SendMailAsync(mailMessage);
         }
     }

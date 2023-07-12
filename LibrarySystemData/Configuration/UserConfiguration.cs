@@ -11,7 +11,17 @@ namespace LibrarySystemData.Configuration
     public class UserConfiguration : EntityTypeConfiguration<User>
     {
         public UserConfiguration() {
-   
+            ToTable("Users");
+
+            Property(e => e.Login)
+                            .HasMaxLength(50)
+                            .IsUnicode(false);
+
+            Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            Property(e => e.PersonId).HasColumnName("Person_id");
         }
     }
 }

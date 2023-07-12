@@ -1,4 +1,5 @@
-﻿using LibrarySystemModels;
+﻿using LibrarySystemData.Configuration;
+using LibrarySystemModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystemData
@@ -55,7 +56,7 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
-                    .IsUnicode(false);               
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<AuthorBook>(entity =>
@@ -77,7 +78,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Author_Bo__Book___5DCAEF64");
 
-                
+
             });
 
             modelBuilder.Entity<Book>(entity =>
@@ -93,7 +94,7 @@ namespace LibrarySystemData
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-              
+
             });
 
             modelBuilder.Entity<BookGenre>(entity =>
@@ -115,7 +116,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.GenreId)
                     .HasConstraintName("FK__Book_Genr__Genre__59FA5E80");
 
-              
+
             });
 
             modelBuilder.Entity<BookLanguage>(entity =>
@@ -137,7 +138,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.LanguagesId)
                     .HasConstraintName("FK__Book_Lang__Langu__1AD3FDA4");
 
-             
+
             });
 
             modelBuilder.Entity<BookPublisher>(entity =>
@@ -154,7 +155,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Book_Publ__Book___5441852A");
 
-             
+
 
                 entity.HasOne(d => d.Publisher)
                     .WithMany(p => p.BookPublishers)
@@ -176,7 +177,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Book_Stor__Book___4F7CD00D");
 
-                
+
 
                 entity.HasOne(d => d.Storage)
                     .WithMany(p => p.BookStorages)
@@ -208,7 +209,7 @@ namespace LibrarySystemData
                     .HasForeignKey(d => d.BookId)
                     .HasConstraintName("FK__Borrows__Book_id__72C60C4A");
 
-                
+
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Borrows)
@@ -223,7 +224,7 @@ namespace LibrarySystemData
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                
+
             });
 
             modelBuilder.Entity<Language>(entity =>
@@ -271,7 +272,7 @@ namespace LibrarySystemData
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-               
+
             });
 
             modelBuilder.Entity<PersonPosition>(entity =>
@@ -283,7 +284,7 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.PositionId).HasColumnName("Position_id");
 
-                
+
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.PersonPositions)
@@ -304,13 +305,13 @@ namespace LibrarySystemData
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-               
+
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-               
+
             });
 
             modelBuilder.Entity<Publisher>(entity =>
@@ -326,7 +327,7 @@ namespace LibrarySystemData
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-               
+
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -349,7 +350,7 @@ namespace LibrarySystemData
 
                 entity.Property(e => e.UsersId).HasColumnName("Users_id");
 
-             
+
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.RoleUsers)
@@ -375,7 +376,7 @@ namespace LibrarySystemData
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                
+
             });
 
             modelBuilder.Entity<TableLog>(entity =>
