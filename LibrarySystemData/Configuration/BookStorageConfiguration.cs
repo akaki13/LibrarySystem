@@ -1,22 +1,32 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class BookStorageConfiguration : EntityTypeConfiguration<BookStorage>
+    public class BookStorageConfiguration : IEntityTypeConfiguration<BookStorage>
     {
-        public BookStorageConfiguration() {
-            ToTable("Book_Storage");
+        public void Configure(EntityTypeBuilder<BookStorage> entity)
+        {
+            entity.ToTable("Book_Storage");
 
-            Property(e => e.BookId).HasColumnName("Book_id");
+            entity.Property(e => e.BookId).HasColumnName("Book_id");
 
 
-            Property(e => e.StorageId).HasColumnName("Storage_id");
+            entity.Property(e => e.StorageId).HasColumnName("Storage_id");
+
+            entity.HasOne(d => d.Book)
+                .WithMany(p => p.BookStorages)
+                .HasForeignKey(d => d.BookId)
+                .HasConstraintName("FK__Book_Stor__Book___4F7CD00D");
+
+
+
+            entity.HasOne(d => d.Storage)
+                .WithMany(p => p.BookStorages)
+                .HasForeignKey(d => d.StorageId)
+                .HasConstraintName("FK__Book_Stor__Stora__5070F446");
         }
     }
 }

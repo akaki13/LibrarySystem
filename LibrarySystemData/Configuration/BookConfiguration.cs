@@ -1,27 +1,24 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class BookConfiguration : EntityTypeConfiguration<Book>
+    public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
-        public BookConfiguration() {
-            ToTable("Book");
+        public void Configure(EntityTypeBuilder<Book> entity)
+        {
+            entity.ToTable("Book");
 
-            Property(e => e.Description)
+            entity.Property(e => e.Description)
                 .HasMaxLength(150)
                 .IsUnicode(false);
 
 
-            Property(e => e.Name)
+            entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
         }
     }
 }

@@ -1,44 +1,47 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class TableLogConfiguration : EntityTypeConfiguration<TableLog>
+    public class TableLogConfiguration : IEntityTypeConfiguration<TableLog>
     {
-        public TableLogConfiguration() {
-            ToTable("TableLogs");
+        public void Configure(EntityTypeBuilder<TableLog> entity)
+        {
+            entity.ToTable("TableLogs");
 
-            Property(e => e.ChangeDate)
-                             .HasColumnType("date")
-                             .HasColumnName("Change_date");
+            entity.Property(e => e.ChangeDate)
+                .HasColumnType("date")
+                .HasColumnName("Change_date");
 
-            Property(e => e.CreateDate)
+            entity.Property(e => e.CreateDate)
                 .HasColumnType("date")
                 .HasColumnName("Create_date");
 
-            Property(e => e.DeleteDate)
+            entity.Property(e => e.DeleteDate)
                 .HasColumnType("date")
                 .HasColumnName("Delete_date");
 
-            Property(e => e.TableName)
-                .HasMaxLength(50)
+            entity.Property(e => e.TableName)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Table_name");
 
-            Property(e => e.UserId).HasColumnName("User_id");
+            entity.Property(e => e.UserId).HasColumnName("User_id");
 
-            Property(e => e.Status)
-                .HasMaxLength(50)
+            entity.Property(e => e.Status)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
-            Property(e => e.Description)
+            entity.Property(e => e.Description)
                 .HasMaxLength(500)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.TableLogs)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_LogsUsers");
         }
     }
 }

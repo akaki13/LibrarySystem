@@ -1,24 +1,21 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class PublisherConfiguration : EntityTypeConfiguration<Publisher>
+    public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
     {
-        public PublisherConfiguration() {
-            ToTable("Publisher");
+        public void Configure(EntityTypeBuilder<Publisher> entity)
+        {
+            entity.ToTable("Publisher");
 
-            Property(e => e.Address)
+            entity.Property(e => e.Address)
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
-
-            Property(e => e.Name)
+            entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .IsUnicode(false);
         }

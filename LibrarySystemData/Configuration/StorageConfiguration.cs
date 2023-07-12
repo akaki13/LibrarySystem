@@ -1,24 +1,22 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class StorageConfiguration : EntityTypeConfiguration<Storage>
+    public class StorageConfiguration : IEntityTypeConfiguration<Storage>
     {
-        public StorageConfiguration() {
-            ToTable("Storage");
+        public void Configure(EntityTypeBuilder<Storage> entity)
+        {
+            entity.ToTable("Storage");
 
-            Property(e => e.Location)
+            entity.Property(e => e.Location)
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
 
-            Property(e => e.Name)
+            entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         }

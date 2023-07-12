@@ -1,23 +1,32 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class BookPublisherConfiguration : EntityTypeConfiguration<BookPublisher>
+    public class BookPublisherConfiguration : IEntityTypeConfiguration<BookPublisher>
     {
-        public BookPublisherConfiguration() {
-            ToTable("Book_Publisher");
+        public void Configure(EntityTypeBuilder<BookPublisher> entity)
+        {
+            entity.ToTable("Book_Publisher");
 
-            Property(e => e.BookId).HasColumnName("Book_id");
+            entity.Property(e => e.BookId).HasColumnName("Book_id");
 
 
-            Property(e => e.PublisherId).HasColumnName("Publisher_id");
+            entity.Property(e => e.PublisherId).HasColumnName("Publisher_id");
 
+            entity.HasOne(d => d.Book)
+                .WithMany(p => p.BookPublishers)
+                .HasForeignKey(d => d.BookId)
+                .HasConstraintName("FK__Book_Publ__Book___5441852A");
+
+
+
+            entity.HasOne(d => d.Publisher)
+                .WithMany(p => p.BookPublishers)
+                .HasForeignKey(d => d.PublisherId)
+                .HasConstraintName("FK__Book_Publ__Publi__5535A963");
         }
     }
 }

@@ -1,44 +1,43 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class PersonConfiguration : EntityTypeConfiguration<Person>
+    public class PersonConfiguration : IEntityTypeConfiguration<Person>
     {
-        public PersonConfiguration() {
-            ToTable("Person");
+        public void Configure(EntityTypeBuilder<Person> entity)
+        {
+            entity.ToTable("Person");
 
-            Property(e => e.Address)
-                .HasMaxLength(100)
+            entity.Property(e => e.Address)
+                .HasMaxLength(200)
                 .IsUnicode(false);
 
-            Property(e => e.DateOfBirth)
+            entity.Property(e => e.DateOfBirth)
                 .HasColumnType("date")
                 .HasColumnName("Date_ofBirth");
 
-            Property(e => e.Email)
-                .HasMaxLength(50)
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
-            Property(e => e.EmailIsConfiormed).HasColumnName("Email_isConfiormed");
+            entity.Property(e => e.EmailIsConfiormed).HasColumnName("Email_isConfiormed");
 
-            Property(e => e.Firstname)
-                .HasMaxLength(50)
+            entity.Property(e => e.Firstname)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
-            Property(e => e.Lastname)
-                .HasMaxLength(50)
+            entity.Property(e => e.Lastname)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
 
-            Property(e => e.Phone)
-                .HasMaxLength(50)
+            entity.Property(e => e.Phone)
+                .HasMaxLength(100)
                 .IsUnicode(false);
         }
     }
 }
+

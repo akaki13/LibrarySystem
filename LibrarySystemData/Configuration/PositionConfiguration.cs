@@ -1,26 +1,22 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class PositionConfiguration : EntityTypeConfiguration<Position>
+    public class PositionConfiguration : IEntityTypeConfiguration<Position>
     {
-        public PositionConfiguration() {
-            ToTable("Position");
+        public void Configure(EntityTypeBuilder<Position> entity)
+        {
+            entity.ToTable("Position");
 
-            Property(e => e.Description)
-                .HasMaxLength(200)
+            entity.Property(e => e.Description)
+                .HasMaxLength(300)
                 .IsUnicode(false);
-
-
-
-            Property(e => e.Title)
-                .HasMaxLength(50)
+            
+            entity.Property(e => e.Title)
+                .HasMaxLength(100)
                 .IsUnicode(false);
         }
     }

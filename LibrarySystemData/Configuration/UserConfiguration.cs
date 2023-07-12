@@ -1,27 +1,31 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LibrarySystemData.Configuration
 {
-    public class UserConfiguration : EntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public UserConfiguration() {
-            ToTable("Users");
+        public void Configure(EntityTypeBuilder<User> entity)
+        {
+            entity.ToTable("Users");
 
-            Property(e => e.Login)
-                            .HasMaxLength(50)
-                            .IsUnicode(false);
-
-            Property(e => e.Password)
-                .HasMaxLength(50)
+            entity.Property(e => e.Login)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
-            Property(e => e.PersonId).HasColumnName("Person_id");
+            entity.Property(e => e.Password)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+            entity.Property(e => e.PersonId)
+                .HasColumnName("Person_id");
+
+
+            entity.HasOne(d => d.Person)
+                .WithMany(p => p.Users)
+                .HasForeignKey(d => d.PersonId)
+                .HasConstraintName("FK__Users__Person_id__3D5E1FD2");
         }
     }
 }

@@ -1,23 +1,30 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class BookLanguageConfiguration : EntityTypeConfiguration<BookLanguage>
+    public class BookLanguageConfiguration : IEntityTypeConfiguration<BookLanguage>
     {
-        public BookLanguageConfiguration() {
-            ToTable("Book_Languages");
+        public void Configure(EntityTypeBuilder<BookLanguage> entity)
+        {
+            entity.ToTable("Book_Languages");
 
-            Property(e => e.BookId).HasColumnName("Book_id");
+            entity.Property(e => e.BookId).HasColumnName("Book_id");
 
-            Property(e => e.LanguagesId).HasColumnName("Languages_id");
+            entity.Property(e => e.LanguagesId).HasColumnName("Languages_id");
 
 
+            entity.HasOne(d => d.Book)
+                .WithMany(p => p.BookLanguages)
+                .HasForeignKey(d => d.BookId)
+                .HasConstraintName("FK__Book_Lang__Book___19DFD96B");
+
+            entity.HasOne(d => d.Languages)
+                .WithMany(p => p.BookLanguages)
+                .HasForeignKey(d => d.LanguagesId)
+                .HasConstraintName("FK__Book_Lang__Langu__1AD3FDA4");
         }
     }
 }

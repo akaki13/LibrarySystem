@@ -1,21 +1,21 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class GenreConfiguration : EntityTypeConfiguration<Genre>
+    public class GenreConfiguration : IEntityTypeConfiguration<Genre>
     {
-        public GenreConfiguration() {
-            ToTable("Genres");
+        public void Configure(EntityTypeBuilder<Genre> entity)
+        {
+            entity.ToTable("Genres");
 
-            Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
         }
     }
 }
+

@@ -1,6 +1,7 @@
 ﻿using LibrarySystemData.Configuration;
 using LibrarySystemModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LibrarySystemData
 {
@@ -46,7 +47,7 @@ namespace LibrarySystemData
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Author>(entity =>
+            /*modelBuilder.Entity<Author>(entity =>
             {
                 entity.ToTable("Author");
 
@@ -381,6 +382,7 @@ namespace LibrarySystemData
 
             modelBuilder.Entity<TableLog>(entity =>
             {
+                entity.ToTable("TableLogs");
                 entity.Property(e => e.ChangeDate)
                     .HasColumnType("date")
                     .HasColumnName("Change_date");
@@ -431,7 +433,27 @@ namespace LibrarySystemData
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.PersonId)
                     .HasConstraintName("FK__Users__Person_id__3D5E1FD2");
-            });
+            });*/
+            modelBuilder.ApplyConfiguration(new AuthorBookConfiguration());
+            modelBuilder.ApplyConfiguration(new AuthorConfiguration());
+            modelBuilder.ApplyConfiguration(new BookConfiguration());
+            modelBuilder.ApplyConfiguration(new BookGenreConfiguration());
+            modelBuilder.ApplyConfiguration(new BookLanguageConfiguration());
+            modelBuilder.ApplyConfiguration(new BookPublisherConfiguration());
+            modelBuilder.ApplyConfiguration(new BookStorageConfiguration());
+            modelBuilder.ApplyConfiguration(new BorrowConfiguration());
+            modelBuilder.ApplyConfiguration(new GenreConfiguration());
+            modelBuilder.ApplyConfiguration(new LanguageConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonConfiguration());
+            modelBuilder.ApplyConfiguration(new PositionConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonPositionConfiguration());
+            modelBuilder.ApplyConfiguration(new PublisherConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleUserConfiguration());
+            modelBuilder.ApplyConfiguration(new SliderConfiguration());
+            modelBuilder.ApplyConfiguration(new StorageConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new TableLogConfiguration());
 
             OnModelCreatingPartial(modelBuilder);
         }

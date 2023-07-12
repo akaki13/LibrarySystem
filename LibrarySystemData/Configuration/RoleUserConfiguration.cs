@@ -1,24 +1,30 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class RoleUserConfiguration : EntityTypeConfiguration<RoleUser>
+    public class RoleUserConfiguration : IEntityTypeConfiguration<RoleUser>
     {
-        public RoleUserConfiguration() {
-            ToTable("Role_Users");
+        public void Configure(EntityTypeBuilder<RoleUser> entity)
+        {
+            entity.ToTable("Role_Users");
 
 
-            Property(e => e.RoleId).HasColumnName("Role_id");
+            entity.Property(e => e.RoleId).HasColumnName("Role_id");
 
-            Property(e => e.UsersId).HasColumnName("Users_id");
+            entity.Property(e => e.UsersId).HasColumnName("Users_id");
 
+            entity.HasOne(d => d.Role)
+                .WithMany(p => p.RoleUsers)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("FK__Role_User__Role___68487DD7");
 
+            entity.HasOne(d => d.Users)
+                .WithMany(p => p.RoleUsers)
+                .HasForeignKey(d => d.UsersId)
+                .HasConstraintName("FK__Role_User__Users__693CA210");
         }
     }
 }

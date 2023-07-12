@@ -1,24 +1,22 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class AuthorConfiguration : EntityTypeConfiguration<Author>
+    public class AuthorConfiguration : IEntityTypeConfiguration<Author>
     {
-        public AuthorConfiguration() {
-            ToTable("Author");
+        public void Configure(EntityTypeBuilder<Author> entity)
+        {
+            entity.ToTable("Author");
 
-            Property(e => e.Name)
-                .HasMaxLength(50)
+            entity.Property(e => e.Name)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
-            Property(e => e.Surname)
-                .HasMaxLength(50)
+            entity.Property(e => e.Surname)
+                .HasMaxLength(100)
                 .IsUnicode(false);
         }
     }

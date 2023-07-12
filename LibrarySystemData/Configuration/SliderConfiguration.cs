@@ -1,29 +1,28 @@
 ﻿using LibrarySystemModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibrarySystemData.Configuration
 {
-    public class SliderConfiguration : EntityTypeConfiguration<Slider>
+    public class SliderConfiguration : IEntityTypeConfiguration<Slider>
     {
-        public SliderConfiguration() {
-            ToTable("Slider");
+        public void Configure(EntityTypeBuilder<Slider> entity)
+        {
+            entity.ToTable("Slider");
 
-            Property(e => e.Path)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-            Property(e => e.Title)
+            entity.Property(e => e.Path)
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-            Property(e => e.Description)
+            entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+            entity.Property(e => e.Description)
                     .HasMaxLength(500)
                     .IsUnicode(false);
+
         }
     }
 }
