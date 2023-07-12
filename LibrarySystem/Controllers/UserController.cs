@@ -231,6 +231,7 @@ namespace LibrarySystem.Controllers
                 {
                     _tableLogService.Discard();
                     _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
                     return View(personView);
                 }
             }
@@ -284,6 +285,7 @@ namespace LibrarySystem.Controllers
                     {
                         _tableLogService.Discard();
                         _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
+                        ViewBag.ErrorMessage = DataUtil.DoNotSaved;
                         return View(updatePersonView);
                     }
                 }

@@ -23,6 +23,10 @@ namespace LibrarySystem.Mapping
             CreateMap<Person, UpdatePersonView>();
             CreateMap<UpdatePersonView, Person>();
             CreateMap<UpdateBookView, BookView>();
+            CreateMap<Borrow, AddBorrowView>();
+            CreateMap<AddBorrowView, Borrow>()
+                .ForMember(dest => dest.Book, opt => opt.Ignore())
+                .ForMember(dest => dest.Person, opt => opt.Ignore());
             CreateMap<UpdateBookView, Book>()
            .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdateStorageApi, Storage>()

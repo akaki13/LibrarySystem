@@ -1,10 +1,10 @@
-﻿@model LibrarySystem.Models.View.AddPersonView
+﻿@model LibrarySystem.Models.View.AddBorrowView
 @{
     ViewData["Title"] = "Add Borrow";
 
 }
 
-<form class="card-body cardbody-color p-lg-5" method="post" asp-action="AddPerson" asp-controller="User">
+<form class="card-body cardbody-color p-lg-5" method="post" asp-action="AddBorrow" asp-controller="Borrow">
 
     <div class="mb-3">
         <p>@ViewBag.ErrorMessage</p>
@@ -12,40 +12,93 @@
     <div class="mb-3 ">
         <p class="mb-1">Book</p>
         <div class="input-group">
-            <input type="text" class="form-control control" asp-for="Firstname" placeholder="book">
-            <button class="btn btn-primary" id="submit" type="button"><i class="fa fa-search"></i></button>
+            <input type="text" class="form-control control" id="bookInput" asp-for="Book" placeholder="Book" readonly>
+            <input type="hidden" class="form-control" id="boookId" asp-for="BookId" class="form-control">
+            <button class="btn btn-primary"   id="bookModalOpan" type="button">Choose Book</button>
         </div>
-        <span class="text-danger" asp-validation-for="Firstname"></span>
+        <span class="text-danger" asp-validation-for="Book"></span>
     </div>
-    <div class="mb-3">
-        <p class="mb-1">Lastname</p>
-        <input type="text" class="form-control control" asp-for="Lastname" placeholder="Lastname">
-        <span class="text-danger" asp-validation-for="Lastname"></span>
-    </div>
-    <div class="mb-3">
-        <p class="mb-1">Phone</p>
-        <input type="text" class="form-control control" asp-for="Phone" placeholder="Phone">
-        <span class="text-danger" asp-validation-for="Phone"></span>
-    </div>
-    <div class="mb-3">
-        <p class="mb-1">Email</p>
-        <input type="text" class="form-control control" asp-for="Email" placeholder="Email">
-        <span class="text-danger" asp-validation-for="Email"></span>
-    </div>
-    <div class="mb-3">
-        <p class="mb-1">Address</p>
-        <input type="text" class="form-control" asp-for="Address" placeholder="Address">
-        <span class="text-danger" asp-validation-for="Address"></span>
-    </div>
-    <div class="mb-3">
-        <p class="mb-1">Date Of Birth</p>
-        <input asp-for="DateOfBirth" id="datepicker" type="text" class="form-control control" placeholder="Date Of Birth " />
-        <span class="text-danger" asp-validation-for="DateOfBirth"></span>
+    <div class="mb-3 ">
+        <p class="mb-1">Client</p>
+        <div class="input-group">
+            <input type="text" class="form-control control" id="clientInput" asp-for="Person" placeholder="Client" readonly>
+            <input type="hidden" class="form-control" id="clientId" asp-for="PersonId" class="form-control">
+            <button class="btn btn-primary" id="clientModalOpan" type="button">Choose Client</button>
+        </div>
+        <span class="text-danger" asp-validation-for="Person"></span>
     </div>
 
+    <div class="mb-3">
+        <p class="mb-1">Return Date</p>
+        <input asp-for="ReturnedTime" id="datepicker" type="text" class="form-control control" placeholder="Return Date " />
+        <span class="text-danger" asp-validation-for="ReturnedTime"></span>
+    </div>
+    <div class="mb-3">
+        <p class="mb-1">Comment</p>
+        <input asp-for="Comment"  type="text" class="form-control control" placeholder="Comment " />
+        <span class="text-danger" asp-validation-for="Comment"></span>
+    </div>
     <div class="text-center">
         <button type="submit" class=" px-5 mb-5 w-100">
             Save Book
         </button>
     </div>
 </form>
+<div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Find Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ui-front">
+                <input type="text" class="form-control" id="bookSearch" placeholder="Search">
+                <div id="bookResults" class="search-results">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Find Client</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ui-front">
+                <input type="text" class="form-control" id="clientSearch" placeholder="Search">
+                <div id="clientResults" class="search-results">
+                    
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script>
+        $(function () {
+            $('#datepicker').datepicker({
+                format: "yyyy/mm/dd"
+            });
+        });
+    </script>
+    <script src="~/js/AddBorrow.js" asp-append-version="true"></script>
+}

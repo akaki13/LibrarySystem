@@ -16,6 +16,7 @@ namespace LibrarySystem.Data
         public const string PersonTableName = "Person";
         public const string PublisherTableName = "Publisher";
         public const string StorageTableName = "Storage";
+        public const string BorrowTableName = "Borrow";
         public const string LanguageTableName = "Language";
         public const string AuthorTableName = "Author"; 
         public const string AuthorBookTableName = "Author_Book";
@@ -39,6 +40,7 @@ namespace LibrarySystem.Data
         public const string NewData = "Created New data";
         public const string UpdateData = "Data Updated";
         public const string DeleteData = "Data Deleted";
-        public const string DataDoMotFound = "Data did not found";
+        public const string ReturnDataCheck = "Return Time must be greater than the current time.";
+        public const string DataDoMotFound = "Data did not found"; 
     }
 }

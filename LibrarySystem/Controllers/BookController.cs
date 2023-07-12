@@ -134,7 +134,8 @@ namespace LibrarySystem.Controllers
                 {
                     _tableLogService.Discard();
                     _tableLogService.Update(DataUtil.BookTableName, book.Id, DataUtil.TableStatusError, e.Message);
-                    return ResultApi.Failed();
+                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                    return View(updateBookView);
                 }
             }
             else
@@ -198,7 +199,8 @@ namespace LibrarySystem.Controllers
                 {
                     _tableLogService.Discard();
                     _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
-                    return ResultApi.Failed();
+                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                    return View(bookView);
                 }
             }
             else
