@@ -145,7 +145,8 @@ namespace LibrarySystem.Controllers
             return View(edit);
         }
 
-        public  ActionResult EditProfileSave(EditProfileView edit)
+        [HttpPost]
+        public  ActionResult EditProfile(EditProfileView edit)
         {
             if (ModelState.IsValid)
             {

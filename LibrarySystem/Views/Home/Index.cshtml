@@ -22,7 +22,7 @@
             if (i == 0)
             {
                 <div class="carousel-item active">
-                    <img src="@Model.Sliders[i].Path" alt="Image">
+                    <img src="@Model.Sliders[i].Path" alt="Image" class="carousel-image">
                     <div class="carousel-caption">
                         <h3>@Model.Sliders[i].Title</h3>
                         <p>@Model.Sliders[i].Description</p>
@@ -32,7 +32,7 @@
             else
             {
                 <div class="carousel-item">
-                    <img src="@Model.Sliders[i].Path" alt="Image ">
+                    <img src="@Model.Sliders[i].Path" alt="Image " class="carousel-image">
                     <div class="carousel-caption">
                         <h3>@Model.Sliders[i].Title</h3>
                         <p>@Model.Sliders[i].Description</p>
@@ -51,8 +51,15 @@
     </a>
 </div>
 
-
-
+<div id="imageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Full-size Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -63,6 +70,13 @@
     <script>
         $(document).ready(function () {
             $('.carousel').carousel()
+
+            $('.carousel-image').click(function () {
+                var imageUrl = $(this).attr('src');
+                var fullSizeImageUrl = imageUrl.replace(/thumb\//, '');
+                $('#modalImage').attr('src', fullSizeImageUrl);
+                $('#imageModal').modal('show');
+            });
         });
     </script>
 }
