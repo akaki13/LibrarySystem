@@ -14,7 +14,7 @@ namespace LibrarySystem.Components
         public IViewComponentResult Invoke()
         {
             List<Menu> menu = new List<Menu>();
-            string filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataUtil.JsonPath);
+            string filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataUtil.NavJsonPath);
             using (StreamReader r = new StreamReader(filepath))
             {
                 string json = r.ReadToEnd();

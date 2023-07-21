@@ -14,6 +14,7 @@ namespace LibrarySystem.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ISliderService _sliderService;
 
+
         public HomeController(ILogger<HomeController> logger,ISliderService sliderService)
         {
             _logger = logger;
@@ -22,6 +23,7 @@ namespace LibrarySystem.Controllers
 
         public IActionResult Index()
         {
+
             var sliders = _sliderService.GetAll();
             return View(new SliderView {Sliders = sliders});
         }

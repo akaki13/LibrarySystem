@@ -2,32 +2,62 @@
   {
     "Id": 1,
     "Title": "Book",
+    "Url": null,
     "ParentId": null
   },
 
   {
     "Id": 2,
-    "Title": "Popular",
+    "Title": "Books",
+    "Url": "/book",
     "ParentId": 1
   },
   {
     "Id": 3,
-    "Title": "Genres ",
+    "Title": "Add New Book",
+    "Url": "/book/addbook",
     "ParentId": 1
   },
   {
-    "Id": 4,
-    "Title": "Fantasy ",
-    "ParentId": 3
-  },
-  {
-    "Id": 5,
-    "Title": "Detective ",
-    "ParentId": 3
-  },
-  {
     "Id": 6,
-    "Title": "New Book",
+    "Title": "Category",
+    "Url": null,
+    "ParentId": null
+  },
+  {
+    "Id": 7,
+    "Title": "Authors",
+    "Url": "/bookcategory/authors",
+    "ParentId": 6
+  },
+  {
+    "Id": 8,
+    "Title": "Genres",
+    "Url": "/bookcategory/genres",
+    "ParentId": 6
+  },
+  {
+    "Id": 9,
+    "Title": "Languages",
+    "Url": "/bookcategory/language",
+    "ParentId": 6
+  },
+  {
+    "Id": 10,
+    "Title": "Publishers",
+    "Url": "/bookcategory/publishers",
+    "ParentId": 6
+  },
+  {
+    "Id": 11,
+    "Title": "Storages",
+    "Url": "/bookcategory/storage",
+    "ParentId": 6
+  },
+  {
+    "Id": 13,
+    "Title": "Reports",
+    "Url": null,
     "ParentId": null
   }
 ]

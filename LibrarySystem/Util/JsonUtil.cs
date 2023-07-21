@@ -10,7 +10,7 @@ namespace LibrarySystem.Util
     {
         public static List<Menu> TakeBookData()
         {
-            string filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataUtil.JsonPath);
+            string filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataUtil.NavJsonPath);
             using (StreamReader r = new StreamReader(filepath))
             {
                 string json = r.ReadToEnd();

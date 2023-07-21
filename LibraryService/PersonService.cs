@@ -1,5 +1,6 @@
 ﻿using LibrarySystemData.Repositories;
 using LibrarySystemModels;
+using LibrarySystemModels.Procedure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,7 @@ namespace LibraryService
             return _personRepository.TakeAll().Result;
         }
     }
+
     public interface IPersonService
     {
         Person GetById(int? id);
@@ -67,6 +69,5 @@ namespace LibraryService
         Person GetByPhone(string phone);
         List<Person> GetAll();
         void Delete(Person person);
-
     }
 }

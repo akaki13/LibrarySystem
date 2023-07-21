@@ -1,5 +1,6 @@
 ﻿using LibrarySystemData.Configuration;
 using LibrarySystemModels;
+using LibrarySystemModels.Procedure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -27,7 +28,7 @@ namespace LibrarySystemData
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Slider> Slider { get; set; }
-        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PersonPosition> PersonPositions { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Publisher> Publishers { get; set; }
@@ -36,6 +37,10 @@ namespace LibrarySystemData
         public virtual DbSet<Storage> Storages { get; set; }
         public virtual DbSet<TableLog> TableLogs { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public DbSet<ByPopularity> ByPopularity { get; set; }
+        public DbSet<ClientsPerformance> ClientsPerformance { get; set; }
+        public DbSet<OverdueTransactions> OverdueTransactions { get; set; }
+        public DbSet<CurrentTransactions> CurrentTransactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -10,6 +10,9 @@ namespace LibrarySystem.Models.Json
         [JsonProperty("Title")]
         public string Title;
 
+        [JsonProperty("Url")]
+        public string Url;
+
         [JsonProperty("ParentId")]
         public int? ParentId;
     }

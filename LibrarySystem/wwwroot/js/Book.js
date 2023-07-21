@@ -119,18 +119,38 @@ $(document).ready(async function () {
     });
 
     displayData();
-    async function displayData() {
+    
+    /*function initializePagination() {
+        $('#pagination-container').MyPagination({
+            totalPages: totalPage,
+            visiblePages: 5,
+            onPageClick: function (pageNumber) {
+                pages = pageNumber;
+                displayBoook();
+            },
+            currentPage: pages
+        });
+    }*/
+    
+});
+
+async function displayData() {
         body.empty();
         usernumber = 0;
         alluser = 0;
         const [bookdata, bookstoragedata, bookpublisherdata, booklanguagedata, bookgenredata,
-            bookauthordata] = await Promise.all([
+            bookauthordata, authordata, genredata, publisherdata, languagedata, storagedata] = await Promise.all([
                 getData(domainName + getbooklink),
                 getData(domainName + getbookstoragelink),
                 getData(domainName + getbookpublisherlink),
                 getData(domainName + getbooklanguagelink),
                 getData(domainName + getbookgenrelink),
                 getData(domainName + getbookauthorlink),
+                getData(domainName + getauthorlink),
+                getData(domainName + getgenrelink),
+                getData(domainName + getpublisherlink),
+                getData(domainName + getlanguagelink),
+                getData(domainName + getstoragelink),
             ]);
 
         
@@ -201,18 +221,4 @@ $(document).ready(async function () {
             console.error(error);
         }
     }
-    /*function initializePagination() {
-        $('#pagination-container').MyPagination({
-            totalPages: totalPage,
-            visiblePages: 5,
-            onPageClick: function (pageNumber) {
-                pages = pageNumber;
-                displayBoook();
-            },
-            currentPage: pages
-        });
-    }*/
-    
-});
-
 

@@ -29,7 +29,7 @@ namespace LibrarySystem.Data
         public const string UserTableName = "Users";
         public const string GenreTableName = "Genre";
         public const string UserRoleTableName = "Role_Users";
-        public const string JsonPath = @"Data\Books.json";
+        public const string NavJsonPath = @"Data\Books.json";
         public const string PasswordHtmlPath = @"Data\Password.html";
         public const string EmailHtmlPath = @"Data\Email.html";
         public const string ModelNotValid = "model is not valid";

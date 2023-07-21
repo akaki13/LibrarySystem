@@ -3,8 +3,16 @@
 <div class="btn-group navbar-nav">
     @foreach (var item in Model.Where(i => i.ParentId == null))
     {
-        <a class="btn "   data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
-        Template(item.Id);
+        if (item.Url != null)
+        {
+            <a class="btn " href ="@item.Url" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
+        }
+        else
+        {
+            <a class="btn " data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
+            Template(item.Id);
+        }
+       
     }
 </div>
 
@@ -18,12 +26,18 @@
                 @foreach (var child in children)
                 {
                     <li class="btn-group ">
-                        <a class="btn dropright  "  data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                        @if (child.Url != null)
+                        {
+                            <a class="btn dropright" href="@child.Url"  aria-expanded="false" data-bs-auto-close="outside"> @child.Title </a>
+                        }
+                        else
+                        {
+                             <a class="btn dropright  "  data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             @child.Title
                         </a>
-                        @{
                             Template(child.Id);
                         }
+                       
                     </li>
                       
                 }
