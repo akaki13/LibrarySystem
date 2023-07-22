@@ -12,7 +12,6 @@ namespace LibrarySystemModels.Procedure
     {
         public string PersonName { get; set; }
         public string BookName { get; set; }
-        public DateTime ReturTime { get; set; }
-        public DateTime TakeTime { get; set; }
+        public DateTime ReturnTime { get; set; }
     }
 }

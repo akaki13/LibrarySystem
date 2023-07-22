@@ -117,16 +117,3 @@ async function displayData() {
         
     }
 }
-
-/*function initializePagination() {
-
-    $('#pagination-container').MyPagination({
-        totalPages: totalPage,
-        visiblePages: 5,
-        onPageClick: function (pageNumber) {
-            pages = pageNumber;
-            displayLanguage();
-        },
-        currentPage: pages
-    });
-}*/

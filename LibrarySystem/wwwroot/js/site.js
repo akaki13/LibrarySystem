@@ -22,6 +22,10 @@ function initializePagination() {
     });
 }
 
+function CheckSearchInt(search, titles) {
+    return search.val() ? titles.toString().includes(search.val().toString()) : true;
+}
+
 function CheckSearch(search, titles) {
     return search.val() ? titles.toLowerCase().includes(search.val().toLowerCase()) : true;
 }

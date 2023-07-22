@@ -109,9 +109,7 @@ $(document).ready(async function () {
         minLength: 0,
         multiselect: true,
     });
-/*    searchGenre.on('click', function () {
-        searchGenre.autocomplete('search', '');
-    });*/
+
     
     Submit.on('click', function () {
         pages = 1;
@@ -120,17 +118,7 @@ $(document).ready(async function () {
 
     displayData();
     
-    /*function initializePagination() {
-        $('#pagination-container').MyPagination({
-            totalPages: totalPage,
-            visiblePages: 5,
-            onPageClick: function (pageNumber) {
-                pages = pageNumber;
-                displayBoook();
-            },
-            currentPage: pages
-        });
-    }*/
+ 
     
 });
 
@@ -161,12 +149,6 @@ async function displayData() {
         sortTable(bookdata, bookpublisherdata, publisherdata, 'publisherId', ['name'], 'publisher');
         sortTable(bookdata, bookstoragedata, storagedata, 'storageId', ['name'], 'shelf');
         sortTable(bookdata, booklanguagedata, languagedata, 'languagesId', ['title'], 'language');
-        /*bookdata.$values.sort((a, b) => {
-            const genreA = getBookGenreTitles(a);
-            const genreB = getBookGenreTitles(b);
-            console.log(genreB)
-            return genreB.localeCompare(genreA);
-        });*/
         try {
             for (const item of bookdata.$values) {
                 

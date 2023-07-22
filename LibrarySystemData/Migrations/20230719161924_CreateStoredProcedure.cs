@@ -32,7 +32,7 @@ namespace LibrarySystemData.Migrations
              SELECT 
              Person.Firstname + ' ' + Person.Lastname AS PersonName, 
              Book.Name AS BookName, 
-             Borrows.Returned_time as ReturTime,
+             Borrows.Returned_time as ReturnTime,
              Borrows.Take_time as TakeTime
              FROM 
              Person
@@ -50,7 +50,7 @@ namespace LibrarySystemData.Migrations
              SELECT 
              Person.Firstname + ' ' + Person.Lastname AS PersonName, 
              Book.Name AS BookName, 
-              Borrows.Returned_time as ReturTime
+              Borrows.Returned_time as ReturnTime
              FROM 
              Person
              JOIN 

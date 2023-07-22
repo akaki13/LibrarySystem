@@ -92,25 +92,11 @@ async function displayData() {
         const [data] = await Promise.all([
             getData(domainName + getauthorlink),
         ]);
-        if (sortBy === "name") {
-            if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.name.localeCompare(a.name));
-            }
-        }
-        if (sortBy === "surname") {
-            if (orderBy === "asc") {
-                data.$values.sort((a, b) => a.surname.localeCompare(b.surname));
-            }
-            else if (orderBy === "desc") {
-                data.$values.sort((a, b) => b.surname.localeCompare(a.surname));
-            }
-        }
+        sortData(data, 'name');
+        sortData(data, 'surname');
         for (const item of data.$values) {  
-            const nameMatch = searchName.val() ? item.name.toLowerCase().includes(searchName.val().toLowerCase()) : true;
-            const surnameMatch = searchSurname.val() ? item.surname.toLowerCase().includes(searchSurname.val().toLowerCase()) : true;   
+            const nameMatch = CheckSearch(searchName, item.name); 
+            const surnameMatch = CheckSearch(searchSurname, item.surname);  
             if (nameMatch && surnameMatch) {
                 alluser++;
                 var sum = usersonpage * pages;

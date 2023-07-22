@@ -115,17 +115,3 @@ async function displayData() {
         console.error(error);
     }
 }
-
-/*function initializePagination() {
-
-    $('#pagination-container').MyPagination({
-        totalPages: totalPage,
-        visiblePages: 5,
-        onPageClick: function (pageNumber) {
-            pages = pageNumber;
-            displayGenre();
-        },
-        currentPage: pages
-    });
-    
-}*/

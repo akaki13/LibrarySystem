@@ -104,7 +104,7 @@ async function displayData() {
         for (const item of data.$values) {
             const nameMatch = CheckSearch(searchName, item.name);
             const locatiomMatch = CheckSearch(searchLocation, item.location);
-            const capacityMatch = CheckSearch(searchCapacity, item.capacity);
+            const capacityMatch = CheckSearchInt(searchCapacity, item.capacity);
 
             if (nameMatch && locatiomMatch && capacityMatch) {
                 alluser++;
@@ -137,15 +137,3 @@ async function displayData() {
     }
 }
 
-/*function initializePagination() {
-    $('#pagination-container').MyPagination({
-        totalPages: totalPage,
-        visiblePages: 5,
-        onPageClick: function (pageNumber) {
-            pages = pageNumber;
-            displayStorage();
-        },
-        currentPage: pages
-    });
-    
-}*/
