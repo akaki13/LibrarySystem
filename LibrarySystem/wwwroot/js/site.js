@@ -7,7 +7,7 @@ const getstoragelink = "/bookcategory/getstorage";
 const addauthorlink = "/bookcategory/addauthor";
 const deleteauthorlink = "/bookcategory/deleteauthor/";
 const updateauthorlink = "/bookcategory/updateauthor";*/
-const createModalBody = "data is not valid";
+const createModalBody = "data is not saved";
 const delteModalBody = "can not delete data";
 
 function initializePagination() {
@@ -22,6 +22,42 @@ function initializePagination() {
     });
 }
 
+
+function sortDataByTable(data, key,data2, id) {
+    data.$values.sort((a, b) => {
+        if (sortBy === key) {
+            if (orderBy === "asc") {
+                return borrowdata.$values.sort((a, b) => {
+                    const personA = data2[a[id]];
+                    const personB = data2[b[id]];
+
+                    const firstnameA = personA[key].toLowerCase();
+                    const firstnameB = personB[key].toLowerCase();
+
+                    if (firstnameA < firstnameB) return -1;
+                    if (firstnameA > firstnameB) return 1;
+                    return 0;
+                });
+            }
+            else if (orderBy === "desc") {
+                return borrowdata.$values.sort((a, b) => {
+                    const personA = data2[a[id]];
+                    const personB = data2[b[id]];
+
+                    const firstnameA = personA[key].toLowerCase();
+                    const firstnameB = personB[key].toLowerCase();
+
+                    if (firstnameA > firstnameB) return -1;
+                    if (firstnameA < firstnameB) return 1;
+                    return 0;
+                });
+            }
+        }
+        
+    });
+}
+
+
 function CheckSearchInt(search, titles) {
     return search.val() ? titles.toString().includes(search.val().toString()) : true;
 }
@@ -33,10 +69,17 @@ function CheckSearch(search, titles) {
 function sortData(data, key) {
     if (sortBy === key) {
         if (orderBy === "asc") {
-            return data.$values.sort((a, b) => a[key].localeCompare(b[key]));
-        }
-        else if (orderBy === "desc") {
-            return data.$values.sort((a, b) => b[key].localeCompare(a[key]));
+            return data.$values.sort((a, b) => {
+                const valueA = a[key] || ""; 
+                const valueB = b[key] || ""; 
+                return valueA.localeCompare(valueB);
+            });
+        } else if (orderBy === "desc") {
+            return data.$values.sort((a, b) => {
+                const valueA = a[key] || ""; 
+                const valueB = b[key] || "";
+                return valueB.localeCompare(valueA);
+            });
         }
     }
 }
@@ -74,6 +117,13 @@ function sortIntData(data, key) {
 
 function creatTdElement(data) {
     return $('<td></td>').addClass('text-center').text(data);
+}
+
+function getNames(Id, Data, relatedTitleKeys) {
+    const matchedRelated = Data.$values.filter((a) => a.id === Id);
+    const relatedTitles = matchedRelated.map(i => relatedTitleKeys.map(key => i[key]).join(' '));
+    const titles = relatedTitles.join(', ');
+    return titles;
 }
 
 function getEntityTitles(itemId, itemData, relatedData, relatedIdKey, relatedTitleKeys) {

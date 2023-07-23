@@ -3,15 +3,43 @@
 <div class="btn-group navbar-nav">
     @foreach (var item in Model.Where(i => i.ParentId == null))
     {
-        if (item.Url != null)
+        if (User.IsInRole("Admin") && item.Role == "Admin")
         {
-            <a class="btn " href ="@item.Url" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
+            if (item.Url != null)
+            {
+                <a class="btn " href="@item.Url">@item.Title</a>
+            }
+            else
+            {
+                <a class="btn " data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
+                Template(item.Id);
+            }
         }
-        else
+        else if (User.IsInRole("User") && item.Role == "User")
         {
-            <a class="btn " data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
-            Template(item.Id);
+            if (item.Url != null)
+            {
+                <a class="btn " href="@item.Url">@item.Title</a>
+            }
+            else
+            {
+                <a class="btn " data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
+                Template(item.Id);
+            }
         }
+        else if (item.Role == null)
+        {
+            if (item.Url != null)
+            {
+                <a class="btn " href="@item.Url">@item.Title</a>
+            }
+            else
+            {
+                <a class="btn " data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true">@item.Title</a>
+                Template(item.Id);
+            }
+        }
+
        
     }
 </div>
@@ -22,13 +50,13 @@
         var children = Model.Where(i => i.ParentId == parentId);
         if (children.Any())
         {
-            <ul class="dropdown-menu dropend" aria-labelledby="dropdownMenuClickableInside">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                 @foreach (var child in children)
                 {
                     <li class="btn-group ">
                         @if (child.Url != null)
                         {
-                            <a class="btn dropright" href="@child.Url"  aria-expanded="false" data-bs-auto-close="outside"> @child.Title </a>
+                            <a class="btn dropright" href="@child.Url" > @child.Title </a>
                         }
                         else
                         {

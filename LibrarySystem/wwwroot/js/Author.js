@@ -74,8 +74,7 @@ $(document).on('click', '.save-btn', function () {
         .then(function (response) {
             row.find('td:not(:last-child)').attr('contenteditable', false);
             $button.text('Edit').removeClass('save-btn').addClass('edit-btn'); 
-            row.find('.cancel-btn').text('Delete').removeClass('cancel-btn').addClass('delete-btn');
-        
+            row.find('.cancel-btn').text('Delete').removeClass('cancel-btn').addClass('delete-btn');     
         })
         .catch(function (error) {
             var exampleModal = new bootstrap.Modal($('#exampleModal'));

@@ -2,62 +2,93 @@
   {
     "Id": 1,
     "Title": "Book",
-    "Url": null,
-    "ParentId": null
+    "Url": "/book/",
+    "ParentId": null,
+    "Role" :  "Admin"
   },
 
   {
     "Id": 2,
-    "Title": "Books",
-    "Url": "/book",
-    "ParentId": 1
-  },
-  {
-    "Id": 3,
-    "Title": "Add New Book",
-    "Url": "/book/addbook",
-    "ParentId": 1
+    "Title": "Borrow",
+    "Url": "/Borrow/",
+    "ParentId": null,
+    "Role": "Admin"
   },
   {
     "Id": 6,
     "Title": "Category",
     "Url": null,
-    "ParentId": null
+    "ParentId": null,
+    "Role": "Admin"
   },
   {
     "Id": 7,
     "Title": "Authors",
     "Url": "/bookcategory/authors",
-    "ParentId": 6
+    "ParentId": 6,
+    "Role": null
   },
   {
     "Id": 8,
     "Title": "Genres",
     "Url": "/bookcategory/genres",
-    "ParentId": 6
+    "ParentId": 6,
+    "Role": null
   },
   {
     "Id": 9,
     "Title": "Languages",
     "Url": "/bookcategory/language",
-    "ParentId": 6
+    "ParentId": 6,
+    "Role": null
   },
   {
     "Id": 10,
     "Title": "Publishers",
     "Url": "/bookcategory/publishers",
-    "ParentId": 6
+    "ParentId": 6,
+    "Role": null
   },
   {
     "Id": 11,
     "Title": "Storages",
     "Url": "/bookcategory/storage",
-    "ParentId": 6
+    "ParentId": 6,
+    "Role": null
   },
   {
     "Id": 13,
     "Title": "Reports",
     "Url": null,
-    "ParentId": null
+    "ParentId": null,
+    "Role": "Admin"
+  },
+  {
+    "Id": 14,
+    "Title": "Overdue Transaction",
+    "Url": "/Report/OverdueTransaction",
+    "ParentId": 13,
+    "Role": null
+  },
+  {
+    "Id": 15,
+    "Title": "Current Transactions",
+    "Url": "/Report/CurrentTransactions",
+    "ParentId": 13,
+    "Role": null
+  },
+  {
+    "Id": 16,
+    "Title": "Clients Performance",
+    "Url": "/Report/ClientsPerformance",
+    "ParentId": 13,
+    "Role": null
+  },
+  {
+    "Id": 17,
+    "Title": "Popular Book",
+    "Url": "/Report/ByPopularity",
+    "ParentId": 13,
+    "Role": null
   }
 ]

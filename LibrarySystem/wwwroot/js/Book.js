@@ -45,11 +45,9 @@ $(document).ready(async function () {
                     deleteModal.hide();
                 })
                 .catch(function (error) {
-                    if (error.status === 400) {
-                        alert("Error: " + error.responseText);
-                    } else {
-                        alert("An error occurred while processing the request.");
-                    }
+                    var exampleModal = new bootstrap.Modal($('#exampleModal'));
+                    $("#modalbody").html(delteModalBody);
+                    exampleModal.show();
                 });
         });
     });

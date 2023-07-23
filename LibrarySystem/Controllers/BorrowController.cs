@@ -1,14 +1,20 @@
 ﻿using AutoMapper;
 using LibraryService;
 using LibrarySystem.Data;
+using LibrarySystem.Models.Api;
 using LibrarySystem.Models.View;
 using LibrarySystem.Util;
 using LibrarySystemModels;
+using LibrarySystemModels.Procedure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
+using System.Data;
 using System.Security.Claims;
 
 namespace LibrarySystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BorrowController : Controller
     {
         private readonly IBorrowService _borrowService;
@@ -17,7 +23,7 @@ namespace LibrarySystem.Controllers
         private readonly ITableLogService _tableLogService;
         private readonly IMapper _mapper;
 
-        public BorrowController(IBorrowService borrowService,IBookService bookService, IPersonService personService,
+        public BorrowController(IBorrowService borrowService, IBookService bookService, IPersonService personService,
             ITableLogService tableLogService, IMapper mapper)
         {
             _tableLogService = tableLogService;
@@ -32,9 +38,14 @@ namespace LibrarySystem.Controllers
             return View();
         }
 
-        public IActionResult AddBorrow() 
+        public IActionResult AddBorrow()
         {
             return View();
+        }
+
+        public ActionResult<List<Borrow>> GetBorrow()
+        {
+            return _borrowService.GetAll();
         }
 
         [HttpPost]
@@ -66,5 +77,59 @@ namespace LibrarySystem.Controllers
             }
         }
 
+        [HttpDelete]
+        public ActionResult DeleteBorrow(int id)
+        {
+            var borrow = _borrowService.GetById(id);
+            if (borrow != null)
+            {
+                try
+                {
+                    _borrowService.Delete(borrow);
+                    _borrowService.Save();
+                    _tableLogService.Delete(DataUtil.BorrowTableName, borrow.Id, DataUtil.TableStatusInfo, DataUtil.DeleteData);
+                    return ResultApi.Succeeded();
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.Update(DataUtil.PublisherTableName, borrow.Id, DataUtil.TableStatusError, e.Message);
+                    return ResultApi.Failed();
+                }
+            }
+            else
+            {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
+                return ResultApi.Failed();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult BookReturned(int id)
+        {
+            var borrow = _borrowService.GetById(id);
+            if (borrow != null)
+            {
+                try
+                {
+                    borrow.ActualReturnedTime = DateTime.Now;
+                    _borrowService.Update(borrow);
+                    _borrowService.Save();
+                    _tableLogService.Update(DataUtil.BorrowTableName, borrow.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                    return ResultApi.Succeeded();
+                }
+                catch (Exception e)
+                {
+                    _tableLogService.Discard();
+                    _tableLogService.Update(DataUtil.PublisherTableName, borrow.Id, DataUtil.TableStatusError, e.Message);
+                    return ResultApi.Failed();
+                }
+            }
+            else
+            {
+                _tableLogService.AddDataError(DataUtil.TableStatusError, DataUtil.DataDoMotFound, null);
+                return ResultApi.Failed();
+            }
+        }
     }
 }

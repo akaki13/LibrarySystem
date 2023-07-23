@@ -1,9 +1,11 @@
 ﻿using LibraryService;
 using LibrarySystemModels.Procedure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
