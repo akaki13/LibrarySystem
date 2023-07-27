@@ -21,9 +21,11 @@ namespace LibrarySystem.Controllers
         private readonly IBookPublisherService _bookPublisherService;
         private readonly IBookStorageService _bookStorageService;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         public BookController(IBookService bookService, ITableLogService tableLogService, IAuthorBookService authorBookService, IBookGenreService bookGenreService,
             IBookStorageService bookStorageService, IBookPublisherService bookPublisherService, IBookLanguageService bookLanguageService,
-            IMapper mapper)
+            IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _bookService = bookService;
             _tableLogService = tableLogService;
@@ -33,6 +35,7 @@ namespace LibrarySystem.Controllers
             _bookStorageService = bookStorageService;
             _bookGenreService = bookGenreService;
             _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize(Roles = "Admin")]
@@ -181,6 +184,7 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 try
                 {
                     int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -199,8 +203,7 @@ namespace LibrarySystem.Controllers
                 {
                     _tableLogService.Discard();
                     _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
-                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
-                    return View(bookView);
+                    return ResultApi.Failed();
                 }
             }
             else

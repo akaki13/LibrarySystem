@@ -1,7 +1,12 @@
 ﻿using LibraryService;
+using LibrarySystem.Data;
+using LibrarySystem.Models.View;
+using LibrarySystem.Util;
+using LibrarySystemModels.Parameters;
 using LibrarySystemModels.Procedure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LibrarySystem.Controllers
 {
@@ -9,9 +14,11 @@ namespace LibrarySystem.Controllers
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
-        public ReportController(IReportService reportService)
+        private readonly ITableLogService _tableLogService;
+        public ReportController(IReportService reportService, ITableLogService tableLogService)
         {
             _reportService = reportService;
+            _tableLogService = tableLogService;
         }
 
         public IActionResult Index()
@@ -41,23 +48,63 @@ namespace LibrarySystem.Controllers
 
         public ActionResult<List<OverdueTransactions>> GetOverdueTransaction()
         {
-            return _reportService.GetOverdueTransactions();
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                return _reportService.GetOverdueTransactions();
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
         }
 
-        public ActionResult<List<CurrentTransactions>> GetCurrentTransactions()
+        public ActionResult<List<CurrentTransactions>> GetCurrentTransactions(CurrentTransactionsParameters parameters)
         {
-            return _reportService.GetCurrentTransactions();
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                return _reportService.GetCurrentTransactions(parameters);
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
         }
 
-        public ActionResult<List<ByPopularity>> GetByPopularity()
+        public ActionResult<List<ByPopularity>> GetByPopularity(ByPopularityParameters parameters)
         {
-            return _reportService.GetByPopularities();
+            
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                return _reportService.GetByPopularities(parameters);
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
         }
 
-        public ActionResult<List<ClientsPerformance>> GetClientsPerformance()
+        public ActionResult<List<ClientsPerformance>> GetClientsPerformance(ClientsPerformanceParameters parameters)
         {
-            return _reportService.GetClientsPerformance();
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                return _reportService.GetClientsPerformance(parameters);
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
         }
-
     }
 }

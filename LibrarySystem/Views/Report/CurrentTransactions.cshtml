@@ -4,8 +4,13 @@
 <div class="input-group mb-2">
     <input type="text" id="personName" class="form-control" placeholder="Client Name">
     <input type="text" id="bookName" class="form-control" placeholder="Book Name">
-    <input type="text" id="takeTime" class="form-control" placeholder="Take Time">
-    <input type="text" id="returnTime" class="form-control" placeholder="Return Time">
+    <p class="search-title">Take Time: </p>
+    <input type="text" id="takeAfter" class="form-control" placeholder="After">
+    <input type="text" id="takeBefore" class="form-control" placeholder="Before">
+    <p class="search-title">Should Return Time: </p>
+    <input type="text" id="returnAfter" class="form-control" placeholder="After">
+    <input type="text" id="" class="form-control" placeholder="Before">
+
     <span class="input-group-btn">
         <button class="btn btn-primary" id="submit" type="button"><i class="fa fa-search"></i></button>
     </span>
@@ -28,8 +33,32 @@
 </nav>
 
 @section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script>
+        $(function () {
+            $('#takeAfter').datepicker({
+                format: "yyyy/mm/dd"
+            });
+            $('#takeBefore').datepicker({
+                format: "yyyy/mm/dd"
+            });
+            $('#returnAfter').datepicker({
+                format: "yyyy/mm/dd"
+            });
+            $('#returnBefore').datepicker({
+                format: "yyyy/mm/dd"
+            });
+        });
+    </script>
     <script src="~/js/Pagination.js" asp-append-version="true"></script>
     <script src="~/js/CurrentTransactions.js" asp-append-version="true"></script>
 }

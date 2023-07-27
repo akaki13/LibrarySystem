@@ -17,6 +17,6 @@ namespace LibrarySystem.Models.Json
         public int? ParentId;
 
         [JsonProperty("Role")]
-        public string? Role;
+        public string Role;
     }
 }

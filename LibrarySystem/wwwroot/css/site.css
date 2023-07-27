@@ -221,7 +221,10 @@ td[contenteditable="true"] {
     .search-group:hover {
         background-color: #007bff;
     }
-
+.search-title {
+    margin: auto;
+    margin-right: 5px;
+}
 
 .line-container {
     display: flex;

@@ -2,6 +2,7 @@
 {
     public class MailSettings
     {
+        //cswish
         public static string Mail { get; set; }
         public static string Password { get; set; }
         public static string Host { get; set; }

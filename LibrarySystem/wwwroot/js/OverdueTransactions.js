@@ -10,7 +10,8 @@ var sortBy = "";
 var orderBy = "asc";
 const searchPersonName = $("#personName");
 const searchBookName = $("#bookName");
-const searchReturnTime = $("#returnTime");
+const searchReturnAfter = $("#returnAfter");
+const searchReturnBefore = $("#returnBefore");
 $("#submit").on("click", async function () {
     pages = 1;
     displayData();
@@ -22,31 +23,35 @@ async function displayData() {
     usernumber = 0;
     alluser = 0;
     try {
+        var param =
+        {
+            PersonNameSearch: searchPersonName.val() || null,
+            BookNameSearch: searchBookName.val() || null,
+            ReturnTimeAfter: searchReturnAfter.val() || null,
+            ReturnTimeBefore: searchReturnBefore.val() || null,
+        }
         const [data] = await Promise.all([
-            getData(domainName + getTransactionlink),
+            getDataWithParameters(domainName + getTransactionlink, param),
         ]);
         sortData(data, 'personName');
         sortData(data, 'bookName');
         sortData(data, 'returnTime');
         for (const item of data.$values) {
-            const personMatch = CheckSearch(searchPersonName, item.personName);
-            const bookMatch = CheckSearch(searchBookName, item.bookName);
-            const returnMatch = CheckSearch(searchReturnTime, item.returnTime);
-            if (personMatch && bookMatch && returnMatch) {
-                alluser++;
-                var sum = usersonpage * pages;
-                var min = sum - usersonpage;
-                if (usernumber < sum && usernumber >= min) {
-                    var formattedDate = moment(item.returnTime).format("YYYY-MM-DD");
-                    var trElement = $('<tr></tr>');
-                    var tdElement1 = creatTdElement(item.personName);
-                    var tdElement2 = creatTdElement(item.bookName);
-                    var tdElement3 = creatTdElement(formattedDate);
-                    trElement.append(tdElement1, tdElement2, tdElement3);
-                    body.append(trElement);
-                    usernumber++
-                }
-            }      
+
+            alluser++;
+            var sum = usersonpage * pages;
+            var min = sum - usersonpage;
+            if (usernumber < sum && usernumber >= min) {
+                var formattedDate = moment(item.returnTime).format("YYYY-MM-DD");
+                var trElement = $('<tr></tr>');
+                var tdElement1 = creatTdElement(item.personName);
+                var tdElement2 = creatTdElement(item.bookName);
+                var tdElement3 = creatTdElement(formattedDate);
+                trElement.append(tdElement1, tdElement2, tdElement3);
+                body.append(trElement);
+                usernumber++
+            }
+
             if (usernumber < min) {
                 usernumber++;
             }

@@ -9,7 +9,8 @@ var totalPage = 0;
 var sortBy = "";
 var orderBy = "asc";
 const searchBookName = $("#bookName");
-const searchTaken = $("#timesTaken");
+const searchMin = $("#minBorrow");
+const searchMax = $("#maxBorrow");
 $("#submit").on("click", async function () {
     pages = 1;
     displayData();
@@ -21,28 +22,33 @@ async function displayData() {
     usernumber = 0;
     alluser = 0;
     try {
+        var param =
+        {
+            BookName: searchBookName.val() || null,
+            MinBooksTaken:  searchMin.val() || null,
+            MaxBooksTaken: searchMax.val() || null
+        }
+
+
         const [data] = await Promise.all([
-            getData(domainName + getTransactionlink),
+            getDataWithParameters(domainName + getTransactionlink, param),
         ]);
 
         sortData(data, 'bookName');
         sortIntData(data, 'timesTaken');
         for (const item of data.$values) {
-            const bookMatch = CheckSearch(searchBookName, item.bookName);
-            const takenMatch = CheckSearchInt(searchTaken, item.timesTaken);
-            if (bookMatch && takenMatch) {
-                alluser++;
-                var sum = usersonpage * pages;
-                var min = sum - usersonpage;
-                if (usernumber < sum && usernumber >= min) {
-                    var trElement = $('<tr></tr>');
-                    var tdElement1 = creatTdElement(item.bookName);
-                    var tdElement2 = creatTdElement(item.timesTaken);
-                    trElement.append(tdElement1, tdElement2);
-                    body.append(trElement);
-                    usernumber++
-                }
-            }      
+            alluser++;
+            var sum = usersonpage * pages;
+            var min = sum - usersonpage;
+            if (usernumber < sum && usernumber >= min) {
+                var trElement = $('<tr></tr>');
+                var tdElement1 = creatTdElement(item.bookName);
+                var tdElement2 = creatTdElement(item.timesTaken);
+                trElement.append(tdElement1, tdElement2);
+                body.append(trElement);
+                usernumber++
+            }
+
             if (usernumber < min) {
                 usernumber++;
             }

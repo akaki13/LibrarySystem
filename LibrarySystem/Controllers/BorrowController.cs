@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using LibraryService;
 using LibrarySystem.Data;
-using LibrarySystem.Models.Api;
 using LibrarySystem.Models.View;
 using LibrarySystem.Util;
 using LibrarySystemModels;
-using LibrarySystemModels.Procedure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using System.Data;
 using System.Security.Claims;
 
 namespace LibrarySystem.Controllers
@@ -53,9 +49,10 @@ namespace LibrarySystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 try
                 {
-                    int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    
                     var borrow = _mapper.Map<Borrow>(addBorrowView);
                     borrow.TakeTime = DateTime.Now;
                     _borrowService.Add(borrow);
@@ -66,7 +63,7 @@ namespace LibrarySystem.Controllers
                 catch (Exception ex)
                 {
                     _tableLogService.Discard();
-                    _tableLogService.AddDataError(DataUtil.TableStatusError, ex.Message, null);
+                    _tableLogService.AddDataError(DataUtil.TableStatusError, ex.Message, userID);
                     ViewBag.ErrorMessage = DataUtil.DoNotSaved;
                     return View(addBorrowView);
                 }

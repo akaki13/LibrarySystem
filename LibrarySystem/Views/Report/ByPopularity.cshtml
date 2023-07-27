@@ -3,7 +3,8 @@
 }
 <div class="input-group mb-2">
     <input type="text" id="bookName" class="form-control" placeholder="Book Name">
-    <input type="text" id="timesTaken" class="form-control" placeholder="Taken">
+    <input type="text" id="minBorrow" class="form-control" placeholder="Min Borrow">
+    <input type="text" id="maxBorrow" class="form-control" placeholder="Max Borrow">
     <span class="input-group-btn">
         <button class="btn btn-primary" id="submit" type="button"><i class="fa fa-search"></i></button>
     </span>
@@ -12,7 +13,7 @@
     <thead>
         <tr>
             <th scope="col" class="text-center sort" data-sort="bookName">Book Name</th>
-            <th scope="col" class="text-center sort" data-sort="timesTaken">Taken</th>
+            <th scope="col" class="text-center sort" data-sort="timesTaken">Book Was Borrowed</th>
         </tr>
     </thead>
     <tbody id="body">

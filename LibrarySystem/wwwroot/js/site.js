@@ -184,6 +184,18 @@ function getData(url) {
     });
 }
 
+function getDataWithParameters(url , params) {
+    return new Promise((resolve, reject) => {
+        $.get(url, params, (data, status) => {
+            if (status === "success") {
+                resolve(data);
+            } else {
+                reject(new Error(`Failed to retrieve data from ${url}`));
+            }
+        });
+    });
+}
+
 function formatDate(date) {
     const dob = new Date(date);
     const year = dob.getFullYear().toString().padStart(2, '0');
