@@ -119,6 +119,12 @@ function creatTdElement(data) {
     return $('<td></td>').addClass('text-center').text(data);
 }
 
+function creatTdElementPhoto(data) {
+    var tdElement = $('<td></td>').addClass('image-cell'); 
+    var image = $('<img/>').attr('src', data);
+    tdElement.append(image);
+    return tdElement;
+}
 function getNames(Id, Data, relatedTitleKeys) {
     const matchedRelated = Data.$values.filter((a) => a.id === Id);
     const relatedTitles = matchedRelated.map(i => relatedTitleKeys.map(key => i[key]).join(' '));
@@ -219,3 +225,35 @@ $(".sort").on("click", async function () {
     pages = 1;
     displayData();
 });
+
+function saveDataToCSV(data, name) {
+    let csvContent = "";
+    csvContent += Object.keys(data[0]).join(",") + "\r\n";
+
+    data.forEach(row => {
+        const values = Object.values(row).map(value => {
+            if (value instanceof Date) {
+                return value.toISOString();
+            }
+            return value;
+        });
+        csvContent += values.join(",") + "\r\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+
+    const dataUri = "data:text/csv;charset=utf-8," + encodedUri;
+
+    const link = document.createElement("a");
+    link.href = dataUri;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+async function csvbtn(data, namee) {
+    $("#csv-btn").on("click", function () {
+        const dataArray = data["$values"];
+        saveDataToCSV(dataArray, namee);
+    });
+}

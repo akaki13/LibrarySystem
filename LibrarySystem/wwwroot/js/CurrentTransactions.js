@@ -14,6 +14,7 @@ const searchTakeAfter = $("#takeAfter");
 const searchTakeBefore = $("#takeBefore");
 const searchReturnAfter = $("#returnAfter");
 const searchReturnBefore = $("#returnBefore");
+const fileName = "CurrentTransactions";
 
 $("#submit").on("click", async function () {
     pages = 1;
@@ -73,6 +74,7 @@ async function displayData() {
         }
         totalPage = Math.ceil(alluser / usersonpage);    
         initializePagination();
+        csvbtn(data, fileName);
     } catch (error) {
         console.error(error);
     }

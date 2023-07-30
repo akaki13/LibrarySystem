@@ -18,7 +18,6 @@ $(document).ready(async function () {
         getData(domainName + getbookauthorlink),
         getData(domainName + getauthorlink),
     ]); 
- 
 
     $("#bookModalOpan").on("click", async function () {
         var bookModal = new bootstrap.Modal($('#bookModal'));
@@ -28,7 +27,7 @@ $(document).ready(async function () {
             for (const item of bookdata.$values) {
                 if (CheckSearch(bookSearch, item.name)) {
                     const authorsTitles = getEntityTitles(item.id, bookauthordata, authordata, 'autorId', ['name', 'surname']);
-                    creatPersonResult(item.id,item.name, authorsTitles, 'Author: ', bookResults, 'book');
+                    creatBookResult(item.id, item.name, authorsTitles, 'Author: ', bookResults, 'book', item.imagePath );
                 }
             }
             bookResults.show();
@@ -85,6 +84,18 @@ $(document).ready(async function () {
         lineContainer.append(lineText1, lineText2);
         searchGroup.append(text, lineContainer);
         result.append(searchGroup)
+    }
+
+    function creatBookResult(id, data1, data2, texts, result, type, imageUrl) {
+        var searchGroup = $('<div>', { class: 'search-group  clickable ' + type, 'data-value': id });
+        var text = $('<p>', { class: 'text-center maintext', text: data1 });
+        var lineContainer = $('<div>', { class: 'line-container' });
+        var lineText1 = $('<p>', { class: 'line-text', text: texts });
+        var lineText2 = $('<p>', { class: 'line-text', text: data2 });
+        var image = $('<img>', { class: 'left-corner-image', src: imageUrl }); 
+        lineContainer.append(lineText1, lineText2);
+        searchGroup.append(image, text, lineContainer); 
+        result.append(searchGroup);
     }
 });
 

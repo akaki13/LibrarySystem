@@ -12,13 +12,17 @@ namespace LibrarySystemData.Configuration
             entity.ToTable("Book");
 
             entity.Property(e => e.Description)
-                .HasMaxLength(150)
+                .HasMaxLength(300)
                 .IsUnicode(false);
 
 
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
+
+            entity.Property(e => e.ImagePath)
+               .HasMaxLength(300)
+               .IsUnicode(false);
         }
     }
 }

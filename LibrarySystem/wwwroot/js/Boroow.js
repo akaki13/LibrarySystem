@@ -73,7 +73,12 @@ async function displayData() {
                     var tdElement4 = creatTdElement(formattedDate3);
                     var tdElement5 = creatTdElement(formattedDate2);
                     var tdElement6 = creatTdElement(item.comment);
-                    var tdElement8 = $('<td></td>').addClass('text-center').html('<button class="return-btn">Book Returned</button> <button class="delete-btn">Delete</button>');
+                    if (item.actualReturnedTime != null) {
+                        var tdElement8 = $('<td></td>').addClass('text-center').html('<button class="dismissed">Book Returned</button> <button class="delete-btn">Delete</button>');
+                    }
+                    else {
+                        var tdElement8 = $('<td></td>').addClass('text-center').html('<button class="return-btn">Book Returned</button> <button class="delete-btn">Delete</button>');
+                    }
                     trElement.append(tdElement1, tdElement2, tdElement3, tdElement4, tdElement5, tdElement6, tdElement8);
                     body.append(trElement);
                     usernumber++

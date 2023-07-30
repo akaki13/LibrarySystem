@@ -4,7 +4,7 @@
     
 }
 
-<form class="card-body cardbody-color p-lg-5" method="post" asp-action="AddBook" asp-controller="Book">
+<form class="card-body cardbody-color p-lg-5" method="post" asp-action="AddBook" asp-controller="Book" enctype="multipart/form-data">
 
     <div class="mb-3">
         <p>@ViewBag.ErrorMessage</p>
@@ -19,7 +19,11 @@
     <input type="text" class="form-control"  asp-for="Description" placeholder="Description">
     <span class="text-danger" asp-validation-for="Description"></span>
     </div>
-  
+    <div class="mb-3">
+        <p class="mb-1">Image</p>
+        <input asp-for="ImageFile" type="file" accept="image/*" />
+        <span class="text-danger" asp-validation-for="ImageFile"></span>
+    </div>
     <div class="mb-3">
         <p class="mb-1">Genre </p>
         <select class="js-example-basic-multiple" asp-for="GenreId" id="GenreSelect"  multiple> 

@@ -1,35 +1,6 @@
-﻿@*@{
+﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p class="text-start">Use this page to detail your site's privacy policy.</p>
-*@
-@model LibrarySystem.Models.View.BookView
-
-<form asp-action="Upload" method="post" enctype="multipart/form-data">
-    <div>
-        <input type="file" name="ImageFile" id="ImageFile" style="display: none;" onchange="displayChosenImage()" />
-        <label for="ImageFile" style="cursor: pointer;">Choose Image</label>
-        <img id="chosenImage" src="#" alt="Chosen Image" style="display: none; max-width: 200px; margin-top: 10px;" />
-    </div>
-    <input type="submit" value="Upload" />
-</form>
-
-<script>
-    function displayChosenImage() {
-        var fileInput = document.getElementById('ImageFile');
-        var chosenImage = document.getElementById('chosenImage');
-
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                chosenImage.src = e.target.result;
-                chosenImage.style.display = 'block';
-            }
-
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    }
-</script>

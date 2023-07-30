@@ -25,9 +25,9 @@ namespace LibraryService
             return _reportRepository.GetClientsPerformance( parameters);
         }
 
-        public List<OverdueTransactions> GetOverdueTransactions()
+        public List<OverdueTransactions> GetOverdueTransactions(OverdueTransactionsParameters parameters)
         {
-            return _reportRepository.GetOverdueTransactions();
+            return _reportRepository.GetOverdueTransactions( parameters);
         }
 
         public List<CurrentTransactions> GetCurrentTransactions(CurrentTransactionsParameters parameters)
@@ -41,6 +41,6 @@ namespace LibraryService
         List<ByPopularity> GetByPopularities(ByPopularityParameters parameters);
         List<ClientsPerformance> GetClientsPerformance(ClientsPerformanceParameters parameters);
         List<CurrentTransactions> GetCurrentTransactions(CurrentTransactionsParameters parameters);
-        List<OverdueTransactions> GetOverdueTransactions();
+        List<OverdueTransactions> GetOverdueTransactions(OverdueTransactionsParameters parameters);
     }
 }

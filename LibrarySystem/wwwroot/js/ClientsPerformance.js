@@ -11,6 +11,8 @@ var orderBy = "asc";
 const searchPersonName = $("#personName");
 const searchMin = $("#minBorrow");
 const searchMax = $("#maxBorrow");
+const fileName = "ClientsPerformance";
+
 $("#submit").on("click", async function () {
     pages = 1;
     displayData();
@@ -56,6 +58,7 @@ async function displayData() {
         }
         totalPage = Math.ceil(alluser / usersonpage);    
         initializePagination();
+        csvbtn(data, fileName);
     } catch (error) {
         console.error(error);
     }

@@ -79,14 +79,19 @@ namespace LibrarySystemData.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .HasMaxLength(150)
+                        .HasMaxLength(300)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(300)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(300)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -375,6 +380,59 @@ namespace LibrarySystemData.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Position", (string)null);
+                });
+
+            modelBuilder.Entity("LibrarySystemModels.Procedure.ByPopularity", b =>
+                {
+                    b.Property<string>("BookName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TimesTaken")
+                        .HasColumnType("int");
+
+                    b.ToTable("ByPopularity");
+                });
+
+            modelBuilder.Entity("LibrarySystemModels.Procedure.ClientsPerformance", b =>
+                {
+                    b.Property<int>("BooksTaken")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("ClientsPerformance");
+                });
+
+            modelBuilder.Entity("LibrarySystemModels.Procedure.CurrentTransactions", b =>
+                {
+                    b.Property<string>("BookName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReturnTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TakeTime")
+                        .HasColumnType("datetime2");
+
+                    b.ToTable("CurrentTransactions");
+                });
+
+            modelBuilder.Entity("LibrarySystemModels.Procedure.OverdueTransactions", b =>
+                {
+                    b.Property<string>("BookName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReturnTime")
+                        .HasColumnType("datetime2");
+
+                    b.ToTable("OverdueTransactions");
                 });
 
             modelBuilder.Entity("LibrarySystemModels.Publisher", b =>

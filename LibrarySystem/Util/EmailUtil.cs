@@ -1,11 +1,6 @@
-﻿using HtmlAgilityPack;
-using LibrarySystem.Data;
-using LibrarySystem.Models.Email;
-using LibrarySystemModels;
-using System;
+﻿using LibrarySystem.Data;
 using System.Net;
 using System.Net.Mail;
-using static System.Net.Mime.MediaTypeNames;
 using System.Reflection;
 
 namespace LibrarySystem.Util

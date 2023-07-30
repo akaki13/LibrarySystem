@@ -15,6 +15,11 @@ namespace LibrarySystem.Models.View
         public string Description { get; set; }
 
         [Required]
+        [Display(Name = "Image")]
+        public IFormFile ImageFile { get; set; }
+
+
+        [Required]
         [Display(Name = "Genre")]
         public List<int> GenreId { get; set; }
 

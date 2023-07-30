@@ -46,12 +46,12 @@ namespace LibrarySystem.Controllers
             return View();
         }
 
-        public ActionResult<List<OverdueTransactions>> GetOverdueTransaction()
+        public ActionResult<List<OverdueTransactions>> GetOverdueTransaction(OverdueTransactionsParameters parameters)
         {
             var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                return _reportService.GetOverdueTransactions();
+                return _reportService.GetOverdueTransactions(parameters);
             }
             catch (Exception e)
             {

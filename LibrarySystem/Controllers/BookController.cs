@@ -182,16 +182,30 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public IActionResult AddBook(BookView bookView)
         {
+            
             if (ModelState.IsValid)
             {
                 
                 try
                 {
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Image", "Book");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+                    string filePath = Path.Combine(uploadsFolder, bookView.ImageFile.FileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        bookView.ImageFile.CopyTo(fileStream);
+                    }
+                    string path = Path.Combine(DataUtil.BookImagepath, bookView.ImageFile.FileName);
                     int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                     var book = new Book
                     {
                         Name = bookView.Name,
                         Description = bookView.Description,
+                        ImagePath = path,
                     };
                     _bookService.Add(book);
                     _bookService.Save();
@@ -240,18 +254,6 @@ namespace LibrarySystem.Controllers
                 var data = _bookStorageService.AddData(i, id);
                 _tableLogService.AddData(DataUtil.BookStorageTableName, data.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
 
-            }
-        }
-
-        private void CheckData(UpdateBookView bookView)
-        {
-            var genres = _bookGenreService.GetByBookId(bookView.Id);
-            foreach (var genre in genres)
-            {
-                if (bookView.GenreId.Contains(genre.GenreId))
-                {
-                    
-                }
             }
         }
 

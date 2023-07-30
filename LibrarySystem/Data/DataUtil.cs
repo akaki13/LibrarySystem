@@ -41,6 +41,7 @@ namespace LibrarySystem.Data
         public const string UpdateData = "Data Updated";
         public const string DeleteData = "Data Deleted";
         public const string ReturnDataCheck = "Return Time must be greater than the current time.";
-        public const string DataDoMotFound = "Data did not found"; 
+        public const string DataDoMotFound = "Data did not found";
+        public const string BookImagepath = "/Image/Book/";
     }
 }

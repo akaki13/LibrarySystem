@@ -35,9 +35,10 @@ namespace LibrarySystemData.Repositories
             return con;
         }
 
-        public List<OverdueTransactions> GetOverdueTransactions()
+        public List<OverdueTransactions> GetOverdueTransactions(OverdueTransactionsParameters parameters)
         {
-            var con =  _context.Set<OverdueTransactions>().FromSqlRaw("EXEC OverdueTransactions").ToList();
+            var con =  _context.Set<OverdueTransactions>().FromSqlRaw("EXEC OverdueTransactions @PersonNameSearch = {0}, @BookNameSearch = {1},@ReturnTimeAfter = {2},@ReturnTimeBefore = {3};",
+                parameters.PersonNameSearch, parameters.BookNameSearch, parameters.ReturnTimeAfter, parameters.ReturnTimeBefore).ToList();
             return con;
         }
 
@@ -57,6 +58,6 @@ namespace LibrarySystemData.Repositories
         List<ByPopularity> GetByPopularities(ByPopularityParameters parameters);
         List<ClientsPerformance> GetClientsPerformance(ClientsPerformanceParameters parameters);
         List<CurrentTransactions> GetCurrentTransactions(CurrentTransactionsParameters parameters);
-        List<OverdueTransactions> GetOverdueTransactions();
+        List<OverdueTransactions> GetOverdueTransactions(OverdueTransactionsParameters parameters);
     }
 }

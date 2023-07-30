@@ -217,6 +217,7 @@ td[contenteditable="true"] {
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid #ccc;
+
 }
     .search-group:hover {
         background-color: #007bff;
@@ -236,3 +237,34 @@ td[contenteditable="true"] {
     margin: 0 10px;
 }
 
+.dismissed {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+button {
+    border-radius: 10px;
+}
+.image-cell {
+    min-height: 50px;
+    padding: 10px;
+}
+
+    .image-cell img {
+        height: 50px;
+        width: 50px;
+        object-fit: fill;
+        display: block;
+        margin: 0 auto;
+    }
+.image-add{
+    display: none;
+    max-width: 200px;
+    margin-top: 10px;
+}
+.left-corner-image {
+    float: left;
+    height: 50px;
+    width: 50px;
+    object-fit: fill;
+    margin: 10px 0px 5px 40px;
+}

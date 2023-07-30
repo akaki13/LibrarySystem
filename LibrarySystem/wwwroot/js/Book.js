@@ -179,8 +179,9 @@ async function displayData() {
                         var tdElement5 = creatTdElement(publishersTitles);
                         var tdElement6 = creatTdElement(storagesTitles);
                         var tdElement7 = creatTdElement(languagesTitles);
+                        var tdElemen0 = creatTdElementPhoto(item.imagePath);
                         var tdElement8 = $('<td></td>').addClass('text-center').html('<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>');
-                        trElement.append(tdElement1, tdElement2, tdElement3, tdElement4, tdElement5, tdElement6, tdElement7, tdElement8);
+                        trElement.append(tdElemen0,tdElement1, tdElement2, tdElement3, tdElement4, tdElement5, tdElement6, tdElement7, tdElement8);
                         body.append(trElement);
                         usernumber++
                     }
