@@ -76,6 +76,74 @@ namespace LibrarySystem.Controllers
             }
         }
 
+        public ActionResult GeneratePopularityPdf(ByPopularityParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetByPopularities(parameters);
+                var pdfBytes = GenerateFiles.GeneratePdfBytes(data);
+                return File(pdfBytes, "application/pdf", "models_list.pdf");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
+        public ActionResult GenerateCurrentTransactionsPdf(CurrentTransactionsParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetCurrentTransactions(parameters);
+                var pdfBytes = GenerateFiles.GeneratePdfBytes(data);
+                return File(pdfBytes, "application/pdf", "models_list.pdf");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
+        public ActionResult GenerateOverdueTransactionsPdf(OverdueTransactionsParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetOverdueTransactions(parameters);
+                var pdfBytes = GenerateFiles.GeneratePdfBytes(data);
+                return File(pdfBytes, "application/pdf", "models_list.pdf");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
+        public ActionResult GenerateClientsPerformancePdf(ClientsPerformanceParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetClientsPerformance(parameters);
+                var pdfBytes = GenerateFiles.GeneratePdfBytes(data);
+                return File(pdfBytes, "application/pdf", "models_list.pdf");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
         public ActionResult<List<ByPopularity>> GetByPopularity(ByPopularityParameters parameters)
         {
             

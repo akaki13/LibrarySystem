@@ -46,7 +46,7 @@ namespace LibrarySystemData
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-47MVG9S;Database=library;Trusted_Connection=True;MultipleActiveResultSets=true");
+               // optionsBuilder.UseSqlServer("Server=DESKTOP-47MVG9S;Database=library;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -72,7 +72,6 @@ namespace LibrarySystemData
             modelBuilder.ApplyConfiguration(new StorageConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new TableLogConfiguration());
-
             OnModelCreatingPartial(modelBuilder);
         }
 

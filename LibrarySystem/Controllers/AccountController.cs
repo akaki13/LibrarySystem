@@ -91,7 +91,8 @@ namespace LibrarySystem.Controllers
             
         }
 
-        public ActionResult SavePassword(ResetPasswordView resetPassword)
+        [HttpPost]
+        public ActionResult ResetPassword(ResetPasswordView resetPassword)
         {
             if (ModelState.IsValid)
             {
@@ -99,13 +100,13 @@ namespace LibrarySystem.Controllers
                 if (resetPassword.Password != resetPassword.ConfirmPassword)
                 {
                     ViewBag.ErrorMessage = DataUtil.PasswordsMatch;
-                    return View("ResetPassword");
+                    return View(resetPassword);
                 }
                 var user = _userService.GetById(id);
                 if (user == null)
                 {
                     ViewBag.ErrorMessage = DataUtil.DoNotSaved;
-                    return View("ResetPassword", resetPassword.Token);
+                    return View(resetPassword);
                 }
                 try
                 {
@@ -125,7 +126,7 @@ namespace LibrarySystem.Controllers
             }
             else
             {
-                return View("ResetPassword",resetPassword.Token);
+                return View(resetPassword);
             }
         }
 

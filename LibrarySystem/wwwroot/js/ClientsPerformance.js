@@ -1,5 +1,6 @@
 var domainName = window.location.origin;
 const getPerfomancelink = "/Report/GetClientsPerformance";
+const getpdflink = "/Report/GenerateClientsPerformancePdf";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -63,4 +64,16 @@ async function displayData() {
         console.error(error);
     }
 }
+
+$("#pdf-btn").on("click", function () {
+
+    var param =
+    {
+        PersonNameSearch: searchPersonName.val() || null,
+        MinBooksTaken: searchMin.val() || null,
+        MaxBooksTaken: searchMax.val() || null
+    }
+    url = domainName + getpdflink;
+    postDataGenerete(url, param)
+});
 

@@ -160,6 +160,32 @@ function postData(url, data) {
         });
     });
 }
+function postDataGenerete(url, param) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.responseType = "arraybuffer";
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var blob = new Blob([xhr.response], { type: "application/pdf" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "models_list.pdf";
+            a.click();
+
+            URL.revokeObjectURL(url);
+        } else {
+            console.error("Error generating PDF:", xhr.status, xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error("Network error occurred while generating PDF.");
+    };
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(param);
+}
 function deleteData(url) {
     return new Promise(function (resolve, reject) {
         $.ajax({
