@@ -1,6 +1,7 @@
 var domainName = window.location.origin;
 const getPerfomancelink = "/Report/GetClientsPerformance";
 const getpdflink = "/Report/GenerateClientsPerformancePdf";
+const getcsvlink = "/Report/GenerateClientsPerformancecsv";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -74,6 +75,16 @@ $("#pdf-btn").on("click", function () {
         MaxBooksTaken: searchMax.val() || null
     }
     url = domainName + getpdflink;
-    postDataGenerete(url, param)
+    postDataGeneretePdf(url, param)
 });
 
+$("#csv-btn").on("click", function () {
+    var param =
+    {
+        PersonNameSearch: searchPersonName.val() || null,
+        MinBooksTaken: searchMin.val() || null,
+        MaxBooksTaken: searchMax.val() || null
+    }
+    url = domainName + getcsvlink;
+    postDataGeneretecsv(url, param);
+});

@@ -144,6 +144,74 @@ namespace LibrarySystem.Controllers
             }
         }
 
+        public ActionResult GeneratePopularityCsv(ByPopularityParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetByPopularities(parameters);
+                var csvBytes = GenerateFiles.GenerateCsvBytes(data);
+                return File(csvBytes, "text/csv", "models_list.csv");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
+        public ActionResult GenerateCurrentTransactionsCsv(CurrentTransactionsParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetCurrentTransactions(parameters);
+                var csvBytes = GenerateFiles.GenerateCsvBytes(data);
+                return File(csvBytes, "text/csv", "models_list.csv");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
+        public ActionResult GenerateOverdueTransactionsCsv(OverdueTransactionsParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetOverdueTransactions(parameters);
+                var csvBytes = GenerateFiles.GenerateCsvBytes(data);
+                return File(csvBytes, "text/csv", "models_list.csv");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
+        public ActionResult GenerateClientsPerformanceCsv(ClientsPerformanceParameters parameters)
+        {
+            var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                var data = _reportService.GetClientsPerformance(parameters);
+                var csvBytes = GenerateFiles.GenerateCsvBytes(data);
+                return File(csvBytes, "text/csv", "models_list.csv");
+            }
+            catch (Exception e)
+            {
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return ResultApi.Failed();
+            }
+        }
+
         public ActionResult<List<ByPopularity>> GetByPopularity(ByPopularityParameters parameters)
         {
             

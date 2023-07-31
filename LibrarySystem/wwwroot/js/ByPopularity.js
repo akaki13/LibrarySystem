@@ -1,6 +1,7 @@
 var domainName = window.location.origin;
 const getTransactionlink = "/Report/GetByPopularity";
 const getpdflink = "/Report/GeneratePopularityPdf";
+const getcsvlink = "/Report/GeneratePopularitycsv";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -61,7 +62,7 @@ async function displayData() {
         }
         totalPage = Math.ceil(alluser / usersonpage);    
         initializePagination();
-        csvbtn(data, fileName);
+
     } catch (error) {
         console.error(error);
     }
@@ -74,7 +75,17 @@ $("#pdf-btn").on("click", function () {
         MaxBooksTaken: searchMax.val() || null
     }
     url = domainName + getpdflink;
-    postDataGenerete(url, param)
+    postDataGeneretePdf(url, param)
 });
 
+$("#csv-btn").on("click", function () {
+    var param =
+    {
+        BookName: searchBookName.val() || null,
+        MinBooksTaken: searchMin.val() || null,
+        MaxBooksTaken: searchMax.val() || null
+    }
+    url = domainName + getcsvlink;
+    postDataGeneretecsv(url, param);
+});
 

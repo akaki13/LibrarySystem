@@ -160,7 +160,7 @@ function postData(url, data) {
         });
     });
 }
-function postDataGenerete(url, param) {
+function postDataGeneretePdf(url, param) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.responseType = "arraybuffer";
@@ -182,6 +182,33 @@ function postDataGenerete(url, param) {
 
     xhr.onerror = function () {
         console.error("Network error occurred while generating PDF.");
+    };
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(param);
+}
+
+function postDataGeneretecsv(url, param) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.responseType = "arraybuffer";
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var blob = new Blob([xhr.response], { type: "text/csv" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "models_list.csv";
+            a.click();
+
+            URL.revokeObjectURL(url);
+        } else {
+            console.error("Error generating CSv:", xhr.status, xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error("Network error occurred while generating CSv.");
     };
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(param);
@@ -276,10 +303,4 @@ function saveDataToCSV(data, name) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-}
-async function csvbtn(data, namee) {
-    $("#csv-btn").on("click", function () {
-        const dataArray = data["$values"];
-        saveDataToCSV(dataArray, namee);
-    });
 }

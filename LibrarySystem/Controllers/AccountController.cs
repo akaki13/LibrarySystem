@@ -155,22 +155,31 @@ namespace LibrarySystem.Controllers
                 int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var user = _userService.GetById(userID);
                 var person = _personService.GetById(user.PersonId);
-                try
+                var ckeckEmail = _personService.GetByEmail(edit.Email);
+                if (ckeckEmail == null || ckeckEmail.Email == person.Email)
                 {
-                    _mapper.Map(edit, person);
-                    _personService.Update(person);
-                    _personService.Save();
-                    _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                    return RedirectToAction("Index", "Home");
+                    try
+                    {
+                        _mapper.Map(edit, person);
+                        _personService.Update(person);
+                        _personService.Save();
+                        _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    catch (Exception e)
+                    {
+                        _tableLogService.Discard();
+                        _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusError, e.Message);
+                        ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                        return View(edit);
+                    }
                 }
-                catch (Exception e)
+                else
                 {
-                    _tableLogService.Discard();
-                    _tableLogService.Update(DataUtil.PersonTableName, person.Id, DataUtil.TableStatusError, e.Message);
-                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                    ViewBag.ErrorMessage = DataUtil.EmailExist;
                     return View(edit);
                 }
-                
+
             }
             else
             {

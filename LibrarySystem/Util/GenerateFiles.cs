@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Reflection;
+using System.Text;
 
 namespace LibrarySystem.Util
 {
@@ -36,6 +37,32 @@ namespace LibrarySystem.Util
                 document.Close();
                 return memoryStream.ToArray();
             }
+        }
+
+        public static byte[] GenerateCsvBytes<T>(List<T> models)
+        {
+            var csvBuilder = new StringBuilder();
+
+            var properties = typeof(T).GetProperties();
+            foreach (var property in properties)
+            {
+                csvBuilder.Append(property.Name);
+                csvBuilder.Append(",");
+            }
+            csvBuilder.AppendLine();
+
+            foreach (var model in models)
+            {
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(model);
+                    csvBuilder.Append(value != null ? value.ToString() : "");
+                    csvBuilder.Append(",");
+                }
+                csvBuilder.AppendLine();
+            }
+
+            return Encoding.UTF8.GetBytes(csvBuilder.ToString());
         }
     }
 }

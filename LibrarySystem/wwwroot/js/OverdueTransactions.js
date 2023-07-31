@@ -1,6 +1,7 @@
 var domainName = window.location.origin;
 const getTransactionlink = "/Report/GetOverdueTransaction";
 const getpdflink = "/Report/GenerateOverdueTransactionsPdf";
+const getcsvlink = "/Report/GenerateOverdueTransactionscsv";
 const body = $("#body");
 var usersonpage = 5;
 var pages = 1;
@@ -80,5 +81,16 @@ $("#pdf-btn").on("click", function () {
         ReturnTimeBefore: searchReturnBefore.val() || null,
     }
     url = domainName + getpdflink;
-    postDataGenerete(url, param)
+    postDataGeneretePdf(url, param)
+});
+$("#csv-btn").on("click", function () {
+    var param =
+    {
+        PersonNameSearch: searchPersonName.val() || null,
+        BookNameSearch: searchBookName.val() || null,
+        ReturnTimeAfter: searchReturnAfter.val() || null,
+        ReturnTimeBefore: searchReturnBefore.val() || null,
+    }
+    url = domainName + getcsvlink;
+    postDataGeneretecsv(url, param);
 });
