@@ -13,7 +13,8 @@ var orderBy = "asc";
 const searchBookName = $("#bookName");
 const searchMin = $("#minBorrow");
 const searchMax = $("#maxBorrow");
-const fileName = "ByPopularity";
+const fileNamecs = "ByPopularity.csv";
+const fileNamepdf = "ByPopularity.pdf";
 $("#submit").on("click", async function () {
     pages = 1;
     displayData();
@@ -75,7 +76,7 @@ $("#pdf-btn").on("click", function () {
         MaxBooksTaken: searchMax.val() || null
     }
     url = domainName + getpdflink;
-    postDataGeneretePdf(url, param)
+    postDataGeneretePdf(url, param, fileNamepdf)
 });
 
 $("#csv-btn").on("click", function () {
@@ -86,6 +87,6 @@ $("#csv-btn").on("click", function () {
         MaxBooksTaken: searchMax.val() || null
     }
     url = domainName + getcsvlink;
-    postDataGeneretecsv(url, param);
+    postDataGeneretecsv(url, param, fileNamecs);
 });
 

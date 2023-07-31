@@ -6,6 +6,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Reflection;
 using System.Text;
+using System.Globalization;
 
 namespace LibrarySystem.Util
 {
@@ -29,11 +30,19 @@ namespace LibrarySystem.Util
                     foreach (var property in typeof(T).GetProperties())
                     {
                         var value = property.GetValue(model);
-                        table.AddCell(value != null ? value.ToString() : "");
+                        if (value is DateTime dateTimeValue)
+                        {
+                            table.AddCell(dateTimeValue.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                        }
+                        else
+                        {
+                            table.AddCell(value != null ? value.ToString() : "");
+                        }
                     }
                 }
                 document.Add(new Paragraph($"List of {typeof(T).Name}s"));
                 document.Add(table);
+
                 document.Close();
                 return memoryStream.ToArray();
             }
@@ -42,7 +51,6 @@ namespace LibrarySystem.Util
         public static byte[] GenerateCsvBytes<T>(List<T> models)
         {
             var csvBuilder = new StringBuilder();
-
             var properties = typeof(T).GetProperties();
             foreach (var property in properties)
             {
@@ -50,18 +58,23 @@ namespace LibrarySystem.Util
                 csvBuilder.Append(",");
             }
             csvBuilder.AppendLine();
-
             foreach (var model in models)
             {
                 foreach (var property in properties)
                 {
                     var value = property.GetValue(model);
-                    csvBuilder.Append(value != null ? value.ToString() : "");
+                    if (value is DateTime dateTimeValue)
+                    {
+                        csvBuilder.Append(dateTimeValue.ToString("yyyy-MM-dd"));
+                    }
+                    else
+                    {
+                        csvBuilder.Append(value != null ? value.ToString() : "");
+                    }
                     csvBuilder.Append(",");
                 }
                 csvBuilder.AppendLine();
             }
-
             return Encoding.UTF8.GetBytes(csvBuilder.ToString());
         }
     }

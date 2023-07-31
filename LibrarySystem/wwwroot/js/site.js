@@ -160,7 +160,7 @@ function postData(url, data) {
         });
     });
 }
-function postDataGeneretePdf(url, param) {
+function postDataGeneretePdf(url, param, name) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.responseType = "arraybuffer";
@@ -171,23 +171,23 @@ function postDataGeneretePdf(url, param) {
             var url = URL.createObjectURL(blob);
             var a = document.createElement("a");
             a.href = url;
-            a.download = "models_list.pdf";
+            a.download = name;
             a.click();
 
             URL.revokeObjectURL(url);
         } else {
-            console.error("Error generating PDF:", xhr.status, xhr.statusText);
+            
         }
     };
 
     xhr.onerror = function () {
-        console.error("Network error occurred while generating PDF.");
+
     };
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(param);
 }
 
-function postDataGeneretecsv(url, param) {
+function postDataGeneretecsv(url, param, name) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.responseType = "arraybuffer";
@@ -198,17 +198,15 @@ function postDataGeneretecsv(url, param) {
             var url = URL.createObjectURL(blob);
             var a = document.createElement("a");
             a.href = url;
-            a.download = "models_list.csv";
+            a.download = name;
             a.click();
 
             URL.revokeObjectURL(url);
         } else {
-            console.error("Error generating CSv:", xhr.status, xhr.statusText);
         }
     };
 
     xhr.onerror = function () {
-        console.error("Network error occurred while generating CSv.");
     };
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(param);

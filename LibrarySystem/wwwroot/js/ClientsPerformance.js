@@ -13,7 +13,8 @@ var orderBy = "asc";
 const searchPersonName = $("#personName");
 const searchMin = $("#minBorrow");
 const searchMax = $("#maxBorrow");
-const fileName = "ClientsPerformance";
+const fileNamecsv = "ClientsPerformance.csv";
+const fileNamepdf = "ClientsPerformance.pdf";
 
 $("#submit").on("click", async function () {
     pages = 1;
@@ -75,7 +76,7 @@ $("#pdf-btn").on("click", function () {
         MaxBooksTaken: searchMax.val() || null
     }
     url = domainName + getpdflink;
-    postDataGeneretePdf(url, param)
+    postDataGeneretePdf(url, param, fileNamepdf)
 });
 
 $("#csv-btn").on("click", function () {
@@ -86,5 +87,5 @@ $("#csv-btn").on("click", function () {
         MaxBooksTaken: searchMax.val() || null
     }
     url = domainName + getcsvlink;
-    postDataGeneretecsv(url, param);
+    postDataGeneretecsv(url, param, fileNamecsv);
 });

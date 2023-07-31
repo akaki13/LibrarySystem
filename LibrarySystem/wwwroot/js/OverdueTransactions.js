@@ -14,8 +14,8 @@ const searchPersonName = $("#personName");
 const searchBookName = $("#bookName");
 const searchReturnAfter = $("#returnAfter");
 const searchReturnBefore = $("#returnBefore");
-const fileName = "OverdueTransactions";
-
+const fileNamecsv = "OverdueTransactions.csv";
+const fileNamepdf = "OverdueTransactions.pdf";
 $("#submit").on("click", async function () {
     pages = 1;
     displayData();
@@ -81,7 +81,7 @@ $("#pdf-btn").on("click", function () {
         ReturnTimeBefore: searchReturnBefore.val() || null,
     }
     url = domainName + getpdflink;
-    postDataGeneretePdf(url, param)
+    postDataGeneretePdf(url, param, fileNamepdf)
 });
 $("#csv-btn").on("click", function () {
     var param =
@@ -92,5 +92,5 @@ $("#csv-btn").on("click", function () {
         ReturnTimeBefore: searchReturnBefore.val() || null,
     }
     url = domainName + getcsvlink;
-    postDataGeneretecsv(url, param);
+    postDataGeneretecsv(url, param, fileNamecsv);
 });
