@@ -3,7 +3,10 @@ const getTransactionlink = "/Report/GetCurrentTransactions";
 const getpdflink = "/Report/GenerateCurrentTransactionsPdf";
 const getcsvlink = "/Report/GenerateCurrentTransactionscsv";
 const body = $("#body");
+<<<<<<< HEAD
 var usersonpage = 5;
+=======
+>>>>>>> rdlc
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;

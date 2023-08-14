@@ -1,10 +1,21 @@
 ﻿[
   {
+    "Id": 3,
+    "Title": "Users",
+    "Url": null,
+    "ParentId": null,
+    "Role": "Admin"
+  },
+  {
     "Id": 1,
     "Title": "Book",
     "Url": "/book/",
     "ParentId": null,
+<<<<<<< HEAD
     "Role" :  "Admin"
+=======
+    "Role": "Admin"
+>>>>>>> rdlc
   },
 
   {
@@ -12,6 +23,47 @@
     "Title": "Borrow",
     "Url": "/Borrow/",
     "ParentId": null,
+    "Role": "Admin"
+<<<<<<< HEAD
+  },
+  {
+    "Id": 6,
+    "Title": "Category",
+    "Url": null,
+    "ParentId": null,
+    "Role": "Admin"
+=======
+>>>>>>> rdlc
+  },
+
+  {
+<<<<<<< HEAD
+    "Id": 7,
+    "Title": "Authors",
+    "Url": "/bookcategory/authors",
+    "ParentId": 6,
+    "Role": null
+  },
+  {
+    "Id": 8,
+    "Title": "Genres",
+    "Url": "/bookcategory/genres",
+    "ParentId": 6,
+    "Role": null
+  },
+  {
+=======
+    "Id": 4,
+    "Title": "Peson",
+    "Url": "/user/Person",
+    "ParentId": 3,
+    "Role": "Admin"
+  },
+  {
+    "Id": 5,
+    "Title": "Positions",
+    "Url": "/user/Positions",
+    "ParentId": 3,
     "Role": "Admin"
   },
   {
@@ -36,6 +88,7 @@
     "Role": null
   },
   {
+>>>>>>> rdlc
     "Id": 9,
     "Title": "Languages",
     "Url": "/bookcategory/language",

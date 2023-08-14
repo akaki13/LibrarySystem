@@ -5,7 +5,10 @@ const getpersonlink = "/user/getperson";
 const deleteBorrowlink = "/borrow/DeleteBorrow/";
 const bookReturnedlink = "/borrow/BookReturned/";
 const body = $("#body");
+<<<<<<< HEAD
 var usersonpage = 5;
+=======
+>>>>>>> rdlc
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;
@@ -40,11 +43,19 @@ async function displayData() {
 
 
     sortDataByTable(borrowdata, 'name', bookdata, 'bookId');
+<<<<<<< HEAD
     sortDataByTable(borrowdata, 'firstname', persondata, 'bookId' );
+=======
+    sortDataByTable(borrowdata, 'firstname', persondata, 'personId' );
+>>>>>>> rdlc
     sortData(borrowdata, 'returnedTime');
     sortData(borrowdata, 'actualReturnedTime');
     sortData(borrowdata, 'comment');
     sortData(borrowdata, 'takeTime');
+<<<<<<< HEAD
+=======
+
+>>>>>>> rdlc
     try {
         for (const item of borrowdata.$values) {
             var personTitles = getNames(item.personId, persondata, ['firstname', 'lastname']);
@@ -59,7 +70,11 @@ async function displayData() {
             const returnMatch = CheckSearch(searchReturn, formattedDate2);
             const actualReturnMatch = CheckSearch(searchActualReturn, formattedDate3);
             const commentMatch = CheckSearch(searchComment, item.comment);
+<<<<<<< HEAD
 
+=======
+          
+>>>>>>> rdlc
 
             if (personMatch && bookMatch && takeMatch && returnMatch && actualReturnMatch && commentMatch) {
                 alluser++
@@ -107,7 +122,11 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', async function () {
+<<<<<<< HEAD
         deleteData(domainName + deleteBorrowlink + id)
+=======
+        postData(domainName + deleteBorrowlink + id)
+>>>>>>> rdlc
             .then(function (response) {
                 displayData();
                 deleteModal.hide();

@@ -4,7 +4,6 @@ const deletepositionlink = "/user/deleteposition/";
 const updatepositionlink = "/user/updateposition";
 const getpositionlink = "/user/getposition";
 const body = $("#body");
-var usersonpage = 5;
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;
@@ -49,7 +48,7 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', function () {
-        deleteData(domainName + deletepositionlink + id).then(function (response) {
+        postData(domainName + deletepositionlink + id).then(function (response) {
             displayData();
             deleteModal.hide();
         })

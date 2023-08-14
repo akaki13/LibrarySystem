@@ -4,7 +4,6 @@ const deletelink = "/bookcategory/deletestorage/";
 const updatelink = "/bookcategory/updatestorage";
 const getlink = "/bookcategory/getstorage";
 const body = $("#body");
-var usersonpage = 5;
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;
@@ -50,7 +49,7 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', async function () {
-        deleteData(domainName + deletelink + id).then(function (response) {
+        postData(domainName + deletelink + id).then(function (response) {
             displayData();
             deleteModal.hide();
         })

@@ -3,8 +3,9 @@ const addgenrelink = "/bookcategory/addgenre";
 const deletegenrelink = "/bookcategory/deletegenre/";
 const updategenrelink = "/bookcategory/updategenre";
 const getgenrelink = "/bookcategory/getgenres";
+const getReportlink = "/Report/GenerateGenrePercentagePdf";
 const body = $("#body");
-var usersonpage = 5;
+
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;
@@ -12,6 +13,37 @@ var totalPage = 0;
 var sortBy = "";
 var orderBy = "asc";
 const search = $("#search");
+
+$("#pdf-btn").on("click", function () {
+
+    $.ajax({
+        type: 'GET',
+        url: getReportlink, 
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function (data) {
+            var blobUrl = URL.createObjectURL(data);
+
+            // Create a temporary anchor element to trigger the download
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = blobUrl;
+            a.download = 'DynamicPieChartReport.pdf';
+
+            // Append the anchor element to the DOM and trigger the click event
+            document.body.appendChild(a);
+            a.click();
+
+            // Clean up
+            URL.revokeObjectURL(blobUrl);
+            document.body.removeChild(a);
+        },
+        error: function () {
+            alert('An error occurred while downloading the PDF.');
+        }
+    });
+});
 
 $("#submit").on("click", async function () {
     pages = 1;
@@ -43,7 +75,7 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', function () {
-        deleteData(domainName + deletegenrelink + id).then(function (response) {
+        postData(domainName + deletegenrelink + id).then(function (response) {
             displayData();
             deleteModal.hide();
         })

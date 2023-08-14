@@ -14,6 +14,7 @@ namespace LibrarySystem.Models.View
         [Required]
         public string Description { get; set; }
 
+
         [Required]
         [Display(Name = "Image")]
         public IFormFile ImageFile { get; set; }

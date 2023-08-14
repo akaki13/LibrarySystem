@@ -7,19 +7,20 @@
 
   <ItemGroup>
     <Compile Remove="Service\**" />
-    <Compile Remove="wwwroot\Assets\**" />
     <Content Remove="Service\**" />
-    <Content Remove="wwwroot\Assets\**" />
     <EmbeddedResource Remove="Service\**" />
-    <EmbeddedResource Remove="wwwroot\Assets\**" />
     <None Remove="Service\**" />
+<<<<<<< HEAD
     <None Remove="wwwroot\Assets\**" />
+=======
+>>>>>>> rdlc
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="bootstrap" Version="5.2.3" />
+    <PackageReference Include="EcoWpf" Version="7.0.0.14932" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="jQuery" Version="3.6.4" />
@@ -37,8 +38,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+<<<<<<< HEAD
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
     <PackageReference Include="Rotativa.AspNetCore" Version="1.2.0" />
+=======
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.17" />
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+>>>>>>> rdlc
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.0" />
   </ItemGroup>
 
@@ -63,6 +71,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="DataSet\ReportData.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Email.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -72,7 +83,119 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <Folder Include="wwwroot\uploads\" />
+=======
+    <None Include="Views\Account\EditProfile.cshtml" />
+    <None Include="Views\Account\EmailConfirmation.cshtml" />
+    <None Include="Views\Account\ForgotPassword.cshtml" />
+    <None Include="Views\Account\ForgotPasswordDetails.cshtml" />
+    <None Include="Views\Account\Login.cshtml" />
+    <None Include="Views\Account\Profile.cshtml" />
+    <None Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Account\ResetPassword.cshtml" />
+    <None Include="Views\Account\SavePassword.cshtml" />
+    <None Include="Views\Account\SaveRegisterDetails.cshtml" />
+    <None Include="Views\BookCategory\Authors.cshtml" />
+    <None Include="Views\BookCategory\Genres.cshtml" />
+    <None Include="Views\BookCategory\Language.cshtml" />
+    <None Include="Views\BookCategory\Publishers.cshtml" />
+    <None Include="Views\BookCategory\Storage.cshtml" />
+    <None Include="Views\Book\AddBook.cshtml" />
+    <None Include="Views\Book\Index.cshtml" />
+    <None Include="Views\Book\UpdateBook.cshtml" />
+    <None Include="Views\Borrow\AddBorrow.cshtml" />
+    <None Include="Views\Borrow\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Report\ByPopularity.cshtml" />
+    <None Include="Views\Report\ClientsPerformance.cshtml" />
+    <None Include="Views\Report\CurrentTransactions.cshtml" />
+    <None Include="Views\Report\OverdueTransaction.cshtml" />
+    <None Include="Views\Report\PdfReport.cshtml" />
+    <None Include="Views\Shared\Components\CategoryMenu\Default.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\User\AddPerson.cshtml" />
+    <None Include="Views\User\Index.cshtml" />
+    <None Include="Views\User\Person.cshtml" />
+    <None Include="Views\User\Positions.cshtml" />
+    <None Include="Views\User\UpdatePerson.cshtml" />
+    <None Include="Views\User\UserProfile.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\Image\Book\Harry-Potter-UK-Book-Covers.webp" />
+    <None Include="wwwroot\js\AddBook.js" />
+    <None Include="wwwroot\js\AddBorrow.js" />
+    <None Include="wwwroot\js\Author.js" />
+    <None Include="wwwroot\js\Book.js" />
+    <None Include="wwwroot\js\Boroow.js" />
+    <None Include="wwwroot\js\ByPopularity.js" />
+    <None Include="wwwroot\js\ClientsPerformance.js" />
+    <None Include="wwwroot\js\CurrentTransactions.js" />
+    <None Include="wwwroot\js\Genres.js" />
+    <None Include="wwwroot\js\Language.js" />
+    <None Include="wwwroot\js\OverdueTransactions.js" />
+    <None Include="wwwroot\js\Pagination.js" />
+    <None Include="wwwroot\js\Person.js" />
+    <None Include="wwwroot\js\Position.js" />
+    <None Include="wwwroot\js\Publisher.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\Storage.js" />
+    <None Include="wwwroot\js\Table.js" />
+    <None Include="wwwroot\js\userfilter.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\Reports\GenreReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\BookImage\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DataSet\ReportData.Designer.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+>>>>>>> rdlc
   </ItemGroup>
 
 </Project>

@@ -9,6 +9,7 @@ const deleteauthorlink = "/bookcategory/deleteauthor/";
 const updateauthorlink = "/bookcategory/updateauthor";*/
 const createModalBody = "data is not saved";
 const delteModalBody = "can not delete data";
+var usersonpage = 20;
 
 function initializePagination() {
     $('#pagination-container').MyPagination({
@@ -24,6 +25,7 @@ function initializePagination() {
 
 
 function sortDataByTable(data, key,data2, id) {
+<<<<<<< HEAD
     data.$values.sort((a, b) => {
         if (sortBy === key) {
             if (orderBy === "asc") {
@@ -55,6 +57,34 @@ function sortDataByTable(data, key,data2, id) {
         }
         
     });
+=======
+    
+        if (sortBy === key) {
+            if (orderBy === "asc") {
+                return data.$values.sort((a, b) => {
+                    const bookA = data2.$values.find(x => x.id === a[id]);
+                    const bookB = data2.$values.find(x => x.id === b[id]);
+                    const bookNameA = bookA ? bookA[key] : '';
+                    const bookNameB = bookB ? bookB[key] : '';
+
+                    return bookNameA.localeCompare(bookNameB);
+                });
+            }
+            else if (orderBy === "desc") {
+                return data.$values.sort((a, b) => {
+                    const bookA = data2.$values.find(x => x.id === a[id]);
+                    const bookB = data2.$values.find(x => x.id === b[id]);
+                    const bookNameA = bookA ? bookA[key] : '';
+                    const bookNameB = bookB ? bookB[key] : '';
+
+                    return bookNameB.localeCompare(bookNameA);
+                });
+            
+            }
+        }
+        
+
+>>>>>>> rdlc
 }
 
 

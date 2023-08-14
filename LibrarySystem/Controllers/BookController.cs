@@ -149,7 +149,7 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeleteBook(int id)
         {
             var book = _bookService.GetById(id);
@@ -188,7 +188,11 @@ namespace LibrarySystem.Controllers
                 
                 try
                 {
+<<<<<<< HEAD
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Image", "Book");
+=======
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "Image", "Book");
+>>>>>>> rdlc
                     if (!Directory.Exists(uploadsFolder))
                     {
                         Directory.CreateDirectory(uploadsFolder);

@@ -3,7 +3,6 @@ const getpersonlink = "/user/getperson";
 const updateperson = "/user/updateperson/";
 const deleteperson = "/user/DeletePerson/";
 const body = $("#body");
-var usersonpage = 5;
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;
@@ -93,7 +92,7 @@ $(document).on('click', '.delete-btn', function () {
     deleteModal.show();
     $(document).off('click', '.confirm-delete');
     $(document).on('click', '.confirm-delete', async function () {
-        deleteData(domainName + deleteperson + id)
+        postData(domainName + deleteperson + id)
             .then(function (response) {
                 displayData();
                 deleteModal.hide();

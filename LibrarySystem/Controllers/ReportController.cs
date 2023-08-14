@@ -1,12 +1,21 @@
 ﻿using LibraryService;
 using LibrarySystem.Data;
+<<<<<<< HEAD
 using LibrarySystem.Models.View;
+=======
+using LibrarySystem.Models.Report;
+>>>>>>> rdlc
 using LibrarySystem.Util;
 using LibrarySystemModels.Parameters;
 using LibrarySystemModels.Procedure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+<<<<<<< HEAD
+=======
+using System.Data;
+using Microsoft.Reporting.NETCore;
+>>>>>>> rdlc
 
 namespace LibrarySystem.Controllers
 {
@@ -15,10 +24,24 @@ namespace LibrarySystem.Controllers
     {
         private readonly IReportService _reportService;
         private readonly ITableLogService _tableLogService;
+<<<<<<< HEAD
         public ReportController(IReportService reportService, ITableLogService tableLogService)
         {
             _reportService = reportService;
             _tableLogService = tableLogService;
+=======
+        private readonly IBookGenreService _bookGenreService;
+        private readonly IGenresService _genresService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ReportController(IReportService reportService, ITableLogService tableLogService,
+            IBookGenreService bookGenreService, IGenresService genresService, IWebHostEnvironment webHostEnvironment)
+        {
+            _reportService = reportService;
+            _tableLogService = tableLogService;
+            _bookGenreService = bookGenreService;
+            _genresService = genresService;
+            _webHostEnvironment = webHostEnvironment;
+>>>>>>> rdlc
         }
 
         public IActionResult Index()
@@ -242,5 +265,55 @@ namespace LibrarySystem.Controllers
                 return ResultApi.Failed();
             }
         }
+<<<<<<< HEAD
+=======
+
+        public IActionResult GeneratePDF()
+        {
+            try
+            {
+                var reportPath = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "Reports", "GenreReport.rdlc");
+
+                var bookGenres = _bookGenreService.GetAll();
+                var genres = _genresService.GetAll();
+                var totalBookGenresCount = bookGenres.Count;
+                var reportData = genres.Select(genre => new
+                {
+                    Id = genre.Id,
+                    Name = genre.Name,
+                    Count = (int)(genre.BookGenres.Count(bg => bookGenres.Any(bg2 => bg2.GenreId == genre.Id)) / (double)totalBookGenresCount * 100),
+                }).ToList();
+
+                var reportDataTable = new DataTable("DataSetName");
+
+                reportDataTable.Columns.Add("Id", typeof(int));
+                reportDataTable.Columns.Add("Name", typeof(string));
+                reportDataTable.Columns.Add("Count", typeof(int));
+
+                foreach (var item in reportData)
+                {
+                    reportDataTable.Rows.Add(item.Id, item.Name, item.Count);
+                }
+
+                var localReport = new LocalReport();
+                localReport.ReportPath = reportPath;
+                var rds = new ReportDataSource();
+                rds.Name = "ReportData";
+                rds.Value = reportData;
+                localReport.DataSources.Add(rds);
+
+                var result = localReport.Render("pdf");
+
+                return File(result, "application/pdf");
+            }
+            catch (Exception e)
+            {
+                var userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                _tableLogService.Discard();
+                _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, userID);
+                return RedirectToAction("Genres", "BookCategory");
+            }
+        }
+>>>>>>> rdlc
     }
 }

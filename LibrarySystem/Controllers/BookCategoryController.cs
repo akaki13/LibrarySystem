@@ -28,6 +28,7 @@ namespace LibrarySystem.Controllers
         private readonly IBookPublisherService _bookPublisherService;
         private readonly IBookStorageService _bookStorageService;
 
+
         public BookCategoryController(IGenresService genresService, ITableLogService tableLogService,
             IMapper mapper, IPublisherService publisherService, ILanguageService languageService,
             IAuthorService authorService, IStorageService storageService, IAuthorBookService authorBookService,
@@ -120,10 +121,9 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeleteGenre(int id)
         {
-            Console.WriteLine(id);
             var genre = _genresService.GetById(id);
             if (genre != null)
             {
@@ -252,7 +252,7 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeletePublisher(int id)
         {
             var publisher = _publisherService.GetById(id);
@@ -302,7 +302,7 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeleteLanguage(int id)
         {
             var language = _languageService.GetById(id);
@@ -403,7 +403,7 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeleteAuthor(int id)
         {
             var author = _authorService.GetById(id);
@@ -513,7 +513,7 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeleteStorage(int id)
         {
             var storage = _storageService.GetById(id);

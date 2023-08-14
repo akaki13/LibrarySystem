@@ -22,7 +22,8 @@ button {
     font-weight: normal;
     background: #630fe8;
     border-radius: 10px;
-    border: none;
+    margin-bottom: 5px;
+        border: none;
     transition: .5s ease;
 }
 .button:hover {
@@ -136,7 +137,11 @@ td[contenteditable="true"] {
     border-radius: 5px;
     outline: 1px solid #000000
 }
-
+td {
+    max-width: 100px; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
 .sort {
     cursor: pointer;
 }
@@ -267,4 +272,8 @@ button {
     width: 50px;
     object-fit: fill;
     margin: 10px 0px 5px 40px;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> rdlc

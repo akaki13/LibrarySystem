@@ -10,7 +10,6 @@ const userlink = "/user/getusers";
 const rolelink = "/user/getroles";
 const roleuserlink = "/user/getrolesuser";
 const userProfile = "/user/userprofile/";
-var usersonpage = 3;
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;

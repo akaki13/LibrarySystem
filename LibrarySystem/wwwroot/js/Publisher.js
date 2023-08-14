@@ -4,7 +4,6 @@ const deletepublisherlink = "/bookcategory/deletepublisher/";
 const updatepublisherlink = "/bookcategory/updatepublisher";
 const getpublisherlink = "/bookcategory/getpublishers";
 const body = $("#body");
-var usersonpage = 5;
 var pages = 1;
 var usernumber = 0;
 var alluser = 0;
@@ -50,7 +49,7 @@ $(document).on('click', '.delete-btn', function () {
     $(document).off('click', '.confirm-delete');
 
     $(document).on('click', '.confirm-delete', async function () {
-        deleteData(domainName + deletepublisherlink + id)
+        postData(domainName + deletepublisherlink + id)
             .then(function (response) {
                 displayData();
                 deleteModal.hide();

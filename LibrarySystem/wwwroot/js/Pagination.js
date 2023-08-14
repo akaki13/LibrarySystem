@@ -106,7 +106,7 @@
                 if (currentPage === totalPages) {
                     $lastBtn.addClass('disabled');
                 }
-                if (totalPages === 0) {
+                if (totalPages  < 2) {
                     $pagination.empty();
                 }
 

@@ -58,7 +58,7 @@ namespace LibrarySystem.Controllers
                     _borrowService.Add(borrow);
                     _borrowService.Save();
                     _tableLogService.AddData(DataUtil.BorrowTableName, borrow.Id, DataUtil.TableStatusInfo, DataUtil.NewData, userID);
-                    return View();
+                    return RedirectToAction("Index", "Borrow");
                 }
                 catch (Exception ex)
                 {
@@ -74,7 +74,11 @@ namespace LibrarySystem.Controllers
             }
         }
 
+<<<<<<< HEAD
         [HttpDelete]
+=======
+        [HttpPost]
+>>>>>>> rdlc
         public ActionResult DeleteBorrow(int id)
         {
             var borrow = _borrowService.GetById(id);

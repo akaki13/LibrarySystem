@@ -139,7 +139,7 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeletePosition(int  id)
         {
             var position = _positionService.GetById(id);
@@ -303,7 +303,7 @@ namespace LibrarySystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpPost]
         public ActionResult DeletePerson(int id)
         {
             var person = _personService.GetById(id);

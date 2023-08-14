@@ -1,7 +1,9 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Genres";
 }
+<form asp-controller="Report" asp-action="GeneratePDF" method="post">
+    <button type="submit">PDF Report</button>
+</form>
 <div class="input-group mb-2">
     <input type="text" id="search" class="form-control" placeholder="By Name">
     <span class="input-group-btn">

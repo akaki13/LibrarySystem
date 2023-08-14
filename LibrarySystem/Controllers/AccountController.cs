@@ -48,6 +48,12 @@ namespace LibrarySystem.Controllers
             
             return View();
         }
+
+        public ActionResult SavePassword()
+        {
+
+            return View();
+        }
         public ActionResult ResetPassword(string token)
         {
             var id = TokenUtil.DecodeToken(token);
@@ -114,7 +120,7 @@ namespace LibrarySystem.Controllers
                     _userService.Update(user);
                     _userService.Save();
                     _tableLogService.Update(DataUtil.UserTableName, user.Id, DataUtil.TableStatusInfo, DataUtil.UpdateData);
-                    return View();
+                    return RedirectToAction("SavePassword", "Account");
                 }
                 catch (Exception e)
                 {
