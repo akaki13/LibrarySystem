@@ -180,7 +180,7 @@ namespace LibrarySystem.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult AddBook(BookView bookView)
+        public async Task<IActionResult> AddBook(BookView bookView)
         {
             
             if (ModelState.IsValid)
@@ -188,11 +188,7 @@ namespace LibrarySystem.Controllers
                 
                 try
                 {
-<<<<<<< HEAD
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Image", "Book");
-=======
                     string uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "Image", "Book");
->>>>>>> rdlc
                     if (!Directory.Exists(uploadsFolder))
                     {
                         Directory.CreateDirectory(uploadsFolder);
@@ -201,7 +197,7 @@ namespace LibrarySystem.Controllers
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        bookView.ImageFile.CopyTo(fileStream);
+                        await bookView.ImageFile.CopyToAsync(fileStream);
                     }
                     string path = Path.Combine(DataUtil.BookImagepath, bookView.ImageFile.FileName);
                     int userID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -221,7 +217,8 @@ namespace LibrarySystem.Controllers
                 {
                     _tableLogService.Discard();
                     _tableLogService.AddDataError(DataUtil.TableStatusError, e.Message, null);
-                    return ResultApi.Failed();
+                    ViewBag.ErrorMessage = DataUtil.DoNotSaved;
+                    return View(bookView);
                 }
             }
             else

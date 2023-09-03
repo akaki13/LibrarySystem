@@ -18,7 +18,6 @@ namespace LibrarySystem.Models.View
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
-        [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = DataUtil.PasswordValidator)]
         public string ConfirmPassword { get; set; }
     }
 }

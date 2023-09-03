@@ -74,11 +74,7 @@ namespace LibrarySystem.Controllers
             }
         }
 
-<<<<<<< HEAD
-        [HttpDelete]
-=======
         [HttpPost]
->>>>>>> rdlc
         public ActionResult DeleteBorrow(int id)
         {
             var borrow = _borrowService.GetById(id);

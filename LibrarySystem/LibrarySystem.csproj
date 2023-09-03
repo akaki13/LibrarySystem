@@ -10,10 +10,6 @@
     <Content Remove="Service\**" />
     <EmbeddedResource Remove="Service\**" />
     <None Remove="Service\**" />
-<<<<<<< HEAD
-    <None Remove="wwwroot\Assets\**" />
-=======
->>>>>>> rdlc
   </ItemGroup>
 
   <ItemGroup>
@@ -38,15 +34,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-<<<<<<< HEAD
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
-    <PackageReference Include="Rotativa.AspNetCore" Version="1.2.0" />
-=======
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.17" />
     <PackageReference Include="System.CodeDom" Version="6.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
->>>>>>> rdlc
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.0" />
   </ItemGroup>
 
@@ -58,7 +49,7 @@
 
   <ItemGroup>
     <Content Update="Data\Books.Json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Views\Book\AddBook.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -83,9 +74,6 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <Folder Include="wwwroot\uploads\" />
-=======
     <None Include="Views\Account\EditProfile.cshtml" />
     <None Include="Views\Account\EmailConfirmation.cshtml" />
     <None Include="Views\Account\ForgotPassword.cshtml" />
@@ -195,7 +183,6 @@
     <Compile Update="DataSet\ReportData.Designer.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
->>>>>>> rdlc
   </ItemGroup>
 
 </Project>

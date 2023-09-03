@@ -25,39 +25,6 @@ function initializePagination() {
 
 
 function sortDataByTable(data, key,data2, id) {
-<<<<<<< HEAD
-    data.$values.sort((a, b) => {
-        if (sortBy === key) {
-            if (orderBy === "asc") {
-                return borrowdata.$values.sort((a, b) => {
-                    const personA = data2[a[id]];
-                    const personB = data2[b[id]];
-
-                    const firstnameA = personA[key].toLowerCase();
-                    const firstnameB = personB[key].toLowerCase();
-
-                    if (firstnameA < firstnameB) return -1;
-                    if (firstnameA > firstnameB) return 1;
-                    return 0;
-                });
-            }
-            else if (orderBy === "desc") {
-                return borrowdata.$values.sort((a, b) => {
-                    const personA = data2[a[id]];
-                    const personB = data2[b[id]];
-
-                    const firstnameA = personA[key].toLowerCase();
-                    const firstnameB = personB[key].toLowerCase();
-
-                    if (firstnameA > firstnameB) return -1;
-                    if (firstnameA < firstnameB) return 1;
-                    return 0;
-                });
-            }
-        }
-        
-    });
-=======
     
         if (sortBy === key) {
             if (orderBy === "asc") {
@@ -84,7 +51,6 @@ function sortDataByTable(data, key,data2, id) {
         }
         
 
->>>>>>> rdlc
 }
 
 

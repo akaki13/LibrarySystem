@@ -1,21 +1,14 @@
 ﻿using LibraryService;
 using LibrarySystem.Data;
-<<<<<<< HEAD
-using LibrarySystem.Models.View;
-=======
 using LibrarySystem.Models.Report;
->>>>>>> rdlc
 using LibrarySystem.Util;
 using LibrarySystemModels.Parameters;
 using LibrarySystemModels.Procedure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-<<<<<<< HEAD
-=======
 using System.Data;
 using Microsoft.Reporting.NETCore;
->>>>>>> rdlc
 
 namespace LibrarySystem.Controllers
 {
@@ -24,12 +17,6 @@ namespace LibrarySystem.Controllers
     {
         private readonly IReportService _reportService;
         private readonly ITableLogService _tableLogService;
-<<<<<<< HEAD
-        public ReportController(IReportService reportService, ITableLogService tableLogService)
-        {
-            _reportService = reportService;
-            _tableLogService = tableLogService;
-=======
         private readonly IBookGenreService _bookGenreService;
         private readonly IGenresService _genresService;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -41,7 +28,6 @@ namespace LibrarySystem.Controllers
             _bookGenreService = bookGenreService;
             _genresService = genresService;
             _webHostEnvironment = webHostEnvironment;
->>>>>>> rdlc
         }
 
         public IActionResult Index()
@@ -265,8 +251,6 @@ namespace LibrarySystem.Controllers
                 return ResultApi.Failed();
             }
         }
-<<<<<<< HEAD
-=======
 
         public IActionResult GeneratePDF()
         {
@@ -314,6 +298,5 @@ namespace LibrarySystem.Controllers
                 return RedirectToAction("Genres", "BookCategory");
             }
         }
->>>>>>> rdlc
     }
 }

@@ -12,11 +12,8 @@ namespace LibrarySystem.Util
 {
     public static class GenerateFiles
     {
-<<<<<<< HEAD
-=======
 
 
->>>>>>> rdlc
         public static byte[] GeneratePdfBytes<T>(List<T> models)
         {
             using (MemoryStream memoryStream = new MemoryStream())
